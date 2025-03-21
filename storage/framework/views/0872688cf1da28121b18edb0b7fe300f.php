@@ -185,8 +185,8 @@
         <div class="footer-section">
             <h4>Quick Links</h4>
             <ul class="footer-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About Us</a></li>
+                <li><a href="/">Home</a></li>
+                <li><a href="about">About Us</a></li>
                 <li><a href="https://wa.link/81eumj">Contact</a></li>
             </ul>
         </div>

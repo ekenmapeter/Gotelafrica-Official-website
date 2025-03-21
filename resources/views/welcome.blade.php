@@ -53,7 +53,7 @@
             <ul class="nav-links" id="nav-links">
                 <li><a href="/">Home</a></li>
                 <li><a href="/about">About Us</a></li>
-                <li><a href="/creative-contest">Creative Contest</a></li>
+                <li><a href="/creative-contest">SNAPSHOT</a></li>
                 <li><a href="https://wa.link/81eumj">Contact US</a></li>
                 <li><a href="{{ route(name: 'login') }}"><button class="btn">Get Started</button></a></li>
             </ul>

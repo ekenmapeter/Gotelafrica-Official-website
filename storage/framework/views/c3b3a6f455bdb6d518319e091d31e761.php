@@ -43,7 +43,7 @@
 
             <!-- Payment Instructions -->
             <div class="mb-8 p-4 bg-green-50 rounded-lg">
-                <h2 class="text-xl font-semibold mb-4 text-black">Entry Fee: ₦10,000</h2>
+                <h2 class="text-xl font-semibold mb-4 text-black font-extrabold">Entry Fee: ₦10,000</h2>
                 <p class="mb-4">Payment Instructions:</p>
                 <ul class="list-disc pl-6 space-y-2">
                     <li>Account Name: GOTELAFRICA COMPANY LIMITED</li>
