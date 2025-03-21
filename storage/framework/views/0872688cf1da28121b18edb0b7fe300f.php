@@ -66,6 +66,7 @@
             <h2 class="hero-text">Welcome to GotelAfrica</h2>
             <p>Building  the future generation with Science and technology.</p>
         </div>
+        <br>
     </section>
 
 
