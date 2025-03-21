@@ -1,4 +1,12 @@
-<x-app-layout>
+<?php if (isset($component)) { $__componentOriginal9ac128a9029c0e4701924bd2d73d7f54 = $component; } ?>
+<?php $component = App\View\Components\AppLayout::resolve([] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component->withName('app-layout'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(App\View\Components\AppLayout::class))->getConstructor()): ?>
+<?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
+<?php endif; ?>
+<?php $component->withAttributes([]); ?>
 
     <div class="flex flex-col items-center justify-center px-2 py-8  mb-44">
         <p class="text-white text-2xl font-bold">Administrator Panel</p>
@@ -10,14 +18,14 @@
                 <div class="w-full">
                     <div class="text-left">
                         <p class="text-white text-sm">Total User</p>
-                        <p class="text-white text-3xl font-extrabold">{{  $totalUsers }}</p>
+                        <p class="text-white text-3xl font-extrabold"><?php echo e($totalUsers); ?></p>
 
                     </div>
                 </div>
                 <div class="w-full">
                     <div class="text-left">
                         <p class="text-white text-sm">Total Wallet</p>
-                        <p class="text-white text-3xl font-extrabold">₦{{ number_format($totalWallet, 2)}}</p>
+                        <p class="text-white text-3xl font-extrabold">₦<?php echo e(number_format($totalWallet, 2)); ?></p>
 
                     </div>
                 </div>
@@ -25,7 +33,7 @@
                 <div class="w-full">
                     <div class="text-left">
                         <p class="text-white text-sm">Total Transaction</p>
-                        <p class="text-white text-3xl font-extrabold">{{ $totalTransaction }}</p>
+                        <p class="text-white text-3xl font-extrabold"><?php echo e($totalTransaction); ?></p>
 
                     </div>
                 </div>
@@ -36,14 +44,14 @@
                     <div class="text-left">
                         <p class="text-white text-sm">Active Investment</p>
 
-                        <p class="text-white text-1xl font-extrabold">{{ $totalActiveInvestment }}</p>
+                        <p class="text-white text-1xl font-extrabold"><?php echo e($totalActiveInvestment); ?></p>
                     </div>
                 </div>
                 <div class="w-full">
                     <div class="text-left">
                         <p class="text-white text-sm">Total Asset</p>
 
-                        <p class="text-white text-1xl font-extrabold">₦{{ number_format($total_asset, 2)}}</p>
+                        <p class="text-white text-1xl font-extrabold">₦<?php echo e(number_format($total_asset, 2)); ?></p>
 
                     </div>
                 </div>
@@ -52,7 +60,7 @@
                     <div class="text-left">
                         <p class="text-white text-sm">Total Products</p>
 
-                        <p class="text-white text-1xl font-extrabold">{{ $totalProduct }}</p>
+                        <p class="text-white text-1xl font-extrabold"><?php echo e($totalProduct); ?></p>
 
 
                     </div>
@@ -62,7 +70,7 @@
         </div>
 
         <div class="flex bg-black mt-2 items-center lg:gap-20 gap-4 justify-center py-4 lg:px-12 px-2 rounded-lg">
-            <a href="{{ route('all-transaction')}}" class="flex flex-col items-center justify-center">
+            <a href="<?php echo e(route('all-transaction')); ?>" class="flex flex-col items-center justify-center">
                 <svg class="lg:w-14 w-6 lg:h-14 h-6 text-white" aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                     <path
@@ -71,7 +79,7 @@
                 <span class="mt-1 text-sm text-center text-white font-semibold">All Transaction</span>
             </a>
 
-            <a href="{{ route('fund-wallet')}}" class="flex flex-col items-center justify-center">
+            <a href="<?php echo e(route('fund-wallet')); ?>" class="flex flex-col items-center justify-center">
                 <svg class="lg:w-14 w-6 lg:h-14 h-6 text-white" aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 16">
                     <path
@@ -81,7 +89,7 @@
                 </svg>
                 <span class="mt-1 text-sm text-center text-white font-semibold">Fund Account</span>
             </a>
-            <a href="{{ route('withdraw-request') }}" class="flex flex-col items-center justify-center">
+            <a href="<?php echo e(route('withdraw-request')); ?>" class="flex flex-col items-center justify-center">
                 <svg class="lg:w-14 w-6 lg:h-14 h-6 text-white" aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                     <path
@@ -89,7 +97,7 @@
                 </svg>
                 <span class="mt-1 text-sm text-center text-white font-semibold">Withdraw Request</span>
             </a>
-            <a href="{{ route('deposit') }}" class="flex flex-col items-center justify-center">
+            <a href="<?php echo e(route('deposit')); ?>" class="flex flex-col items-center justify-center">
                 <svg class="lg:w-14 w-6 lg:h-14 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 2a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1M2 5h12a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Zm8 5a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z"/>
                   </svg>
@@ -104,7 +112,7 @@
                     <path
                         d="M15.077.019a4.658 4.658 0 0 0-4.083 4.714V7H2a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-1.006V4.68a2.624 2.624 0 0 1 2.271-2.67 2.5 2.5 0 0 1 2.729 2.49V8a1 1 0 0 0 2 0V4.5A4.505 4.505 0 0 0 15.077.019ZM9 15.167a1 1 0 1 1-2 0v-3a1 1 0 1 1 2 0v3Z" />
                 </svg>
-                <a href="{{ route('allusers')}}" class="flex justify-between w-full">
+                <a href="<?php echo e(route('allusers')); ?>" class="flex justify-between w-full">
                     <span class="mt-1 text-sm text-center text-white font-semibold">All User</span>
                     <svg class="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                         fill="none" viewBox="0 0 6 10">
@@ -122,7 +130,7 @@
                     <path
                         d="m.135 7.847 1.542 1.417c3.6 3.712 12.747 3.7 16.635.01L19.605 7.9A.98.98 0 0 1 20 7.652V6a2 2 0 0 0-2-2h-3V3a3 3 0 0 0-3-3H8a3 3 0 0 0-3 3v1H2a2 2 0 0 0-2 2v1.765c.047.024.092.051.135.082ZM10 10.25a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5ZM7 3a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1H7V3Z" />
                 </svg>
-                <a href="{{ route('all-order') }}" class="flex justify-between w-full">
+                <a href="<?php echo e(route('all-order')); ?>" class="flex justify-between w-full">
                     <span class="mt-1 text-sm text-center text-white font-semibold">All Order</span>
                     <svg class="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                         viewBox="0 0 6 10">
@@ -137,7 +145,7 @@
                 <svg class="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 16">
                     <path d="M19 0H1a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1ZM2 6v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6H2Zm11 3a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1V8a1 1 0 0 1 2 0h2a1 1 0 0 1 2 0v1Z"/>
                   </svg>
-                <a href="{{ route('all-product')}}" class="flex justify-between w-full">
+                <a href="<?php echo e(route('all-product')); ?>" class="flex justify-between w-full">
                     <span class="mt-1 text-sm text-center text-white font-semibold">All Product</span>
                     <svg class="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                         fill="none" viewBox="0 0 6 10">
@@ -153,7 +161,7 @@
                 <svg class="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 16">
                     <path d="M19 0H1a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1ZM2 6v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6H2Zm11 3a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1V8a1 1 0 0 1 2 0h2a1 1 0 0 1 2 0v1Z"/>
                   </svg>
-                <a href="{{ route('admin.contest')}}" class="flex justify-between w-full">
+                <a href="<?php echo e(route('admin.contest')); ?>" class="flex justify-between w-full">
                     <span class="mt-1 text-sm text-center text-white font-semibold">All Contestant</span>
                     <svg class="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                         fill="none" viewBox="0 0 6 10">
@@ -166,4 +174,10 @@
         </div>
     </div>
 
-</x-app-layout>
+ <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal9ac128a9029c0e4701924bd2d73d7f54)): ?>
+<?php $component = $__componentOriginal9ac128a9029c0e4701924bd2d73d7f54; ?>
+<?php unset($__componentOriginal9ac128a9029c0e4701924bd2d73d7f54); ?>
+<?php endif; ?>
+<?php /**PATH /home/goteonji/public_html/resources/views/admin/dashboard.blade.php ENDPATH**/ ?>

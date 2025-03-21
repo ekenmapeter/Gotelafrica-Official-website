@@ -27,7 +27,8 @@ use App\Http\Controllers\AdministratorController;
 //GENERAL URL
 Route::get('/logout-user', [UserController::class, 'logout'])->name('logout-user');
 Route::get('product', [ProductController::class, 'show'])->name('product');
-
+Route::get('creative-contest', [CommunityController::class, 'contest'])->name('creative.contest');
+Route::get('apply', [CommunityController::class, 'apply'])->name('apply');
 
 /*Administrator Login Route */
 Route::middleware(['auth', 'roles:1'])->group(function()
@@ -55,6 +56,11 @@ Route::middleware(['auth', 'roles:1'])->group(function()
     Route::post('product-edit', [AdministratorController::class, 'editProduct'])->name('product-edit');
     Route::post('product-create', [AdministratorController::class, 'createProduct'])->name('product-create');
     Route::post('admin-fund-wallet', [AdministratorController::class,'fundWalletRequest'])->name('admin-fund-wallet');
+
+
+    // Route for the contestant page
+    Route::get('/admin/contest', [AdministratorController::class, 'contestant'])->name('admin.contest');
+    Route::delete('/delete/submission/{id}', [AdministratorController::class, 'deleteSubmission'])->name('delete/submission');
 
 });
 

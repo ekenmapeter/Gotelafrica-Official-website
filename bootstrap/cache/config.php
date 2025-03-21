@@ -199,8 +199,8 @@
       'file' => 
       array (
         'driver' => 'file',
-        'path' => 'C:\\xampp\\htdocs\\farm-app\\storage\\framework/cache/data',
-        'lock_path' => 'C:\\xampp\\htdocs\\farm-app\\storage\\framework/cache/data',
+        'path' => 'C:\\xampp\\htdocs\\Gotelafrica-Official-website\\storage\\framework/cache/data',
+        'lock_path' => 'C:\\xampp\\htdocs\\Gotelafrica-Official-website\\storage\\framework/cache/data',
       ),
       'memcached' => 
       array (
@@ -373,13 +373,13 @@
       'local' => 
       array (
         'driver' => 'local',
-        'root' => 'C:\\xampp\\htdocs\\farm-app\\storage\\app',
+        'root' => 'C:\\xampp\\htdocs\\Gotelafrica-Official-website\\storage\\app',
         'throw' => false,
       ),
       'public' => 
       array (
         'driver' => 'local',
-        'root' => 'C:\\xampp\\htdocs\\farm-app\\public\\/payment',
+        'root' => 'C:\\xampp\\htdocs\\Gotelafrica-Official-website\\public\\/payment',
         'url' => 'http://localhost/public',
         'visibility' => 'public',
         'throw' => false,
@@ -399,7 +399,7 @@
     ),
     'links' => 
     array (
-      'C:\\xampp\\htdocs\\farm-app\\public\\storage' => 'C:\\xampp\\htdocs\\farm-app\\storage\\app/public',
+      'C:\\xampp\\htdocs\\Gotelafrica-Official-website\\public\\storage' => 'C:\\xampp\\htdocs\\Gotelafrica-Official-website\\storage\\app/public',
     ),
   ),
   'hashing' => 
@@ -440,14 +440,14 @@
       'single' => 
       array (
         'driver' => 'single',
-        'path' => 'C:\\xampp\\htdocs\\farm-app\\storage\\logs/laravel.log',
+        'path' => 'C:\\xampp\\htdocs\\Gotelafrica-Official-website\\storage\\logs/laravel.log',
         'level' => 'debug',
         'replace_placeholders' => true,
       ),
       'daily' => 
       array (
         'driver' => 'daily',
-        'path' => 'C:\\xampp\\htdocs\\farm-app\\storage\\logs/laravel.log',
+        'path' => 'C:\\xampp\\htdocs\\Gotelafrica-Official-website\\storage\\logs/laravel.log',
         'level' => 'debug',
         'days' => 14,
         'replace_placeholders' => true,
@@ -512,7 +512,7 @@
       ),
       'emergency' => 
       array (
-        'path' => 'C:\\xampp\\htdocs\\farm-app\\storage\\logs/laravel.log',
+        'path' => 'C:\\xampp\\htdocs\\Gotelafrica-Official-website\\storage\\logs/laravel.log',
       ),
     ),
   ),
@@ -525,11 +525,11 @@
       array (
         'transport' => 'smtp',
         'url' => NULL,
-        'host' => 'sandbox.smtp.mailtrap.io',
-        'port' => '2525',
+        'host' => 'server136.web-hosting.com',
+        'port' => '465',
         'encryption' => 'tls',
-        'username' => '2fb2c6bd08b724',
-        'password' => '5d6a9c276ce462',
+        'username' => 'support@gotelafrica.com',
+        'password' => 'wL.qJtMsy,6M',
         'timeout' => NULL,
         'local_domain' => NULL,
       ),
@@ -579,7 +579,7 @@
       'theme' => 'default',
       'paths' => 
       array (
-        0 => 'C:\\xampp\\htdocs\\farm-app\\resources\\views/vendor/mail',
+        0 => 'C:\\xampp\\htdocs\\Gotelafrica-Official-website\\resources\\views/vendor/mail',
       ),
     ),
   ),
@@ -692,7 +692,7 @@
     'lifetime' => '120',
     'expire_on_close' => false,
     'encrypt' => false,
-    'files' => 'C:\\xampp\\htdocs\\farm-app\\storage\\framework/sessions',
+    'files' => 'C:\\xampp\\htdocs\\Gotelafrica-Official-website\\storage\\framework/sessions',
     'connection' => NULL,
     'table' => 'sessions',
     'store' => NULL,
@@ -770,9 +770,9 @@
   array (
     'paths' => 
     array (
-      0 => 'C:\\xampp\\htdocs\\farm-app\\resources\\views',
+      0 => 'C:\\xampp\\htdocs\\Gotelafrica-Official-website\\resources\\views',
     ),
-    'compiled' => 'C:\\xampp\\htdocs\\farm-app\\storage\\framework\\views',
+    'compiled' => 'C:\\xampp\\htdocs\\Gotelafrica-Official-website\\storage\\framework\\views',
   ),
   'flare' => 
   array (
@@ -849,7 +849,7 @@
     array (
     ),
     'enable_runnable_solutions' => NULL,
-    'remote_sites_path' => 'C:\\xampp\\htdocs\\farm-app',
+    'remote_sites_path' => 'C:\\xampp\\htdocs\\Gotelafrica-Official-website',
     'local_sites_path' => '',
     'housekeeping_endpoint_prefix' => '_ignition',
     'settings_file_path' => '',

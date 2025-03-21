@@ -9,6 +9,7 @@ use App\Models\Account;
 use App\Models\Product;
 use App\Models\Recharge;
 use App\Models\Withdraw;
+use App\Models\Submission;
 
 use Illuminate\View\View;
 use App\Models\Transaction;
@@ -84,6 +85,27 @@ class AdministratorController extends Controller
 
 
         return view('admin.fund_wallet', compact('user'));
+    }
+    
+        public function contestant(): View
+    {
+        $submissions = Submission::paginate(10);
+        return view('admin.contest', compact('submissions'));
+    }
+    
+       public function deleteSubmission($id)
+    {
+        
+        $submissions = Submission::find($id);
+
+        if (!$submissions) {
+            abort(404); // Handle if the user is not found
+        }
+
+        $submissions->delete();
+
+        toast('Submissions Records Deleted Successfully' , 'success');
+        return redirect()->back();
     }
 
     public function allOrder(): View

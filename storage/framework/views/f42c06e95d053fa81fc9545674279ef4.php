@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="<?php echo e(str_replace('_', '-', app()->getLocale())); ?>">
 
 <head>
     <meta charset="utf-8" />
@@ -51,11 +51,11 @@
                 <div class="bar"></div>
             </div>
             <ul class="nav-links" id="nav-links">
-                <li><a href="/">Home</a></li>
-                <li><a href="/about">About Us</a></li>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
                 <li><a href="/creative-contest">Creative Contest</a></li>
                 <li><a href="https://wa.link/81eumj">Contact US</a></li>
-                <li><a href="{{ route(name: 'login') }}"><button class="btn">Get Started</button></a></li>
+                <li><a href="<?php echo e(route(name: 'login')); ?>"><button class="btn">Get Started</button></a></li>
             </ul>
         </nav>
 
@@ -227,3 +227,4 @@
 
 
 </html>
+<?php /**PATH /home/goteonji/public_html/resources/views/welcome.blade.php ENDPATH**/ ?>
