@@ -8,6 +8,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CommunityController;
 use App\Http\Controllers\AdministratorController;
+use App\Http\Controllers\ContestSubmissionController;
 
 
 
@@ -112,5 +113,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::post('/submit-contest', [ContestSubmissionController::class, 'store']);
 
 require __DIR__.'/auth.php';

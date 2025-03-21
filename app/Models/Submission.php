@@ -15,11 +15,14 @@ class Submission extends Model
      * @var array<string>
      */
     protected $fillable = [
-        'submission_id',
+        'id',
         'full_name',
-        'email',
         'phone',
+        'email',
         'description',
-        'payment_proof',
+        'payment_proof'
     ];
+
+    public $incrementing = false;
+    protected $keyType = 'string';
 }
