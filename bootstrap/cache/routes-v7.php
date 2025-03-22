@@ -102,7 +102,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::l8HLew5FzTHtrFlI',
+            '_route' => 'generated::9SNSR3ab7qYQhRsO',
           ),
           1 => NULL,
           2 => 
@@ -768,13 +768,52 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
+      '/contest/upload' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'contest.upload',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/contest/dashboard' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'contest.dashboard',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
       '/' => 
       array (
         0 => 
         array (
           0 => 
           array (
-            '_route' => 'generated::kL6OTuWZf1fu1o0n',
+            '_route' => 'generated::rGNdDTGrElOBrD78',
           ),
           1 => NULL,
           2 => 
@@ -794,7 +833,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::XmeREvwUvWKMqCUP',
+            '_route' => 'generated::aM5r4k78tIfrzq1B',
           ),
           1 => NULL,
           2 => 
@@ -814,7 +853,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::YJ0ik9VhB3GNA326',
+            '_route' => 'generated::0YAj7jQIv9vM2NcW',
           ),
           1 => NULL,
           2 => 
@@ -880,6 +919,25 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
+      '/submit-entry' => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'submit-entry',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
       '/register' => 
       array (
         0 => 
@@ -903,7 +961,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::EArsuDGusY0iJAld',
+            '_route' => 'generated::Rr3S01mmphbZguyK',
           ),
           1 => NULL,
           2 => 
@@ -939,7 +997,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::xwyclZeXrz8Nrhcg',
+            '_route' => 'generated::9Rxj2fm1XHnEkAn8',
           ),
           1 => NULL,
           2 => 
@@ -1069,7 +1127,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::lEeAlAG7NF08Yv0z',
+            '_route' => 'generated::DNnJiYwg8PMXZ9A6',
           ),
           1 => NULL,
           2 => 
@@ -1123,7 +1181,7 @@ app('router')->setCompiledRoutes(
     ),
     2 => 
     array (
-      0 => '{^(?|/a(?|dmin/(?|details/([^/]++)(*:36)|withdraw/details/([^/]++)(*:68))|pprove/withdraw/([^/]++)(*:100))|/de(?|lete/(?|user/([^/]++)(*:136)|submission/([^/]++)(*:163))|posit/(?|details/([^/]++)(*:197)|approve/([^/]++)(*:221)|reject/([^/]++)(*:244))|tails/([^/]++)(*:267))|/product/(?|activate/([^/]++)(*:305)|de(?|activate/([^/]++)(*:335)|lete/([^/]++)(*:356)))|/invest/([^/]++)(*:382)|/reset\\-password/([^/]++)(*:415)|/verify\\-email/([^/]++)/([^/]++)(*:455))/?$}sDu',
+      0 => '{^(?|/a(?|dmin/(?|details/([^/]++)(*:36)|withdraw/details/([^/]++)(*:68)|submissions/([^/]++)/approve(*:103))|pprove/withdraw/([^/]++)(*:136))|/de(?|lete/(?|user/([^/]++)(*:172)|submission/([^/]++)(*:199))|posit/(?|details/([^/]++)(*:233)|approve/([^/]++)(*:257)|reject/([^/]++)(*:280))|tails/([^/]++)(*:303))|/product/(?|activate/([^/]++)(*:341)|de(?|activate/([^/]++)(*:371)|lete/([^/]++)(*:392)))|/invest/([^/]++)(*:418)|/reset\\-password/([^/]++)(*:451)|/verify\\-email/([^/]++)/([^/]++)(*:491))/?$}sDu',
     ),
     3 => 
     array (
@@ -1173,7 +1231,29 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      100 => 
+      103 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'approve.submission',
+          ),
+          1 => 
+          array (
+            0 => 'submission',
+          ),
+          2 => 
+          array (
+            'PATCH' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      136 => 
       array (
         0 => 
         array (
@@ -1196,7 +1276,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      136 => 
+      172 => 
       array (
         0 => 
         array (
@@ -1219,7 +1299,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      163 => 
+      199 => 
       array (
         0 => 
         array (
@@ -1241,7 +1321,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      197 => 
+      233 => 
       array (
         0 => 
         array (
@@ -1264,7 +1344,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      221 => 
+      257 => 
       array (
         0 => 
         array (
@@ -1287,7 +1367,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      244 => 
+      280 => 
       array (
         0 => 
         array (
@@ -1310,7 +1390,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      267 => 
+      303 => 
       array (
         0 => 
         array (
@@ -1333,7 +1413,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      305 => 
+      341 => 
       array (
         0 => 
         array (
@@ -1356,7 +1436,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      335 => 
+      371 => 
       array (
         0 => 
         array (
@@ -1379,7 +1459,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      356 => 
+      392 => 
       array (
         0 => 
         array (
@@ -1402,7 +1482,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      382 => 
+      418 => 
       array (
         0 => 
         array (
@@ -1425,7 +1505,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      415 => 
+      451 => 
       array (
         0 => 
         array (
@@ -1448,7 +1528,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      455 => 
+      491 => 
       array (
         0 => 
         array (
@@ -1633,7 +1713,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::l8HLew5FzTHtrFlI' => 
+    'generated::9SNSR3ab7qYQhRsO' => 
     array (
       'methods' => 
       array (
@@ -1656,7 +1736,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::l8HLew5FzTHtrFlI',
+        'as' => 'generated::9SNSR3ab7qYQhRsO',
       ),
       'fallback' => false,
       'defaults' => 
@@ -2636,6 +2716,44 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
+    'approve.submission' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'PATCH',
+      ),
+      'uri' => 'admin/submissions/{submission}/approve',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'auth',
+          2 => 'roles:1',
+        ),
+        'uses' => 'App\\Http\\Controllers\\ContestController@approveSubmission',
+        'controller' => 'App\\Http\\Controllers\\ContestController@approveSubmission',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'approve.submission',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
     'admin.contest' => 
     array (
       'methods' => 
@@ -3471,7 +3589,84 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::kL6OTuWZf1fu1o0n' => 
+    'contest.upload' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'contest/upload',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'auth',
+          2 => 'roles:3',
+        ),
+        'uses' => 'App\\Http\\Controllers\\ContestController@upload',
+        'controller' => 'App\\Http\\Controllers\\ContestController@upload',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'contest.upload',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'contest.dashboard' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'contest/dashboard',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+          1 => 'auth',
+          2 => 'roles:3',
+        ),
+        'uses' => 'App\\Http\\Controllers\\ContestController@dashboard',
+        'controller' => 'App\\Http\\Controllers\\ContestController@dashboard',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'contest.dashboard',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'generated::rGNdDTGrElOBrD78' => 
     array (
       'methods' => 
       array (
@@ -3493,7 +3688,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::kL6OTuWZf1fu1o0n',
+        'as' => 'generated::rGNdDTGrElOBrD78',
       ),
       'fallback' => false,
       'defaults' => 
@@ -3509,7 +3704,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::XmeREvwUvWKMqCUP' => 
+    'generated::aM5r4k78tIfrzq1B' => 
     array (
       'methods' => 
       array (
@@ -3525,13 +3720,13 @@ app('router')->setCompiledRoutes(
         ),
         'uses' => 'O:55:"Laravel\\SerializableClosure\\UnsignedSerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:44:"function () {
     return \\view(\'contact\');
-}";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000005650000000000000000";}}',
+}";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000005680000000000000000";}}',
         'namespace' => NULL,
         'prefix' => '',
         'where' => 
         array (
         ),
-        'as' => 'generated::XmeREvwUvWKMqCUP',
+        'as' => 'generated::aM5r4k78tIfrzq1B',
       ),
       'fallback' => false,
       'defaults' => 
@@ -3547,7 +3742,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::YJ0ik9VhB3GNA326' => 
+    'generated::0YAj7jQIv9vM2NcW' => 
     array (
       'methods' => 
       array (
@@ -3563,13 +3758,13 @@ app('router')->setCompiledRoutes(
         ),
         'uses' => 'O:55:"Laravel\\SerializableClosure\\UnsignedSerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:42:"function () {
     return \\view(\'about\');
-}";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000005670000000000000000";}}',
+}";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"000000000000056a0000000000000000";}}',
         'namespace' => NULL,
         'prefix' => '',
         'where' => 
         array (
         ),
-        'as' => 'generated::YJ0ik9VhB3GNA326',
+        'as' => 'generated::0YAj7jQIv9vM2NcW',
       ),
       'fallback' => false,
       'defaults' => 
@@ -3697,6 +3892,42 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
+    'submit-entry' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'submit-entry',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+        ),
+        'uses' => 'App\\Http\\Controllers\\ContestSubmissionController@register',
+        'controller' => 'App\\Http\\Controllers\\ContestSubmissionController@register',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'submit-entry',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
     'register' => 
     array (
       'methods' => 
@@ -3735,7 +3966,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::EArsuDGusY0iJAld' => 
+    'generated::Rr3S01mmphbZguyK' => 
     array (
       'methods' => 
       array (
@@ -3756,7 +3987,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::EArsuDGusY0iJAld',
+        'as' => 'generated::Rr3S01mmphbZguyK',
       ),
       'fallback' => false,
       'defaults' => 
@@ -3810,7 +4041,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::xwyclZeXrz8Nrhcg' => 
+    'generated::9Rxj2fm1XHnEkAn8' => 
     array (
       'methods' => 
       array (
@@ -3831,7 +4062,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::xwyclZeXrz8Nrhcg',
+        'as' => 'generated::9Rxj2fm1XHnEkAn8',
       ),
       'fallback' => false,
       'defaults' => 
@@ -4151,7 +4382,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::lEeAlAG7NF08Yv0z' => 
+    'generated::DNnJiYwg8PMXZ9A6' => 
     array (
       'methods' => 
       array (
@@ -4172,7 +4403,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::lEeAlAG7NF08Yv0z',
+        'as' => 'generated::DNnJiYwg8PMXZ9A6',
       ),
       'fallback' => false,
       'defaults' => 

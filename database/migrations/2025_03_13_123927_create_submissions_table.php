@@ -10,12 +10,13 @@ return new class extends Migration
     {
         Schema::create('submissions', function (Blueprint $table) {
             $table->id();
-            $table->string('submission_id')->unique(); // Unique submission ID
+            $table->foreignId('user_id')->constrained();
+            $table->string('payment_proof');
+            $table->boolean('is_approved')->default(false);
             $table->string('full_name');
             $table->string('email');
             $table->text('description');
-            $table->string('payment_proof'); // Path to the uploaded file
-            $table->timestamps(); // Created at and updated at timestamps
+            $table->timestamps();
         });
     }
 

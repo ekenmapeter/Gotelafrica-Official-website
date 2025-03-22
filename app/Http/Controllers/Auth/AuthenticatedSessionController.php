@@ -47,6 +47,15 @@ class AuthenticatedSessionController extends Controller
 
                 return redirect()->route('dashboard');
             }
+
+            else if(auth()->user()->roles == 3)
+
+            {
+                Auth::user()->last_login = new DateTime();
+                Auth::user()->save();
+
+                return redirect()->route('contest.dashboard');
+            }
     else
         {
 

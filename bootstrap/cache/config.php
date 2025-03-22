@@ -379,8 +379,8 @@
       'public' => 
       array (
         'driver' => 'local',
-        'root' => 'C:\\xampp\\htdocs\\Gotelafrica-Official-website\\public\\/payment',
-        'url' => 'http://localhost/public',
+        'root' => 'C:\\xampp\\htdocs\\Gotelafrica-Official-website\\storage\\app/public',
+        'url' => 'http://localhost/storage',
         'visibility' => 'public',
         'throw' => false,
       ),

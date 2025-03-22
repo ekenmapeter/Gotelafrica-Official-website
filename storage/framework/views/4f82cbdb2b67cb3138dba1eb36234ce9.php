@@ -1,13 +1,22 @@
-<x-app-layout>
+<?php if (isset($component)) { $__componentOriginal9ac128a9029c0e4701924bd2d73d7f54 = $component; } ?>
+<?php $component = App\View\Components\AppLayout::resolve([] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component->withName('app-layout'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(App\View\Components\AppLayout::class))->getConstructor()): ?>
+<?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
+<?php endif; ?>
+<?php $component->withAttributes([]); ?>
     <div class="flex flex-col items-center justify-center px-2 py-8 mb-44">
         <div class="flex gap-8 py-4">
-            <a href="{{ route('administrator') }}" class="bg-black text-white font-bold py-2 px-4 rounded">
+            <a href="<?php echo e(route('administrator')); ?>" class="bg-black text-white font-bold py-2 px-4 rounded">
                 Back
             </a>
             <div class="flex items-center gap-4">
                 <p class="text-white text-2xl font-bold">All Submissions</p>
                 <span class="bg-blue-500 text-white text-sm px-3 py-1 rounded-full">
-                    Total: {{ $submissions->total() }}
+                    Total: <?php echo e($submissions->total()); ?>
+
                 </span>
             </div>
         </div>
@@ -25,34 +34,37 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($submissions as $submission)
+                        <?php $__currentLoopData = $submissions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $submission): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <tr class="bg-white border-b hover:bg-gray-50">
                                 <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                    {{ $submission->full_name }}
+                                    <?php echo e($submission->full_name); ?>
+
                                 </td>
-                                <td class="px-6 py-4">{{ $submission->email }}</td>
-                                <td class="px-6 py-4">{{ $submission->user->phone }}</td>
+                                <td class="px-6 py-4"><?php echo e($submission->email); ?></td>
+                                <td class="px-6 py-4"><?php echo e($submission->user->phone); ?></td>
                                 <td class="px-6 py-4">
-                                    <span class="px-2 py-1 rounded-full text-xs font-semibold {{ $submission->is_approved ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' }}">
-                                        {{ $submission->is_approved ? 'Approved' : 'Pending' }}
+                                    <span class="px-2 py-1 rounded-full text-xs font-semibold <?php echo e($submission->is_approved ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'); ?>">
+                                        <?php echo e($submission->is_approved ? 'Approved' : 'Pending'); ?>
+
                                     </span>
                                 </td>
                                 <td class="px-6 py-4">
-                                    {{ \Carbon\Carbon::parse($submission->created_at)->format('M d, Y H:i') }}
+                                    <?php echo e(\Carbon\Carbon::parse($submission->created_at)->format('M d, Y H:i')); ?>
+
                                 </td>
                                 <td class="px-6 py-4 flex gap-2">
-                                    @if(!$submission->is_approved)
-                                        <form action="{{ route('approve.submission', $submission->id) }}" method="POST">
-                                            @csrf
-                                            @method('PATCH')
+                                    <?php if(!$submission->is_approved): ?>
+                                        <form action="<?php echo e(route('approve.submission', $submission->id)); ?>" method="POST">
+                                            <?php echo csrf_field(); ?>
+                                            <?php echo method_field('PATCH'); ?>
                                             <button type="submit"
                                                 class="bg-green-500 text-white text-sm px-2 py-1 rounded-lg"
                                                 onclick="return confirm('Are you sure you want to approve this submission?')">
                                                 Approve
                                             </button>
                                         </form>
-                                    @endif
-                                    <a href="{{ route('delete/submission', $submission->id) }}"
+                                    <?php endif; ?>
+                                    <a href="<?php echo e(route('delete/submission', $submission->id)); ?>"
                                        class="bg-red-500 text-white text-sm px-2 py-1 rounded-lg"
                                        onclick="return confirm('Are you sure you want to delete this submission?')">
                                         Delete
@@ -73,47 +85,53 @@
                                                             <div class="grid md:grid-cols-2 md:gap-6">
                                                                 <div class="w-full border-t border-gray-100 text-black font-bold py-4 pl-6 pr-3">
                                                                     <p class="font-bold text-white bg-black mb-2 px-2 py-1 rounded-lg">Full Name</p>
-                                                                    {{ $submission->full_name }}
+                                                                    <?php echo e($submission->full_name); ?>
+
                                                                 </div>
                                                                 <div class="w-full border-t border-gray-100 text-black font-bold py-4 pl-6 pr-3">
                                                                     <p class="font-bold text-white bg-black mb-2 px-2 py-1 rounded-lg">Email</p>
-                                                                    {{ $submission->email }}
+                                                                    <?php echo e($submission->email); ?>
+
                                                                 </div>
                                                                 <div class="w-full border-t border-gray-100 text-black font-bold py-4 pl-6 pr-3">
                                                                     <p class="font-bold text-white bg-black mb-2 px-2 py-1 rounded-lg">Phone</p>
-                                                                    {{ $submission->user->phone }}
+                                                                    <?php echo e($submission->user->phone); ?>
+
                                                                 </div>
                                                                 <div class="w-full border-t border-gray-100 text-black font-bold py-4 pl-6 pr-3">
                                                                     <p class="font-bold text-white bg-black mb-2 px-2 py-1 rounded-lg">Description</p>
-                                                                    {{ $submission->description }}
+                                                                    <?php echo e($submission->description); ?>
+
                                                                 </div>
                                                                 <div class="w-full col-span-2 border-t border-gray-100 text-black font-bold py-4 pl-6 pr-3">
                                                                     <p class="font-bold text-white bg-black mb-2 px-2 py-1 rounded-lg">Payment Proof</p>
                                                                     <div class="mt-2">
-                                                                        @if($submission->payment_proof)
-                                                                            <img src="{{ asset('payment/uploads/' . $submission->payment_proof) }}"
+                                                                        <?php if($submission->payment_proof): ?>
+                                                                            <img src="<?php echo e(asset('payment/uploads/' . $submission->payment_proof)); ?>"
                                                                                  alt="Payment Proof"
                                                                                  class="max-w-full h-auto rounded-lg shadow-lg cursor-pointer"
                                                                                  onclick="window.open(this.src, '_blank')"
                                                                             >
-                                                                        @else
+                                                                        <?php else: ?>
                                                                             <p class="text-red-500">No payment proof uploaded</p>
-                                                                        @endif
+                                                                        <?php endif; ?>
                                                                     </div>
                                                                 </div>
                                                                 <div class="w-full border-t border-gray-100 text-black font-bold py-4 pl-6 pr-3">
                                                                     <p class="font-bold text-white bg-black mb-2 px-2 py-1 rounded-lg">Status</p>
-                                                                    <span class="px-2 py-1 rounded-full text-xs font-semibold {{ $submission->is_approved ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' }}">
-                                                                        {{ $submission->is_approved ? 'Approved' : 'Pending' }}
+                                                                    <span class="px-2 py-1 rounded-full text-xs font-semibold <?php echo e($submission->is_approved ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'); ?>">
+                                                                        <?php echo e($submission->is_approved ? 'Approved' : 'Pending'); ?>
+
                                                                     </span>
                                                                 </div>
                                                                 <div class="w-full border-t border-gray-100 text-black font-bold py-4 pl-6 pr-3">
                                                                     <p class="font-bold text-white bg-black mb-2 px-2 py-1 rounded-lg">Submitted At</p>
-                                                                    @if($submission->created_at)
-                                                                        {{ $submission->created_at->format('M d, Y H:i') }}
-                                                                    @else
+                                                                    <?php if($submission->created_at): ?>
+                                                                        <?php echo e($submission->created_at->format('M d, Y H:i')); ?>
+
+                                                                    <?php else: ?>
                                                                         N/A
-                                                                    @endif
+                                                                    <?php endif; ?>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -129,21 +147,27 @@
                                     </div>
                                 </td>
                             </tr>
-                        @endforeach
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
-                        @if ($submissions->isEmpty())
+                        <?php if($submissions->isEmpty()): ?>
                             <tr class="bg-white border-b">
                                 <td colspan="7" class="px-6 py-4 text-center text-gray-500">No submissions found</td>
                             </tr>
-                        @endif
+                        <?php endif; ?>
                     </tbody>
                 </table>
 
                 <!-- Pagination Links -->
                 <div class="mt-4 px-4">
-                    {{ $submissions->links() }}
+                    <?php echo e($submissions->links()); ?>
+
                 </div>
             </div>
         </div>
     </div>
-</x-app-layout>
+ <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal9ac128a9029c0e4701924bd2d73d7f54)): ?>
+<?php $component = $__componentOriginal9ac128a9029c0e4701924bd2d73d7f54; ?>
+<?php unset($__componentOriginal9ac128a9029c0e4701924bd2d73d7f54); ?>
+<?php endif; ?><?php /**PATH C:\xampp\htdocs\Gotelafrica-Official-website\resources\views/admin/contest.blade.php ENDPATH**/ ?>

@@ -15,14 +15,23 @@ class Submission extends Model
      * @var array<string>
      */
     protected $fillable = [
-        'id',
+        'user_id',
+        'payment_proof',
+        'is_approved',
         'full_name',
-        'phone',
         'email',
-        'description',
-        'payment_proof'
+        'description'
+    ];
+
+    protected $casts = [
+        'is_approved' => 'boolean',
     ];
 
     public $incrementing = false;
     protected $keyType = 'string';
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

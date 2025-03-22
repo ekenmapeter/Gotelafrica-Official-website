@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1147716a2c64f83a6d26bba4fa5a6af8",
+    "content-hash": "89fc2fbb3eb098b6bf87f5c91ac807ab",
     "packages": [
         {
             "name": "brick/math",
@@ -3109,21 +3109,21 @@
         },
         {
             "name": "realrashid/sweet-alert",
-            "version": "v7.1.0",
+            "version": "v7.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/realrashid/sweet-alert.git",
-                "reference": "769f951053cd3363fd7fb7a1dd30f9828b619b44"
+                "reference": "d54b1663970da8d416eb09e8719a8561a45fb2d9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/realrashid/sweet-alert/zipball/769f951053cd3363fd7fb7a1dd30f9828b619b44",
-                "reference": "769f951053cd3363fd7fb7a1dd30f9828b619b44",
+                "url": "https://api.github.com/repos/realrashid/sweet-alert/zipball/d54b1663970da8d416eb09e8719a8561a45fb2d9",
+                "reference": "d54b1663970da8d416eb09e8719a8561a45fb2d9",
                 "shasum": ""
             },
             "require": {
-                "laravel/framework": "^5.6|^6.0|^7.0|^8.0|^9.0|^9.11|9.14.*|^10.0",
-                "php": "^7.2|^8.0|^8.1"
+                "laravel/framework": "^5.6|^6.0|^7.0|^8.0|^9.0|^9.11|9.14.*|^10.0|^11.0|^12.0",
+                "php": "^7.2|^8.0|^8.1|^8.2|^8.3"
             },
             "require-dev": {
                 "symfony/thanks": "^1.0"
@@ -3131,12 +3131,12 @@
             "type": "library",
             "extra": {
                 "laravel": {
-                    "providers": [
-                        "RealRashid\\SweetAlert\\SweetAlertServiceProvider"
-                    ],
                     "aliases": {
                         "Alert": "RealRashid\\SweetAlert\\Facades\\Alert"
-                    }
+                    },
+                    "providers": [
+                        "RealRashid\\SweetAlert\\SweetAlertServiceProvider"
+                    ]
                 }
             },
             "autoload": {
@@ -3195,7 +3195,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-08-07T19:23:17+00:00"
+            "time": "2025-02-25T21:11:49+00:00"
         },
         {
             "name": "symfony/console",

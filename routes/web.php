@@ -9,6 +9,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CommunityController;
 use App\Http\Controllers\AdministratorController;
 use App\Http\Controllers\ContestSubmissionController;
+use App\Http\Controllers\ContestController;
 
 
 
@@ -58,6 +59,8 @@ Route::middleware(['auth', 'roles:1'])->group(function()
     Route::post('product-create', [AdministratorController::class, 'createProduct'])->name('product-create');
     Route::post('admin-fund-wallet', [AdministratorController::class,'fundWalletRequest'])->name('admin-fund-wallet');
 
+    Route::patch('admin/submissions/{submission}/approve', [ContestController::class, 'approveSubmission'])
+    ->name('approve.submission');
 
     // Route for the contestant page
     Route::get('/admin/contest', [AdministratorController::class, 'contestant'])->name('admin.contest');
@@ -65,7 +68,7 @@ Route::middleware(['auth', 'roles:1'])->group(function()
 
 });
 
-/*Administrator Login Route */
+/*user Login Route */
 Route::middleware(['auth', 'roles:2'])->group(function()
 {
     Route::get('team', [TeamController::class, 'show'])->name('team');
@@ -93,6 +96,13 @@ Route::middleware(['auth', 'roles:2'])->group(function()
 });
 
 
+/*contest Login Route */
+Route::middleware(['auth', 'roles:3'])->group(function()
+{
+    Route::post('/contest/upload', [ContestController::class, 'upload'])->name('contest.upload');
+
+    Route::get('/contest/dashboard', [ContestController::class, 'dashboard'])->name('contest.dashboard');
+});
 //General Route
 Route::get('/', function () {
     return view('welcome');
@@ -114,6 +124,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::post('/submit-contest', [ContestSubmissionController::class, 'store']);
+Route::post('/submit-entry', [ContestSubmissionController::class, 'register'])->name('submit-entry');
+
+
 
 require __DIR__.'/auth.php';

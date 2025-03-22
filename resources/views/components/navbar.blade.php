@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Farm App | Investment Platform</title>
-    
-    
+
+
             <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>
@@ -76,7 +76,7 @@
         <nav class="fixed w-full z-20 top-0 start-0 bg-black">
             <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
                 <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
-                    <img src="https://flowbite.com/docs/images/logo.svg" class="h-8" alt="Flowbite Logo" />
+                    <img src="" class="h-8" alt="Flowbite Logo" />
                     <span class="self-center text-1xl font-semibold whitespace-nowrap">Farm App</span>
                 </a>
                 <div class="flex gap-2 md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
