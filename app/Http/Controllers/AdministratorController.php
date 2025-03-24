@@ -87,9 +87,42 @@ class AdministratorController extends Controller
         return view('admin.fund_wallet', compact('user'));
     }
 
-        public function contestant(): View
+    public function contestant(Request $request)
     {
-        $submissions = Submission::paginate(10);
+        $query = Submission::with(['user', 'user.contestEntries'])
+            ->when($request->search, function($query) use ($request) {
+                $query->where(function($q) use ($request) {
+                    $q->where('full_name', 'like', '%' . $request->search . '%')
+                      ->orWhere('email', 'like', '%' . $request->search . '%');
+                });
+            })
+            ->when($request->status, function($query) use ($request) {
+                if ($request->status === 'approved') {
+                    $query->where('is_approved', true);
+                } elseif ($request->status === 'pending') {
+                    $query->where('is_approved', false);
+                }
+            })
+            ->when($request->sort, function($query) use ($request) {
+                switch ($request->sort) {
+                    case 'oldest':
+                        $query->oldest();
+                        break;
+                    case 'votes':
+                        $query->withCount(['user.contestEntries as total_votes' => function($q) {
+                            $q->selectRaw('sum(votes_count)');
+                        }])->orderByDesc('total_votes');
+                        break;
+                    default:
+                        $query->latest();
+                        break;
+                }
+            }, function($query) {
+                $query->latest();
+            });
+
+        $submissions = $query->paginate(10)->withQueryString();
+
         return view('admin.contest', compact('submissions'));
     }
 

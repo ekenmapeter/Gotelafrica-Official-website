@@ -10,6 +10,7 @@ use Laravel\Sanctum\HasApiTokens;
 use App\Models\Submission;
 use App\Models\User;
 use App\Models\Wallet;
+use App\Models\ContestEntry;
 
 class User extends Authenticatable
 {
@@ -63,5 +64,13 @@ class User extends Authenticatable
     public function wallet()
     {
         return $this->hasOne(Wallet::class);
+    }
+
+    /**
+     * Get the contest entries for the user.
+     */
+    public function contestEntries()
+    {
+        return $this->hasMany(ContestEntry::class);
     }
 }

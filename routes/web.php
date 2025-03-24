@@ -62,6 +62,7 @@ Route::middleware(['auth', 'roles:1'])->group(function()
     Route::patch('admin/submissions/{submission}/approve', [ContestController::class, 'approveSubmission'])
     ->name('approve.submission');
 
+
     // Route for the contestant page
     Route::get('/admin/contest', [AdministratorController::class, 'contestant'])->name('admin.contest');
     Route::delete('/delete/submission/{id}', [AdministratorController::class, 'deleteSubmission'])->name('delete.submission');
@@ -129,5 +130,7 @@ Route::post('/submit-entry', [ContestSubmissionController::class, 'register'])->
 // Add both routes for voting
 Route::get('/contest/vote/{shareToken}', [ContestController::class, 'showVotePage'])->name('contest.vote');
 Route::post('/contest/vote/{shareToken}/submit', [ContestController::class, 'vote'])->name('contest.vote.submit');
+
+
 
 require __DIR__.'/auth.php';
