@@ -97,7 +97,7 @@
                                                                     <p class="font-bold text-white bg-black mb-2 px-2 py-1 rounded-lg">Payment Proof</p>
                                                                     <div class="mt-2">
                                                                         @if($submission->payment_proof)
-                                                                            <img src="{{ asset('payment/uploads/' . $submission->payment_proof) }}"
+                                                                        <img src="{{ asset('storage/uploads/' . $submission->payment_proof) }}" alt="Payment Proof"
                                                                                  alt="Payment Proof"
                                                                                  class="max-w-full h-auto rounded-lg shadow-lg cursor-pointer"
                                                                                  onclick="window.open(this.src, '_blank')"

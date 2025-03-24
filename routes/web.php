@@ -126,6 +126,8 @@ Route::middleware('auth')->group(function () {
 
 Route::post('/submit-entry', [ContestSubmissionController::class, 'register'])->name('submit-entry');
 
-
+// Add both routes for voting
+Route::get('/contest/vote/{shareToken}', [ContestController::class, 'showVotePage'])->name('contest.vote');
+Route::post('/contest/vote/{shareToken}/submit', [ContestController::class, 'vote'])->name('contest.vote.submit');
 
 require __DIR__.'/auth.php';

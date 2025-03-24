@@ -58,24 +58,42 @@
                     <h2 class="text-2xl font-semibold mb-4">Share Your Video</h2>
 
                     <?php if($userSubmission && $userSubmission->is_approved): ?>
-                        <form action="<?php echo e(route('contest.upload')); ?>" method="POST" enctype="multipart/form-data" class="space-y-4">
-                            <?php echo csrf_field(); ?>
-                            <div>
-                                <label for="title" class="block text-sm font-medium text-gray-700">Video Title</label>
-                                <input type="text" name="title" id="title" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                        <?php if($contestEntries->where('user_id', auth()->id())->count() > 0): ?>
+                            <div class="rounded-md bg-blue-50 p-4">
+                                <div class="flex">
+                                    <div class="flex-shrink-0">
+                                        <svg class="h-5 w-5 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                                        </svg>
+                                    </div>
+                                    <div class="ml-3">
+                                        <h3 class="text-sm font-medium text-blue-800">Video Already Submitted</h3>
+                                        <div class="mt-2 text-sm text-blue-700">
+                                            <p>You have already submitted your video entry. Only one submission is allowed per participant.</p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div>
-                                <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
-                                <textarea name="description" id="description" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"></textarea>
-                            </div>
-                            <div>
-                                <label for="video" class="block text-sm font-medium text-gray-700">Upload Your Video</label>
-                                <input type="file" name="video" id="video" accept="video/*" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
-                            </div>
-                            <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                Submit Entry
-                            </button>
-                        </form>
+                        <?php else: ?>
+                            <form action="<?php echo e(route('contest.upload')); ?>" method="POST" enctype="multipart/form-data" class="space-y-4">
+                                <?php echo csrf_field(); ?>
+                                <div>
+                                    <label for="title" class="block text-sm font-medium text-gray-700">Video Title</label>
+                                    <input type="text" name="title" id="title" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                </div>
+                                <div>
+                                    <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+                                    <textarea name="description" id="description" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"></textarea>
+                                </div>
+                                <div>
+                                    <label for="video" class="block text-sm font-medium text-gray-700">Upload Your Video</label>
+                                    <input type="file" name="video" id="video" accept="video/*" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
+                                </div>
+                                <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    Submit Entry
+                                </button>
+                            </form>
+                        <?php endif; ?>
                     <?php else: ?>
                         <div class="rounded-md bg-yellow-50 p-4">
                             <div class="flex">
@@ -104,27 +122,6 @@
                     <?php endif; ?>
                 </div>
 
-                <!-- Contest Entries Section -->
-                <div class="bg-white rounded-lg shadow-lg p-6">
-                    <form action="<?php echo e(route('contest.upload')); ?>" method="POST" enctype="multipart/form-data" class="space-y-4">
-                        <?php echo csrf_field(); ?>
-                        <div>
-                            <label for="title" class="block text-sm font-medium text-gray-700">Video Title</label>
-                            <input type="text" name="title" id="title" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                        </div>
-                        <div>
-                            <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
-                            <textarea name="description" id="description" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"></textarea>
-                        </div>
-                        <div>
-                            <label for="video" class="block text-sm font-medium text-gray-700">Upload Video</label>
-                            <input type="file" name="video" id="video" accept="video/*" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
-                        </div>
-                        <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                            Submit Entry
-                        </button>
-                    </form>
-                </div>
 
                 <!-- Contest Entries Section -->
                 <div class="bg-white rounded-lg shadow-lg p-6">
@@ -152,6 +149,23 @@
                                         </div>
                                         <span class="text-sm text-gray-500">By <?php echo e($entry->user->name); ?></span>
                                     </div>
+                                    <?php if($entry->user_id === auth()->id() && $userSubmission && $userSubmission->is_approved): ?>
+                                        <div class="mt-2">
+                                            <label class="text-sm text-gray-600">Share Link:</label>
+                                            <div class="flex items-center mt-1">
+                                                <input type="text" value="<?php echo e($entry->getShareUrl()); ?>"
+                                                       class="text-sm bg-gray-50 border border-gray-300 rounded px-2 py-1 w-full"
+                                                       readonly>
+                                                <button onclick="copyShareLink(this)"
+                                                        class="ml-2 p-1 text-indigo-600 hover:text-indigo-800"
+                                                        data-share-url="<?php echo e($entry->getShareUrl()); ?>">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
@@ -169,4 +183,14 @@
 <?php if (isset($__componentOriginal9ac128a9029c0e4701924bd2d73d7f54)): ?>
 <?php $component = $__componentOriginal9ac128a9029c0e4701924bd2d73d7f54; ?>
 <?php unset($__componentOriginal9ac128a9029c0e4701924bd2d73d7f54); ?>
-<?php endif; ?><?php /**PATH C:\xampp\htdocs\Gotelafrica-Official-website\resources\views/contest/dashboard.blade.php ENDPATH**/ ?>
+<?php endif; ?>
+
+<script>
+function copyShareLink(button) {
+    const shareUrl = button.dataset.shareUrl;
+    navigator.clipboard.writeText(shareUrl).then(() => {
+        // You could add a temporary success message here
+        alert('Share link copied to clipboard!');
+    });
+}
+</script><?php /**PATH C:\xampp\htdocs\Gotelafrica-Official-website\resources\views/contest/dashboard.blade.php ENDPATH**/ ?>

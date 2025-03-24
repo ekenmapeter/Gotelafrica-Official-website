@@ -75,22 +75,19 @@
             <p>What happens next?</p>
             <ul style="list-style-type: none; padding-left: 0;">
                 <li>✅ Our team will review your submission</li>
-                <li>✅ Winners will be announced on April 19, 2025</li>
+                <li>✅ Winners will be reviewed on June 11, 2025</li>
                 <li>✅ Stay tuned for updates via email</li>
             </ul>
 
             <p>Have questions? We're here to help! Feel free to reply to this email or contact our support team.</p>
 
-            <center>
-                <a href="https://gotelafrica.com/contest-status" class="btn">Track Your Submission</a>
-            </center>
+
         </div>
 
         <div class="footer">
             <p>Best regards,<br><strong>The Gotelafrica Team</strong></p>
             <p style="font-size: 12px; color: #999;">
                 Follow us on social media:<br>
-                <a href="https://twitter.com/gotelafrica" style="color: #1DA1F2;">Twitter</a> |
                 <a href="https://instagram.com/gotelafrica" style="color: #E1306C;">Instagram</a> |
                 <a href="https://facebook.com/gotelafrica" style="color: #4267B2;">Facebook</a>
             </p>
