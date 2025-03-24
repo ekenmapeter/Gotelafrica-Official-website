@@ -64,14 +64,20 @@
                                             </button>
                                         </form>
                                     <?php endif; ?>
-                                    <a href="<?php echo e(route('delete/submission', $submission->id)); ?>"
-                                       class="bg-red-500 text-white text-sm px-2 py-1 rounded-lg"
-                                       onclick="return confirm('Are you sure you want to delete this submission?')">
-                                        Delete
-                                    </a>
+                                    <form action="<?php echo e(route('delete.submission', $submission->id)); ?>"
+                                          method="POST"
+                                          class="inline"
+                                          onsubmit="return confirm('Are you sure you want to delete this submission?')">
+                                        <?php echo csrf_field(); ?>
+                                        <?php echo method_field('DELETE'); ?>
+                                        <button type="submit"
+                                                class="bg-red-500 text-white text-sm px-2 py-1 rounded-lg">
+                                            Delete
+                                        </button>
+                                    </form>
                                     <!-- View Modal -->
                                     <div id="basicModal" x-data="{ open: false }" @open-me="open=false" @close-me="open=true">
-                                        <button class="bg-blue-700 p-2 text-sm rounded text-white"
+                                        <button class="bg-gray-800 p-2 text-sm rounded text-white rounded-lg"
                                                 @click.prevent="open = true"
                                                 aria-controls="basic-modal">
                                             View
@@ -170,4 +176,5 @@
 <?php if (isset($__componentOriginal9ac128a9029c0e4701924bd2d73d7f54)): ?>
 <?php $component = $__componentOriginal9ac128a9029c0e4701924bd2d73d7f54; ?>
 <?php unset($__componentOriginal9ac128a9029c0e4701924bd2d73d7f54); ?>
-<?php endif; ?><?php /**PATH C:\xampp\htdocs\Gotelafrica-Official-website\resources\views/admin/contest.blade.php ENDPATH**/ ?>
+<?php endif; ?>
+<?php /**PATH C:\xampp\htdocs\Gotelafrica-Official-website\resources\views/admin/contest.blade.php ENDPATH**/ ?>

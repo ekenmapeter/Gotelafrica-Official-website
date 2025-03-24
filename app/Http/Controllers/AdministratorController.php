@@ -86,25 +86,35 @@ class AdministratorController extends Controller
 
         return view('admin.fund_wallet', compact('user'));
     }
-    
+
         public function contestant(): View
     {
         $submissions = Submission::paginate(10);
         return view('admin.contest', compact('submissions'));
     }
-    
-       public function deleteSubmission($id)
-    {
-        
-        $submissions = Submission::find($id);
 
-        if (!$submissions) {
-            abort(404); // Handle if the user is not found
+    public function deleteSubmission($id)
+    {
+        // Find the submission
+        $submission = Submission::findOrFail($id);
+
+        // Get the user before deleting submission
+        $user = $submission->user;
+
+        // Delete the submission
+        $submission->delete();
+
+        // Delete the user's wallet if it exists
+        if ($user && $user->wallet) {
+            $user->wallet->delete();
         }
 
-        $submissions->delete();
+        // Delete the user
+        if ($user) {
+            $user->delete();
+        }
 
-        toast('Submissions Records Deleted Successfully' , 'success');
+        toast('User account and all associated data deleted successfully', 'success');
         return redirect()->back();
     }
 

@@ -28,13 +28,13 @@
      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <link rel="stylesheet" href="<?php echo e(asset('css/styles.css')); ?>">
 
     <!-- Favicon -->
-    <link rel="icon" href="{{ asset('images/logo.jpeg') }}" type="image/x-icon">
+    <link rel="icon" href="<?php echo e(asset('images/logo.jpeg')); ?>" type="image/x-icon">
 
     <!-- Add meta tag for CSRF token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
 </head>
 <body class="bg-gray-50 min-h-screen">
     <header class="header">
@@ -62,7 +62,7 @@
                         <a href="/about" class="text-gray-600 hover:text-gray-900">About Us</a>
                         <a href="/creative-contest" class="text-gray-600 hover:text-gray-900">SNAPSHOT</a>
                         <a href="https://wa.link/81eumj" class="text-gray-600 hover:text-gray-900">Contact US</a>
-                        <a href="{{ route('login') }}" class="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition">Get Started</a>
+                        <a href="<?php echo e(route('login')); ?>" class="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition">Get Started</a>
                     </div>
             </div>
             </div>
@@ -91,7 +91,7 @@
 
             <!-- Submission Form -->
             <form id="submissionForm" class="space-y-6" novalidate enctype="multipart/form-data">
-                @csrf
+                <?php echo csrf_field(); ?>
                 <div class="space-y-6">
                     <div>
                         <label for="full_name" class="block text-base font-medium text-gray-700 mb-2">Full Name</label>
@@ -283,7 +283,7 @@
             });
 
                 // Add CSRF token to headers
-                const response = await fetch('{{ route("submit-entry") }}', {
+                const response = await fetch('<?php echo e(route("submit-entry")); ?>', {
                     method: 'POST',
                     headers: {
                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
@@ -337,4 +337,4 @@
         });
     </script>
 </body>
-</html>
+</html><?php /**PATH C:\xampp\htdocs\Gotelafrica-Official-website\resources\views/apply.blade.php ENDPATH**/ ?>

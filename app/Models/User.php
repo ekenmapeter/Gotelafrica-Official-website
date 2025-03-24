@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\Submission;
+use App\Models\User;
+use App\Models\Wallet;
 
 class User extends Authenticatable
 {
@@ -55,5 +58,10 @@ class User extends Authenticatable
     public function submission()
     {
         return $this->hasOne(Submission::class);
+    }
+
+    public function wallet()
+    {
+        return $this->hasOne(Wallet::class);
     }
 }

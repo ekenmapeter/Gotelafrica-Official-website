@@ -42,7 +42,7 @@
                 <li><a href="/about">About Us</a></li>
                 <li><a href="/creative-contest">SNAPSHOT</a></li>
                 <li><a href="https://wa.link/81eumj">Contact US</a></li>
-                <li><a href="{{ route(name: 'login') }}"><button class="btn">Get Started</button></a></li>
+                <li><a href="<?php echo e(route(name: 'login')); ?>"><button class="btn">Get Started</button></a></li>
             </ul>
         </nav>
 
@@ -58,7 +58,7 @@
             class="absolute w-full h-full object-cover"
             preload="auto"
         >
-            <source src="{{ asset('images/gotelafrica.mp4') }}" type="video/mp4">
+            <source src="<?php echo e(asset('images/gotelafrica.mp4')); ?>" type="video/mp4">
         </video>
 
         <!-- Optimized gradient overlays -->
@@ -77,11 +77,11 @@
                 <!-- Button Group -->
                 <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
 
-                    <a href="{{ route('login') }}"
+                    <a href="<?php echo e(route('login')); ?>"
                        class="bg-white text-black font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-gray-100 transition-all duration-300 transform hover:scale-105">
                         Take Shot
                     </a>
-                     <a href="{{ route('apply') }}"
+                     <a href="<?php echo e(route('apply')); ?>"
                        class="bg-yellow-500 text-black font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-yellow-600 transition-all duration-300 transform hover:scale-105">
                         Submit Your Entry
                     </a>
@@ -154,4 +154,4 @@
     </footer>
 
 </body>
-</html>
+</html><?php /**PATH C:\xampp\htdocs\Gotelafrica-Official-website\resources\views/gotelafrica_creative_contest.blade.php ENDPATH**/ ?>

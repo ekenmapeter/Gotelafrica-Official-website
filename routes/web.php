@@ -64,7 +64,7 @@ Route::middleware(['auth', 'roles:1'])->group(function()
 
     // Route for the contestant page
     Route::get('/admin/contest', [AdministratorController::class, 'contestant'])->name('admin.contest');
-    Route::delete('/delete/submission/{id}', [AdministratorController::class, 'deleteSubmission'])->name('delete/submission');
+    Route::delete('/delete/submission/{id}', [AdministratorController::class, 'deleteSubmission'])->name('delete.submission');
 
 });
 
