@@ -419,4 +419,17 @@ public function getSubmissionDetails($id)
     }
 }
 
+public function approveSubmission($id)
+{
+    try {
+        $submission = Submission::findOrFail($id);
+        $submission->update(['is_approved' => true]);
+
+        toast('Submission approved successfully', 'success');
+        return response()->json(['success' => true]);
+    } catch (\Exception $e) {
+        return response()->json(['error' => 'Failed to approve submission'], 500);
+    }
+}
+
 }

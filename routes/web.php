@@ -64,6 +64,8 @@ Route::middleware(['auth', 'roles:1'])->group(function()
     Route::patch('admin/submissions/{submission}/approve', [ContestController::class, 'approveSubmission'])
     ->name('approve.submission');
 
+    Route::patch('/admin/submission/{id}/approve', [AdministratorController::class, 'approveSubmission'])
+        ->name('admin.submission.approve');
 
     // Route for the contestant page
     Route::get('/admin/contest', [AdministratorController::class, 'contestant'])->name('admin.contest');
