@@ -426,9 +426,10 @@ public function approveSubmission($id)
         $submission->update(['is_approved' => true]);
 
         toast('Submission approved successfully', 'success');
-        return response()->json(['success' => true]);
+        return redirect()->back();
     } catch (\Exception $e) {
-        return response()->json(['error' => 'Failed to approve submission'], 500);
+        toast('Failed to approve submission', 'error');
+        return redirect()->back();
     }
 }
 

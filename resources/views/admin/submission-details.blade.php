@@ -74,10 +74,16 @@
                     <!-- Action Buttons -->
                     <div class="flex gap-4 pt-4 border-t">
                         @if(!$submission->is_approved)
-                            <button onclick="approveSubmission({{ $submission->id }})"
-                                    class="bg-green-500 text-white px-6 py-2 rounded-lg hover:bg-green-600">
-                                Approve Submission
-                            </button>
+                            <form action="{{ route('admin.submission.approve', $submission->id) }}"
+                                  method="POST"
+                                  class="inline">
+                                @csrf
+                                @method('PATCH')
+                                <button type="submit"
+                                        class="bg-green-500 text-white px-6 py-2 rounded-lg hover:bg-green-600">
+                                    Approve Submission
+                                </button>
+                            </form>
                         @endif
                         <form action="{{ route('delete.submission', $submission->id) }}"
                               method="POST"

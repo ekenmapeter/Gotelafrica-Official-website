@@ -113,10 +113,16 @@
                                     <td class="px-4 py-3">
                                     <div class="flex gap-2">
                                     @if(!$submission->is_approved)
-                                            <button onclick="approveSubmission({{ $submission->id }})"
+                                        <form action="{{ route('admin.submission.approve', $submission->id) }}"
+                                              method="POST"
+                                              class="inline">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="submit"
                                                     class="bg-green-500 text-white text-sm px-3 py-1 rounded-lg hover:bg-green-600">
                                                 Approve
                                             </button>
+                                        </form>
                                     @endif
                                             <a href="{{ route('admin.submission.details', $submission->id) }}"
                                                class="bg-blue-500 text-white text-sm px-3 py-1 rounded-lg hover:bg-blue-600">
