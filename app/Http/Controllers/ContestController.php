@@ -11,6 +11,7 @@ use RealRashid\SweetAlert\Facades\Alert;
 use App\Notifications\PaymentApproved;
 use Illuminate\Support\Facades\Notification;
 use App\Models\Vote;
+use Illuminate\Support\Facades\Auth;
 
 class ContestController extends Controller
 {
