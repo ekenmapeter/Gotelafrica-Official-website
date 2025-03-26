@@ -153,32 +153,22 @@
                                     <p class="text-sm text-gray-600 mt-1">{{ $entry->description }}</p>
                                     <div class="mt-4 flex items-center justify-between">
                                         <div class="flex items-center space-x-2">
-                                            <button class="text-indigo-600 hover:text-indigo-800">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <span class="text-gray-600">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" />
                                                 </svg>
-                                            </button>
-                                            <span class="text-gray-600">{{ $entry->votes_count ?? 0 }}</span>
+                                                <span class="ml-1">{{ $entry->votes_count ?? 0 }}</span>
+                                            </span>
                                         </div>
-                                        <span class="text-sm text-gray-500">By {{ $entry->user->name }}</span>
+                                        <button onclick="copyShareLink(this)"
+                                                class="inline-flex items-center px-3 py-1 bg-indigo-600 text-white text-sm rounded hover:bg-indigo-700"
+                                                data-share-url="{{ route('contest.vote', ['shareToken' => $entry->share_token]) }}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                                            </svg>
+                                            Share
+                                        </button>
                                     </div>
-                                    @if($entry->user_id === auth()->id() && $userSubmission && $userSubmission->is_approved)
-                                        <div class="mt-2">
-                                            <label class="text-sm text-gray-600">Share Link:</label>
-                                            <div class="flex items-center mt-1">
-                                                <input type="text" value="{{ $entry->getShareUrl() }}"
-                                                       class="text-sm bg-gray-50 border border-gray-300 rounded px-2 py-1 w-full"
-                                                       readonly>
-                                                <button onclick="copyShareLink(this)"
-                                                        class="ml-2 p-1 text-indigo-600 hover:text-indigo-800"
-                                                        data-share-url="{{ $entry->getShareUrl() }}">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                                                    </svg>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    @endif
                                 </div>
                             </div>
                         @empty
@@ -197,8 +187,24 @@
 function copyShareLink(button) {
     const shareUrl = button.dataset.shareUrl;
     navigator.clipboard.writeText(shareUrl).then(() => {
-        // You could add a temporary success message here
-        alert('Share link copied to clipboard!');
+        // Change button text temporarily to show success
+        const originalContent = button.innerHTML;
+        button.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+            Copied!
+        `;
+        button.classList.remove('bg-indigo-600', 'hover:bg-indigo-700');
+        button.classList.add('bg-green-600', 'hover:bg-green-700');
+
+        setTimeout(() => {
+            button.innerHTML = originalContent;
+            button.classList.remove('bg-green-600', 'hover:bg-green-700');
+            button.classList.add('bg-indigo-600', 'hover:bg-indigo-700');
+        }, 2000);
+    }).catch(() => {
+        alert('Failed to copy link. Please try again.');
     });
 }
 </script>
