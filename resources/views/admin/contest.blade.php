@@ -128,11 +128,7 @@
                                                class="bg-blue-500 text-white text-sm px-3 py-1 rounded-lg hover:bg-blue-600">
                                                 View
                                             </a>
-                                            <button onclick="copyShareLink(this)"
-                                                    class="bg-indigo-500 text-white text-sm px-3 py-1 rounded-lg hover:bg-indigo-600"
-                                                    data-share-url="{{ route('contest.vote', ['shareToken' => $submission->share_token]) }}">
-                                                Share
-                                            </button>
+                                          
                                             <form action="{{ route('delete.submission', $submission->id) }}"
                                                   method="POST"
                                                   class="inline"
@@ -167,22 +163,4 @@
     </div>
 </x-app-layout>
 
-@push('scripts')
-<script>
-function copyShareLink(button) {
-    const shareUrl = button.dataset.shareUrl;
-    navigator.clipboard.writeText(shareUrl).then(() => {
-        alert('Share link copied to clipboard!');
-    }).catch(() => {
-        // Fallback for browsers that don't support clipboard API
-        const tempInput = document.createElement('input');
-        tempInput.value = shareUrl;
-        document.body.appendChild(tempInput);
-        tempInput.select();
-        document.execCommand('copy');
-        document.body.removeChild(tempInput);
-        alert('Share link copied to clipboard!');
-    });
-}
-</script>
-@endpush
+

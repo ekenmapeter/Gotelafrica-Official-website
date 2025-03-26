@@ -127,21 +127,7 @@
             }
         }
 
-        function copyShareLink(button) {
-            const shareUrl = button.dataset.shareUrl;
-            navigator.clipboard.writeText(shareUrl).then(() => {
-                alert('Share link copied to clipboard!');
-            }).catch(() => {
-                // Fallback for browsers that don't support clipboard API
-                const tempInput = document.createElement('input');
-                tempInput.value = shareUrl;
-                document.body.appendChild(tempInput);
-                tempInput.select();
-                document.execCommand('copy');
-                document.body.removeChild(tempInput);
-                alert('Share link copied to clipboard!');
-            });
-        }
+
     </script>
     @endpush
 </x-app-layout>
