@@ -53,6 +53,8 @@ Route::middleware(['auth', 'roles:1'])->group(function()
     Route::get('/product/activate/{id}', [AdministratorController::class, 'activateProduct'])->name('product/activate');
     Route::get('/product/deactivate/{id}', [AdministratorController::class, 'deactivateProduct'])->name('product/deactivate');
     Route::get('/product/delete/{id}', [AdministratorController::class, 'deleteProduct'])->name('product/delete');
+    Route::get('/admin/submission/{id}', [AdministratorController::class, 'getSubmissionDetails'])
+        ->name('admin.submission.details');
 
 
     Route::post('product-edit', [AdministratorController::class, 'editProduct'])->name('product-edit');

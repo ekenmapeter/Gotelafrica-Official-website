@@ -23,7 +23,8 @@
      <!-- Scripts -->
      <link rel="stylesheet" href="./css/styles.css">
      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
+     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9764183583019968"
+     crossorigin="anonymous"></script>
 </head>
 <body class="font-sans bg-gray-50">
     <header class="header">
@@ -75,10 +76,7 @@
                 <!-- Button Group -->
                 <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
 
-                    <a href="{{ route('login') }}"
-                       class="bg-white text-black font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-gray-100 transition-all duration-300 transform hover:scale-105">
-                        Take Shot
-                    </a>
+
                      <a href="{{ route('apply') }}"
                        class="bg-yellow-500 text-black font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-yellow-600 transition-all duration-300 transform hover:scale-105">
                         Submit Your Entry

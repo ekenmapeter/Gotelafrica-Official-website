@@ -2,7 +2,7 @@
     <div class="flex flex-col px-4 py-8 mb-44">
         <!-- Header Section -->
         <div class="max-w-7xl mx-auto w-full mb-8">
-            <div class="flex justify-between items-center mb-6">
+            <div class="lg:flex grid grid-cols-1 md:grid-cols-2 mt-4 justify-between items-center mb-6">
                 <div class="flex items-center gap-4">
                     <a href="{{ route('administrator') }}" class="bg-black text-white font-bold py-2 px-4 rounded hover:bg-gray-800">
                         <div class="flex items-center gap-2">
@@ -14,7 +14,7 @@
                     </a>
                     <h1 class="text-white text-2xl font-bold">Contest Management</h1>
                 </div>
-                <div class="flex gap-4">
+                <div class="flex gap-4 mt-4">
                     <div class="bg-blue-500 p-4 rounded-lg text-white text-center">
                         <div class="text-2xl font-bold">{{ $submissions->total() }}</div>
                         <div class="text-sm">Total Submissions</div>
@@ -67,32 +67,33 @@
 
             <!-- Main Table -->
             <div class="bg-white rounded-lg shadow overflow-hidden">
+                <div class="overflow-x-auto">
                 <table class="w-full text-sm text-left text-gray-500">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                         <tr>
-                            <th scope="col" class="px-6 py-3">Name</th>
-                            <th scope="col" class="px-6 py-3">Email</th>
-                            <th scope="col" class="px-6 py-3">Phone</th>
-                            <th scope="col" class="px-6 py-3">Status</th>
-                            <th scope="col" class="px-6 py-3">Votes</th>
-                            <th scope="col" class="px-6 py-3">Submitted</th>
-                            <th scope="col" class="px-6 py-3">Action</th>
+                                <th scope="col" class="px-4 py-3">Name</th>
+                                <th scope="col" class="px-4 py-3 hidden md:table-cell">Email</th>
+                                <th scope="col" class="px-4 py-3 hidden md:table-cell">Phone</th>
+                                <th scope="col" class="px-4 py-3">Status</th>
+                                <th scope="col" class="px-4 py-3 hidden md:table-cell">Votes</th>
+                                <th scope="col" class="px-4 py-3 hidden md:table-cell">Submitted</th>
+                                <th scope="col" class="px-4 py-3">Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse ($submissions as $submission)
                             <tr class="bg-white border-b hover:bg-gray-50">
-                                <td class="px-6 py-4 font-medium text-gray-900">
+                                    <td class="px-4 py-3 font-medium text-gray-900">
                                     {{ $submission->full_name }}
                                 </td>
-                                <td class="px-6 py-4">{{ $submission->email }}</td>
-                                <td class="px-6 py-4">{{ $submission->user->phone }}</td>
-                                <td class="px-6 py-4">
+                                    <td class="px-4 py-3 hidden md:table-cell">{{ $submission->email }}</td>
+                                    <td class="px-4 py-3 hidden md:table-cell">{{ $submission->user->phone }}</td>
+                                    <td class="px-4 py-3">
                                     <span class="px-2 py-1 rounded-full text-xs font-semibold {{ $submission->is_approved ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' }}">
                                         {{ $submission->is_approved ? 'Approved' : 'Pending' }}
                                     </span>
                                 </td>
-                                <td class="px-6 py-4">
+                                    <td class="px-4 py-3 hidden md:table-cell">
                                     <div class="flex items-center gap-2">
                                         <span class="font-medium">
                                             @if($submission->user && $submission->user->contestEntries)
@@ -106,10 +107,10 @@
                                         </svg>
                                     </div>
                                 </td>
-                                <td class="px-6 py-4">
+                                    <td class="px-4 py-3 hidden md:table-cell">
                                     {{ $submission->created_at->format('M d, Y H:i') }}
                                 </td>
-                                <td class="px-6 py-4">
+                                    <td class="px-4 py-3">
                                     <div class="flex gap-2">
                                     @if(!$submission->is_approved)
                                             <button onclick="approveSubmission({{ $submission->id }})"
@@ -117,14 +118,21 @@
                                                 Approve
                                             </button>
                                     @endif
-                                        <button onclick="viewDetails({{ $submission->id }})"
-                                                class="bg-blue-500 text-white text-sm px-3 py-1 rounded-lg hover:bg-blue-600">
-                                            View
-                                        </button>
-                                        <button onclick="deleteSubmission({{ $submission->id }})"
-                                                class="bg-red-500 text-white text-sm px-3 py-1 rounded-lg hover:bg-red-600">
-                                            Delete
-                                                            </button>
+                                            <a href="{{ route('admin.submission.details', $submission->id) }}"
+                                               class="bg-blue-500 text-white text-sm px-3 py-1 rounded-lg hover:bg-blue-600">
+                                                View
+                                            </a>
+                                            <form action="{{ route('delete.submission', $submission->id) }}"
+                                                  method="POST"
+                                                  class="inline"
+                                                  onsubmit="return confirm('Are you sure you want to delete this submission?')">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit"
+                                                        class="bg-red-500 text-white text-sm px-3 py-1 rounded-lg hover:bg-red-600">
+                                                    Delete
+                                                </button>
+                                            </form>
                                     </div>
                                 </td>
                             </tr>
@@ -137,6 +145,7 @@
                         @endforelse
                     </tbody>
                 </table>
+                </div>
 
                 <!-- Pagination -->
                 <div class="px-6 py-4 bg-gray-50">
@@ -145,43 +154,4 @@
             </div>
         </div>
     </div>
-
-    <!-- View Modal (Keep your existing modal code) -->
-    <!-- ... existing modal code ... -->
-
-    @push('scripts')
-    <script>
-        function approveSubmission(id) {
-            if (confirm('Are you sure you want to approve this submission?')) {
-                fetch(`/admin/submission/${id}/approve`, {
-                    method: 'PATCH',
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                        'Content-Type': 'application/json'
-                    }
-                }).then(response => {
-                    if (response.ok) {
-                        window.location.reload();
-                    }
-                });
-            }
-        }
-
-        function deleteSubmission(id) {
-            if (confirm('Are you sure you want to delete this submission?')) {
-                fetch(`/admin/submission/${id}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                        'Content-Type': 'application/json'
-                    }
-                }).then(response => {
-                    if (response.ok) {
-                        window.location.reload();
-                    }
-                });
-            }
-        }
-    </script>
-    @endpush
 </x-app-layout>

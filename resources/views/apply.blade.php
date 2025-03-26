@@ -35,6 +35,9 @@
 
     <!-- Add meta tag for CSRF token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9764183583019968"
+     crossorigin="anonymous"></script>
 </head>
 <body class="bg-gray-50 min-h-screen">
     <header class="header">

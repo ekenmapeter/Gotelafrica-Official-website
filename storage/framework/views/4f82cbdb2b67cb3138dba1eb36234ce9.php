@@ -10,7 +10,7 @@
     <div class="flex flex-col px-4 py-8 mb-44">
         <!-- Header Section -->
         <div class="max-w-7xl mx-auto w-full mb-8">
-            <div class="flex justify-between items-center mb-6">
+            <div class="lg:flex grid grid-cols-1 md:grid-cols-2 mt-4 justify-between items-center mb-6">
                 <div class="flex items-center gap-4">
                     <a href="<?php echo e(route('administrator')); ?>" class="bg-black text-white font-bold py-2 px-4 rounded hover:bg-gray-800">
                         <div class="flex items-center gap-2">
@@ -22,7 +22,7 @@
                     </a>
                     <h1 class="text-white text-2xl font-bold">Contest Management</h1>
                 </div>
-                <div class="flex gap-4">
+                <div class="flex gap-4 mt-4">
                     <div class="bg-blue-500 p-4 rounded-lg text-white text-center">
                         <div class="text-2xl font-bold"><?php echo e($submissions->total()); ?></div>
                         <div class="text-sm">Total Submissions</div>
@@ -75,34 +75,35 @@
 
             <!-- Main Table -->
             <div class="bg-white rounded-lg shadow overflow-hidden">
+                <div class="overflow-x-auto">
                 <table class="w-full text-sm text-left text-gray-500">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                         <tr>
-                            <th scope="col" class="px-6 py-3">Name</th>
-                            <th scope="col" class="px-6 py-3">Email</th>
-                            <th scope="col" class="px-6 py-3">Phone</th>
-                            <th scope="col" class="px-6 py-3">Status</th>
-                            <th scope="col" class="px-6 py-3">Votes</th>
-                            <th scope="col" class="px-6 py-3">Submitted</th>
-                            <th scope="col" class="px-6 py-3">Action</th>
+                                <th scope="col" class="px-4 py-3">Name</th>
+                                <th scope="col" class="px-4 py-3 hidden md:table-cell">Email</th>
+                                <th scope="col" class="px-4 py-3 hidden md:table-cell">Phone</th>
+                                <th scope="col" class="px-4 py-3">Status</th>
+                                <th scope="col" class="px-4 py-3 hidden md:table-cell">Votes</th>
+                                <th scope="col" class="px-4 py-3 hidden md:table-cell">Submitted</th>
+                                <th scope="col" class="px-4 py-3">Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php $__empty_1 = true; $__currentLoopData = $submissions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $submission): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                             <tr class="bg-white border-b hover:bg-gray-50">
-                                <td class="px-6 py-4 font-medium text-gray-900">
+                                    <td class="px-4 py-3 font-medium text-gray-900">
                                     <?php echo e($submission->full_name); ?>
 
                                 </td>
-                                <td class="px-6 py-4"><?php echo e($submission->email); ?></td>
-                                <td class="px-6 py-4"><?php echo e($submission->user->phone); ?></td>
-                                <td class="px-6 py-4">
+                                    <td class="px-4 py-3 hidden md:table-cell"><?php echo e($submission->email); ?></td>
+                                    <td class="px-4 py-3 hidden md:table-cell"><?php echo e($submission->user->phone); ?></td>
+                                    <td class="px-4 py-3">
                                     <span class="px-2 py-1 rounded-full text-xs font-semibold <?php echo e($submission->is_approved ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'); ?>">
                                         <?php echo e($submission->is_approved ? 'Approved' : 'Pending'); ?>
 
                                     </span>
                                 </td>
-                                <td class="px-6 py-4">
+                                    <td class="px-4 py-3 hidden md:table-cell">
                                     <div class="flex items-center gap-2">
                                         <span class="font-medium">
                                             <?php if($submission->user && $submission->user->contestEntries): ?>
@@ -117,11 +118,11 @@
                                         </svg>
                                     </div>
                                 </td>
-                                <td class="px-6 py-4">
+                                    <td class="px-4 py-3 hidden md:table-cell">
                                     <?php echo e($submission->created_at->format('M d, Y H:i')); ?>
 
                                 </td>
-                                <td class="px-6 py-4">
+                                    <td class="px-4 py-3">
                                     <div class="flex gap-2">
                                     <?php if(!$submission->is_approved): ?>
                                             <button onclick="approveSubmission(<?php echo e($submission->id); ?>)"
@@ -129,14 +130,21 @@
                                                 Approve
                                             </button>
                                     <?php endif; ?>
-                                        <button onclick="viewDetails(<?php echo e($submission->id); ?>)"
-                                                class="bg-blue-500 text-white text-sm px-3 py-1 rounded-lg hover:bg-blue-600">
-                                            View
-                                        </button>
-                                        <button onclick="deleteSubmission(<?php echo e($submission->id); ?>)"
-                                                class="bg-red-500 text-white text-sm px-3 py-1 rounded-lg hover:bg-red-600">
-                                            Delete
-                                                            </button>
+                                            <a href="<?php echo e(route('admin.submission.show', $submission->id)); ?>"
+                                               class="bg-blue-500 text-white text-sm px-3 py-1 rounded-lg hover:bg-blue-600">
+                                                View
+                                            </a>
+                                            <form action="<?php echo e(route('delete.submission', $submission->id)); ?>"
+                                                  method="POST"
+                                                  class="inline"
+                                                  onsubmit="return confirm('Are you sure you want to delete this submission?')">
+                                                <?php echo csrf_field(); ?>
+                                                <?php echo method_field('DELETE'); ?>
+                                                <button type="submit"
+                                                        class="bg-red-500 text-white text-sm px-3 py-1 rounded-lg hover:bg-red-600">
+                                                    Delete
+                                                </button>
+                                            </form>
                                     </div>
                                 </td>
                             </tr>
@@ -149,6 +157,7 @@
                         <?php endif; ?>
                     </tbody>
                 </table>
+                </div>
 
                 <!-- Pagination -->
                 <div class="px-6 py-4 bg-gray-50">
@@ -158,45 +167,6 @@
             </div>
         </div>
     </div>
-
-    <!-- View Modal (Keep your existing modal code) -->
-    <!-- ... existing modal code ... -->
-
-    <?php $__env->startPush('scripts'); ?>
-    <script>
-        function approveSubmission(id) {
-            if (confirm('Are you sure you want to approve this submission?')) {
-                fetch(`/admin/submission/${id}/approve`, {
-                    method: 'PATCH',
-                    headers: {
-                        'X-CSRF-TOKEN': '<?php echo e(csrf_token()); ?>',
-                        'Content-Type': 'application/json'
-                    }
-                }).then(response => {
-                    if (response.ok) {
-                        window.location.reload();
-                    }
-                });
-            }
-        }
-
-        function deleteSubmission(id) {
-            if (confirm('Are you sure you want to delete this submission?')) {
-                fetch(`/admin/submission/${id}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'X-CSRF-TOKEN': '<?php echo e(csrf_token()); ?>',
-                        'Content-Type': 'application/json'
-                    }
-                }).then(response => {
-                    if (response.ok) {
-                        window.location.reload();
-                    }
-                });
-            }
-        }
-    </script>
-    <?php $__env->stopPush(); ?>
  <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginal9ac128a9029c0e4701924bd2d73d7f54)): ?>

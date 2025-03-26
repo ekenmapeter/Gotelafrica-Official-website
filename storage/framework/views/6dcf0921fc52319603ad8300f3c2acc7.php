@@ -70,17 +70,12 @@
                 <h1 class="text-4xl md:text-6xl font-bold mb-4 drop-shadow-lg animate-fade-in">
                     Become Miss or Master<br>Gotelafrica 2025
                 </h1>
-                <p class="text-lg text-white font-extrabold md:text-xl mb-8 drop-shadow max-w-2xl mx-auto">
-                    Enter the Gotelafrica Creative Contest and showcase your artistic skills! Download the Bull image and create something unique and amazing using your own creativity.
-                </p>
+
 
                 <!-- Button Group -->
                 <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
 
-                    <a href="<?php echo e(route('login')); ?>"
-                       class="bg-white text-black font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-gray-100 transition-all duration-300 transform hover:scale-105">
-                        Take Shot
-                    </a>
+
                      <a href="<?php echo e(route('apply')); ?>"
                        class="bg-yellow-500 text-black font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-yellow-600 transition-all duration-300 transform hover:scale-105">
                         Submit Your Entry
@@ -98,7 +93,7 @@
     <section class="bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 py-20 text-center">
         <div class="max-w-6xl mx-auto px-4">
             <h2 class="text-4xl font-bold text-white mb-4">Take Your Shot at Glory!</h2>
-            <p class="text-xl text-yellow-400 mb-12">Share your creation and collect votes to win big</p>
+            <p class="text-xl text-yellow-400 mb-12">Share your Best Outfit and collect votes to win Big</p>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
                 <!-- First Prize -->

@@ -64,7 +64,7 @@
         <div class="content">
             <p style="font-size: 18px;">Dear <strong>{{ $submission->full_name }}</strong>,</p>
 
-            <p>We're excited to have received your submission for the Gotelafrica Creative Contest! Your creative journey with us has officially begun. 🚀</p>
+            <p>We're excited to have received your submission for the Gotelafrica Make it Beauty Contest! Your creative journey with us has officially begun. 🚀</p>
 
             <div class="submission-details">
                 <h2 style="color: #FFD700; margin-top: 0;">Submission Details</h2>
@@ -75,7 +75,8 @@
             <p>What happens next?</p>
             <ul style="list-style-type: none; padding-left: 0;">
                 <li>✅ Our team will review your submission</li>
-                <li>✅ Winners will be reviewed on June 11, 2025</li>
+                <li>✅ Winners will be reviewed on June 11th, 2025</li>
+                <li>✅ Add price giving Day: June 12th, 2025</li>
                 <li>✅ Stay tuned for updates via email</li>
             </ul>
 

@@ -12,6 +12,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>->
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9764183583019968"
+     crossorigin="anonymous"></script>
 </head>
 <body class="bg-green-400 mb-44">
     <nav class="fixed w-full z-20 top-0 start-0 bg-black">

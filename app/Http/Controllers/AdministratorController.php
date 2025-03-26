@@ -408,6 +408,15 @@ public function WithdrawRequest()
         return redirect()->back();
 }
 
-
+public function getSubmissionDetails($id)
+{
+    try {
+        $submission = Submission::with(['user', 'user.contestEntries'])->findOrFail($id);
+        return view('admin.submission-details', compact('submission'));
+    } catch (\Exception $e) {
+        toast('Failed to fetch submission details', 'error');
+        return redirect()->back();
+    }
+}
 
 }

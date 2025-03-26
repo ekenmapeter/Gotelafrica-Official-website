@@ -15,6 +15,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>
         <script src="https://cdn.tailwindcss.com"></script>
 
+        <!-- Google Ads -->
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9764183583019968"
+        crossorigin="anonymous"></script>
     </head>
     <body class="bg-green-400">
         @include('sweetalert::alert')
