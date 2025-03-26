@@ -86,12 +86,7 @@
                             </form>
                         @endif
 
-                        <!-- Add Share Button -->
-                        <button onclick="copyShareLink(this)"
-                                class="bg-indigo-500 text-white px-6 py-2 rounded-lg hover:bg-indigo-600"
-                                data-share-url="{{ route('contest.vote', ['shareToken' => $submission->share_token]) }}">
-                            Share Entry
-                        </button>
+                    
 
                         <form action="{{ route('delete.submission', $submission->id) }}"
                               method="POST"
