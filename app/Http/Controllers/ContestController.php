@@ -17,7 +17,7 @@ class ContestController extends Controller
     public function dashboard()
     {
         $userSubmission = auth()->user()->submission;
-        $contestEntries = ContestEntry::where(user_id, Auth::user()->id)->first();
+        $contestEntries = ContestEntry::where('user_id', Auth::user()->id)->first();
 
         if (!$userSubmission) {
             Alert::warning('Payment Required', 'Please submit your payment proof to participate in the contest.');
