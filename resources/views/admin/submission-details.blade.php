@@ -85,6 +85,14 @@
                                 </button>
                             </form>
                         @endif
+
+                        <!-- Add Share Button -->
+                        <button onclick="copyShareLink(this)"
+                                class="bg-indigo-500 text-white px-6 py-2 rounded-lg hover:bg-indigo-600"
+                                data-share-url="{{ route('contest.vote', ['shareToken' => $submission->share_token]) }}">
+                            Share Entry
+                        </button>
+
                         <form action="{{ route('delete.submission', $submission->id) }}"
                               method="POST"
                               onsubmit="return confirm('Are you sure you want to delete this submission? This action cannot be undone.')">
@@ -117,6 +125,22 @@
                     }
                 });
             }
+        }
+
+        function copyShareLink(button) {
+            const shareUrl = button.dataset.shareUrl;
+            navigator.clipboard.writeText(shareUrl).then(() => {
+                alert('Share link copied to clipboard!');
+            }).catch(() => {
+                // Fallback for browsers that don't support clipboard API
+                const tempInput = document.createElement('input');
+                tempInput.value = shareUrl;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempInput);
+                alert('Share link copied to clipboard!');
+            });
         }
     </script>
     @endpush

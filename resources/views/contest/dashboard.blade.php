@@ -134,13 +134,19 @@
                 <div class="bg-white rounded-lg shadow-lg p-6">
                     <h2 class="text-2xl font-semibold mb-6">Contest Entries</h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        @forelse ($contestEntries ?? [] as $entry)
+                        @forelse ($contestEntries as $entry)
                             <div class="bg-gray-50 rounded-lg overflow-hidden shadow">
                                 <div class="aspect-w-16 aspect-h-9">
-                                    <video class="w-full h-full object-cover" controls>
-                                        <source src="{{ $entry->video_url }}" type="video/mp4">
-                                        Your browser does not support the video tag.
-                                    </video>
+                                    @if($entry->video_url)
+                                        <video class="w-full h-full object-cover" controls>
+                                            <source src="{{ $entry->video_url }}" type="video/mp4">
+                                            Your browser does not support the video tag.
+                                        </video>
+                                    @else
+                                        <div class="w-full h-full flex items-center justify-center bg-gray-200">
+                                            <span class="text-gray-500">No video available</span>
+                                        </div>
+                                    @endif
                                 </div>
                                 <div class="p-4">
                                     <h3 class="text-lg font-semibold">{{ $entry->title }}</h3>
