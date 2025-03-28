@@ -3,7 +3,12 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 <div class="p-6">
-                    <h2 class="text-2xl font-bold mb-4">{{ $entry->title }}</h2>
+                    <div class="flex justify-between items-start mb-4">
+                        <h2 class="text-2xl font-bold">{{ $entry->title }}</h2>
+                        <a href="{{ route('creative.contest') }}" class="inline-flex items-center px-4 py-2 bg-gray-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:outline-none focus:border-gray-700 focus:ring focus:ring-gray-200 active:bg-gray-600 disabled:opacity-25 transition">
+                            Back to Contest
+                        </a>
+                    </div>
 
                     <div class="aspect-w-16 aspect-h-9 mb-4">
                         <video class="w-full h-full object-cover" controls>
