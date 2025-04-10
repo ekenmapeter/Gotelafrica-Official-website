@@ -11,8 +11,8 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
         <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.css" rel="stylesheet" />
-<script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>
         <script src="https://cdn.tailwindcss.com"></script>
 
         <!-- Google Ads -->
@@ -28,15 +28,16 @@
                 <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
                     <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
                         <img src="/images/logo.jpeg" class="h-8" alt="<?php echo e(config('app.name', 'Gotelafrica')); ?>" />
-                        <span class="self-center text-1xl font-semibold whitespace-nowrap text-white"><?php echo e(config('app.name', 'Gotelafrica')); ?></span>
+                        <span class="self-center text-sm font-semibold whitespace-nowrap text-white"><?php echo e(config('app.name', 'Gotelafrica')); ?></span>
                     </a>
                     <div class="flex gap-2 md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-                        <?php if(auth()->guard()->guest()): ?> <?php if(Route::has('register')): ?>
-                        <a href="<?php echo e(route('register')); ?>" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-2 text-center">Register</a>
-                        <?php endif; ?>
-                        <a href="<?php echo e(route('login')); ?>" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center">Login</a>
+                        <?php if(auth()->guard()->guest()): ?> 
+                            <?php if(Route::has('register')): ?>
+                                <a href="<?php echo e(route('register')); ?>" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-2 text-center">Register</a>
+                            <?php endif; ?>
+                            <a href="<?php echo e(route('login')); ?>" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center">Login</a>
                         <?php else: ?>
-                        <a href="<?php echo e(url('/dashboard')); ?>" class="text-black bg-green-400 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-2 text-center">Dashboard</a>
+                            <a href="<?php echo e(url('/dashboard')); ?>" class="text-black bg-green-400 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-2 text-center">Dashboard</a>
                         <?php endif; ?>
 
                         <button
@@ -54,21 +55,22 @@
                     </div>
                     <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
                         <?php if(auth()->guard()->check()): ?>
-                        <ul class="flex flex-col p-4 md:p-0 mt-4 font-medium md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0">
-                            <li>
-                                <a href="/" class="block py-2 px-3 text-white" aria-current="page">Home</a>
-                            </li>
-                            <li>
-                                <a href="/" class="block py-2 px-3 text-white" aria-current="page">About Us</a>
-                            </li>
-                            <li>
-                                <a href="/contact" class="block py-2 px-3 text-white" aria-current="page">Contact Us</a>
-                            </li>
-                        </ul>
+                            <ul class="flex flex-col p-4 md:p-0 mt-4 font-medium md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0">
+                                <li>
+                                    <a href="/" class="block py-2 px-3 text-white" aria-current="page">Home</a>
+                                </li>
+                                <li>
+                                    <a href="/" class="block py-2 px-3 text-white" aria-current="page">About Us</a>
+                                </li>
+                                <li>
+                                    <a href="/contact" class="block py-2 px-3 text-white" aria-current="page">Contact Us</a>
+                                </li>
+                            </ul>
                         <?php endif; ?>
                     </div>
                 </div>
             </nav>
+
             <div class="w-full sm:max-w-md px-6 py-4 bg-black shadow-md overflow-hidden sm:rounded-lg mt-20 mb-28">
                 <?php echo e($slot); ?>
 
