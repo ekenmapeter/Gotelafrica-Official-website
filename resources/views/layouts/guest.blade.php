@@ -24,20 +24,20 @@
         @include('components.live_chat')
 
         <div class="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-dots-darker bg-center selection:text-white">
-            <nav class="fixed w-full z-20 top-0 start-0 bg-black">
+            <nav class="fixed w-full z-20 top-0 start-0 bg-black shadow-md">
                 <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
                     <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
                         <img src="/images/logo.jpeg" class="h-8" alt="{{ config('app.name', 'Gotelafrica') }}" />
-                        <span class="self-center text-sm font-semibold whitespace-nowrap text-white">{{ config('app.name', 'Gotelafrica') }}</span>
+                        <span class="self-center text-2xl font-semibold whitespace-nowrap text-white">Gotelafrica</span>
                     </a>
                     <div class="flex gap-2 md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
                         @guest 
                             @if (Route::has('register'))
-                                <a href="{{ route('register') }}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-2 text-center">Register</a>
+                                <a href="{{ route('register') }}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center transition duration-300 ease-in-out">Register</a>
                             @endif
-                            <a href="{{ route('login') }}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center">Login</a>
+                            <a href="{{ route('login') }}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center transition duration-300 ease-in-out">Login</a>
                         @else
-                            <a href="{{ url('/dashboard') }}" class="text-black bg-green-400 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-2 text-center">Dashboard</a>
+                            <a href="{{ url('/dashboard') }}" class="text-white bg-green-400 hover:bg-green-500 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2 text-center transition duration-300 ease-in-out">Dashboard</a>
                         @endguest
 
                         <button
@@ -57,13 +57,13 @@
                         @auth
                             <ul class="flex flex-col p-4 md:p-0 mt-4 font-medium md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0">
                                 <li>
-                                    <a href="/" class="block py-2 px-3 text-white" aria-current="page">Home</a>
+                                    <a href="/" class="block py-2 px-3 text-white hover:text-gray-300">Home</a>
                                 </li>
                                 <li>
-                                    <a href="/" class="block py-2 px-3 text-white" aria-current="page">About Us</a>
+                                    <a href="/" class="block py-2 px-3 text-white hover:text-gray-300">About Us</a>
                                 </li>
                                 <li>
-                                    <a href="/contact" class="block py-2 px-3 text-white" aria-current="page">Contact Us</a>
+                                    <a href="/contact" class="block py-2 px-3 text-white hover:text-gray-300">Contact Us</a>
                                 </li>
                             </ul>
                         @endauth
