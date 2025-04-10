@@ -24,27 +24,31 @@
         <?php echo $__env->make('components.live_chat', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
         <div class="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-dots-darker bg-center selection:text-white">
-            <nav class="fixed w-full z-20 top-0 start-0 bg-black">
-                <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-                    <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
-                        <img src="/images/logo.jpeg" class="h-8" alt="<?php echo e(config('app.name', 'Gotelafrica')); ?>" />
-                        <span class="self-center text-sm font-semibold whitespace-nowrap text-white"><?php echo e(config('app.name', 'Gotelafrica')); ?></span>
-                    </a>
-                    <div class="flex gap-2 md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-                        <?php if(auth()->guard()->guest()): ?> 
+            <nav class="fixed w-full z-20 top-0 start-0 bg-black border-b border-gray-600">
+                <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto px-4 py-3">
+                    <div class="flex items-center space-x-3 rtl:space-x-reverse">
+                        <a href="/" class="flex items-center">
+                            <img src="/images/logo.jpeg" class="h-8" alt="<?php echo e(config('app.name', 'Gotelafrica')); ?>" />
+                            <span class="self-center text-sm font-semibold whitespace-nowrap text-white ml-2"><?php echo e(config('app.name', 'Gotelafrica')); ?></span>
+                        </a>
+                    </div>
+
+                    <!-- Mobile menu button -->
+                    <div class="flex items-center gap-2 md:order-2">
+                        <?php if(auth()->guard()->guest()): ?>
                             <?php if(Route::has('register')): ?>
-                                <a href="<?php echo e(route('register')); ?>" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-2 text-center">Register</a>
+                                <a href="<?php echo e(route('register')); ?>" class="hidden md:block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2 text-center">Register</a>
                             <?php endif; ?>
-                            <a href="<?php echo e(route('login')); ?>" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center">Login</a>
+                            <a href="<?php echo e(route('login')); ?>" class="hidden md:block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center">Login</a>
                         <?php else: ?>
-                            <a href="<?php echo e(url('/dashboard')); ?>" class="text-black bg-green-400 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-2 text-center">Dashboard</a>
+                            <a href="<?php echo e(url('/dashboard')); ?>" class="hidden md:block text-black bg-green-400 hover:bg-green-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2 text-center">Dashboard</a>
                         <?php endif; ?>
 
                         <button
-                            data-collapse-toggle="navbar-sticky"
+                            id="mobile-menu-button"
                             type="button"
-                            class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
-                            aria-controls="navbar-sticky"
+                            class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-400 rounded-lg md:hidden hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-600"
+                            aria-controls="navbar-default"
                             aria-expanded="false"
                         >
                             <span class="sr-only">Open main menu</span>
@@ -53,20 +57,54 @@
                             </svg>
                         </button>
                     </div>
-                    <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
-                        <?php if(auth()->guard()->check()): ?>
-                            <ul class="flex flex-col p-4 md:p-0 mt-4 font-medium md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0">
-                                <li>
-                                    <a href="/" class="block py-2 px-3 text-white" aria-current="page">Home</a>
-                                </li>
-                                <li>
-                                    <a href="/" class="block py-2 px-3 text-white" aria-current="page">About Us</a>
-                                </li>
-                                <li>
-                                    <a href="/contact" class="block py-2 px-3 text-white" aria-current="page">Contact Us</a>
-                                </li>
-                            </ul>
-                        <?php endif; ?>
+
+                    <!-- Desktop menu -->
+                    <div class="hidden w-full md:flex md:w-auto md:order-1" id="navbar-default">
+                        <ul class="flex flex-col p-4 md:p-0 mt-4 font-medium md:flex-row md:space-x-8 md:mt-0 md:border-0">
+                            <?php if(auth()->guard()->check()): ?>
+                            <li>
+                                <a href="/" class="block py-2 px-3 text-white rounded hover:bg-gray-800 md:hover:bg-transparent md:border-0 md:hover:text-green-400 md:p-0">Home</a>
+                            </li>
+                            <li>
+                                <a href="/about" class="block py-2 px-3 text-white rounded hover:bg-gray-800 md:hover:bg-transparent md:border-0 md:hover:text-green-400 md:p-0">About Us</a>
+                            </li>
+                            <li>
+                                <a href="/contact" class="block py-2 px-3 text-white rounded hover:bg-gray-800 md:hover:bg-transparent md:border-0 md:hover:text-green-400 md:p-0">Contact Us</a>
+                            </li>
+                            <?php endif; ?>
+                        </ul>
+                    </div>
+
+                    <!-- Mobile menu (hidden by default) -->
+                    <div class="hidden w-full md:hidden md:w-auto" id="mobile-menu">
+                        <ul class="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-700 rounded-lg bg-gray-800 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-transparent">
+                            <?php if(auth()->guard()->check()): ?>
+                            <li>
+                                <a href="/" class="block py-2 px-3 text-white rounded hover:bg-gray-700 md:hover:bg-transparent md:border-0 md:hover:text-green-400 md:p-0">Home</a>
+                            </li>
+                            <li>
+                                <a href="/about" class="block py-2 px-3 text-white rounded hover:bg-gray-700 md:hover:bg-transparent md:border-0 md:hover:text-green-400 md:p-0">About Us</a>
+                            </li>
+                            <li>
+                                <a href="/contact" class="block py-2 px-3 text-white rounded hover:bg-gray-700 md:hover:bg-transparent md:border-0 md:hover:text-green-400 md:p-0">Contact Us</a>
+                            </li>
+                            <?php endif; ?>
+
+                            <?php if(auth()->guard()->guest()): ?>
+                            <li class="border-t border-gray-700 pt-2 mt-2">
+                                <?php if(Route::has('register')): ?>
+                                    <a href="<?php echo e(route('register')); ?>" class="block py-2 px-3 text-white bg-blue-700 rounded hover:bg-blue-800 text-center">Register</a>
+                                <?php endif; ?>
+                            </li>
+                            <li>
+                                <a href="<?php echo e(route('login')); ?>" class="block py-2 px-3 text-white bg-blue-700 rounded hover:bg-blue-800 text-center mt-2">Login</a>
+                            </li>
+                            <?php else: ?>
+                            <li class="border-t border-gray-700 pt-2 mt-2">
+                                <a href="<?php echo e(url('/dashboard')); ?>" class="block py-2 px-3 text-black bg-green-400 rounded hover:bg-green-500 text-center">Dashboard</a>
+                            </li>
+                            <?php endif; ?>
+                        </ul>
                     </div>
                 </div>
             </nav>
@@ -77,6 +115,35 @@
             </div>
         </div>
         <?php echo $__env->make('components.bottom-navbar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const mobileMenuButton = document.getElementById('mobile-menu-button');
+                const mobileMenu = document.getElementById('mobile-menu');
+
+                mobileMenuButton.addEventListener('click', function() {
+                    const isExpanded = this.getAttribute('aria-expanded') === 'true';
+                    this.setAttribute('aria-expanded', !isExpanded);
+                    mobileMenu.classList.toggle('hidden');
+
+                    // Toggle icon
+                    if (!isExpanded) {
+                        this.innerHTML = `
+                            <span class="sr-only">Close menu</span>
+                            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        `;
+                    } else {
+                        this.innerHTML = `
+                            <span class="sr-only">Open menu</span>
+                            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15" />
+                            </svg>
+                        `;
+                    }
+                });
+            });
+        </script>
     </body>
-</html>
-<?php /**PATH C:\xampp\htdocs\Gotelafrica-Official-website\resources\views/layouts/guest.blade.php ENDPATH**/ ?>
+</html><?php /**PATH C:\xampp\htdocs\Gotelafrica-Official-website\resources\views/layouts/guest.blade.php ENDPATH**/ ?>
