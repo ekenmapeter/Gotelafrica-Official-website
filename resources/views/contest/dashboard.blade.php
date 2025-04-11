@@ -82,7 +82,7 @@
                                 </div>
                             </div>
                         @else
-                            <form action="{{ route('contest.upload') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
+                            <form id="uploadForm" action="{{ route('contest.upload') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
                                 @csrf
                                 <div>
                                     <label for="title" class="block text-sm font-medium text-gray-700">Video Title</label>
@@ -95,8 +95,19 @@
                                 <div>
                                     <label for="video" class="block text-sm font-medium text-gray-700">Upload Your Video</label>
                                     <input type="file" name="video" id="video" accept="video/*" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
+
+                                    <!-- Progress Bar Container -->
+                                    <div id="progressContainer" class="hidden mt-4">
+                                        <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                            <div id="progressBar" class="bg-indigo-600 h-2.5 rounded-full" style="width: 0%"></div>
+                                        </div>
+                                        <div class="flex justify-between mt-1">
+                                            <span id="progressText" class="text-sm text-gray-500">0%</span>
+                                            <span id="uploadSpeed" class="text-sm text-gray-500">0 MB/s</span>
+                                        </div>
+                                    </div>
                                 </div>
-                                <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                <button type="submit" id="submitButton" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                     Submit Entry
                                 </button>
                             </form>
@@ -207,4 +218,65 @@ function copyShareLink(button) {
         alert('Failed to copy link. Please try again.');
     });
 }
+
+// Add this script section at the bottom of your form
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    document.getElementById('uploadForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const form = this;
+        const formData = new FormData(form);
+        const submitButton = document.getElementById('submitButton');
+        const progressContainer = document.getElementById('progressContainer');
+        const progressBar = document.getElementById('progressBar');
+        const progressText = document.getElementById('progressText');
+        const uploadSpeed = document.getElementById('uploadSpeed');
+
+        // Show progress bar
+        progressContainer.classList.remove('hidden');
+        submitButton.disabled = true;
+        submitButton.classList.add('opacity-50');
+
+        let startTime = Date.now();
+        let lastLoaded = 0;
+
+        axios.post(form.action, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+            },
+            onUploadProgress: function(progressEvent) {
+                const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+                progressBar.style.width = percentCompleted + '%';
+                progressText.textContent = percentCompleted + '%';
+
+                // Calculate upload speed
+                const currentTime = Date.now();
+                const timeElapsed = (currentTime - startTime) / 1000; // in seconds
+                const uploadedBytes = progressEvent.loaded - lastLoaded;
+                const speed = (uploadedBytes / timeElapsed) / (1024 * 1024); // MB/s
+
+                uploadSpeed.textContent = speed.toFixed(2) + ' MB/s';
+
+                // Reset for next calculation
+                startTime = currentTime;
+                lastLoaded = progressEvent.loaded;
+            }
+        })
+        .then(function(response) {
+            if (response.data.redirect) {
+                window.location.href = response.data.redirect;
+            } else {
+                window.location.reload();
+            }
+        })
+        .catch(function(error) {
+            console.error('Upload error:', error);
+            alert('Error uploading video. Please try again.');
+            submitButton.disabled = false;
+            submitButton.classList.remove('opacity-50');
+            progressContainer.classList.add('hidden');
+        });
+    });
 </script>

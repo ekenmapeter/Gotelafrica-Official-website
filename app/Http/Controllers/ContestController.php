@@ -12,6 +12,7 @@ use App\Notifications\PaymentApproved;
 use Illuminate\Support\Facades\Notification;
 use App\Models\Vote;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class ContestController extends Controller
 {
@@ -44,16 +45,20 @@ class ContestController extends Controller
             // Check if user is approved
             if (!$userSubmission || !$userSubmission->is_approved) {
                 \Log::warning('Upload Attempt - User not approved', ['user_id' => auth()->id()]);
-                Alert::error('Access Denied', 'Your payment must be approved before you can upload videos.');
-                return redirect()->route('contest.dashboard');
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Your payment must be approved before you can upload videos.'
+                ], 403);
             }
 
             // Check if user already has an entry
             $existingEntry = ContestEntry::where('user_id', auth()->id())->first();
             if ($existingEntry) {
                 \Log::warning('Upload Attempt - User already has entry', ['user_id' => auth()->id()]);
-                Alert::error('Upload Denied', 'You have already submitted a video entry.');
-                return redirect()->route('contest.dashboard');
+                return response()->json([
+                    'success' => false,
+                    'message' => 'You have already submitted a video entry.'
+                ], 403);
             }
 
             $request->validate([
@@ -81,23 +86,31 @@ class ContestController extends Controller
             // Generate share token after creation
             $entry->generateShareToken();
 
-            Alert::success('Success', 'Your video has been uploaded successfully!');
-            return redirect()->route('contest.dashboard');
+            return response()->json([
+                'success' => true,
+                'message' => 'Your video has been uploaded successfully!',
+                'redirect' => route('contest.dashboard')
+            ]);
+
         } catch (\Illuminate\Http\Exceptions\PostTooLargeException $e) {
             \Log::error('PostTooLargeException', [
                 'error' => $e->getMessage(),
                 'max_upload_size' => ini_get('upload_max_filesize'),
                 'post_max_size' => ini_get('post_max_size')
             ]);
-            Alert::error('Error', 'The uploaded file is too large. Maximum allowed size is ' . ini_get('upload_max_filesize'));
-            return back();
+            return response()->json([
+                'success' => false,
+                'message' => 'The uploaded file is too large. Maximum allowed size is ' . ini_get('upload_max_filesize')
+            ], 413);
         } catch (\Exception $e) {
             \Log::error('Video Upload Error', [
                 'error' => $e->getMessage(),
                 'trace' => $e->getTraceAsString()
             ]);
-            Alert::error('Error', 'Something went wrong while uploading your video.');
-            return back();
+            return response()->json([
+                'success' => false,
+                'message' => 'Something went wrong while uploading your video.'
+            ], 500);
         }
     }
 
