@@ -66,9 +66,6 @@
                                 <a href="/" class="block py-2 px-3 text-white rounded hover:bg-gray-800 md:hover:bg-transparent md:border-0 md:hover:text-green-400 md:p-0">Home</a>
                             </li>
                             <li>
-                                <a href="/about" class="block py-2 px-3 text-white rounded hover:bg-gray-800 md:hover:bg-transparent md:border-0 md:hover:text-green-400 md:p-0">About Us</a>
-                            </li>
-                            <li>
                                 <a href="/contact" class="block py-2 px-3 text-white rounded hover:bg-gray-800 md:hover:bg-transparent md:border-0 md:hover:text-green-400 md:p-0">Contact Us</a>
                             </li>
                             <?php endif; ?>
@@ -81,9 +78,6 @@
                             <?php if(auth()->guard()->check()): ?>
                             <li>
                                 <a href="/" class="block py-2 px-3 text-white rounded hover:bg-gray-700 md:hover:bg-transparent md:border-0 md:hover:text-green-400 md:p-0">Home</a>
-                            </li>
-                            <li>
-                                <a href="/about" class="block py-2 px-3 text-white rounded hover:bg-gray-700 md:hover:bg-transparent md:border-0 md:hover:text-green-400 md:p-0">About Us</a>
                             </li>
                             <li>
                                 <a href="/contact" class="block py-2 px-3 text-white rounded hover:bg-gray-700 md:hover:bg-transparent md:border-0 md:hover:text-green-400 md:p-0">Contact Us</a>

@@ -20,6 +20,8 @@ use App\Models\RechargeTransaction;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -260,4 +262,70 @@ class UserController extends Controller
     Auth::logout();
     return redirect('/login'); // Redirect to the login page or any other page you prefer
 }
+
+    public function sendOTP(Request $request)
+    {
+        try {
+            // Generate a 6-digit OTP
+            $otp = str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
+
+            // Store OTP in session for verification
+            session(['withdrawal_otp' => $otp]);
+            session(['otp_created_at' => now()]);
+
+            // Get the authenticated user
+            $user = auth()->user();
+
+            // Send OTP via email
+            \Mail::to($user->email)->send(new \App\Mail\OTPMail($user, $otp));
+
+            return response()->json([
+                'message' => 'OTP sent successfully',
+                'otp' => $otp // Remove this in production
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('OTP Send Error: ' . $e->getMessage());
+            return response()->json([
+                'message' => 'Failed to send OTP: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function storeWithdrawalPassword(Request $request)
+    {
+        $request->validate([
+            'password' => 'required|string|min:6',
+            'confirm_password' => 'required|same:password',
+            'otp' => 'required|string',
+        ]);
+
+        // Verify OTP
+        $stored_otp = session('withdrawal_otp');
+        $otp_created_at = session('otp_created_at');
+
+        if (!$stored_otp || !$otp_created_at) {
+            return redirect()->back()->with('error', 'Please request a new OTP');
+        }
+
+        // Check if OTP is expired (15 minutes validity)
+        if (now()->diffInMinutes($otp_created_at) > 15) {
+            session()->forget(['withdrawal_otp', 'otp_created_at']);
+            return redirect()->back()->with('error', 'OTP has expired. Please request a new one');
+        }
+
+        // Verify OTP
+        if ($request->otp !== $stored_otp) {
+            return redirect()->back()->with('error', 'Invalid OTP');
+        }
+
+        // Clear OTP from session after successful verification
+        session()->forget(['withdrawal_otp', 'otp_created_at']);
+
+        // Update user's withdrawal password
+        $user = auth()->user();
+        $user->withdrawal_password = bcrypt($request->password);
+        $user->save();
+
+        return redirect()->back()->with('success', 'Withdrawal password set successfully');
+    }
 }

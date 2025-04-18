@@ -83,6 +83,8 @@ Route::middleware(['auth', 'roles:2'])->group(function()
     Route::get('mybankaccount', [UserController::class, 'mybankaccount'])->middleware(['auth', 'verified'])->name('mybankaccount');
     Route::get('resetpassword', [UserController::class, 'resetPasswordShow'])->middleware(['auth', 'verified'])->name('resetpassword');
     Route::get('withdrawpassword', [UserController::class, 'withdrawpassword'])->middleware(['auth', 'verified'])->name('withdrawpassword');
+    Route::post('withdrawal-password', [UserController::class, 'storeWithdrawalPassword'])->middleware(['auth', 'verified'])->name('withdrawal.password.store');
+    Route::post('send-otp', [UserController::class, 'sendOTP'])->middleware(['auth', 'verified'])->name('send.otp');
     Route::get('customerservice', [UserController::class, 'customerservice'])->middleware(['auth', 'verified'])->name('customerservice');
     Route::get('transaction', [UserController::class, 'transaction'])->middleware(['auth', 'verified'])->name('transaction');
     Route::get('recharge', [UserController::class, 'recharge'])->middleware(['auth', 'verified'])->name('recharge');

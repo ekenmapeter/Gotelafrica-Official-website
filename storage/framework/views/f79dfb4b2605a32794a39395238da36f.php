@@ -1,35 +1,43 @@
-<x-app-layout>
+<?php if (isset($component)) { $__componentOriginal9ac128a9029c0e4701924bd2d73d7f54 = $component; } ?>
+<?php $component = App\View\Components\AppLayout::resolve([] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component->withName('app-layout'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(App\View\Components\AppLayout::class))->getConstructor()): ?>
+<?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
+<?php endif; ?>
+<?php $component->withAttributes([]); ?>
     <div class="flex flex-col items-center justify-center px-2 py-8 mb-44">
         <div class="flex gap-8 py-4">
             <!-- Inside your Blade view file -->
-<a href="{{ url()->previous() }}" class=" bg-black text-white font-bold py-2 px-4 rounded">
+<a href="<?php echo e(url()->previous()); ?>" class=" bg-black text-white font-bold py-2 px-4 rounded">
     Back
 </a>
 <p class="text-white text-2xl font-bold">Set Withdrawal Password</p>
 
         </div>
         <div class="flex lg:w-1/2 w-full gap-4 items-center justify-center">
-            @if(session('error'))
+            <?php if(session('error')): ?>
                 <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4 w-full" role="alert">
-                    <span class="block sm:inline">{{ session('error') }}</span>
+                    <span class="block sm:inline"><?php echo e(session('error')); ?></span>
                 </div>
-            @endif
+            <?php endif; ?>
 
-            @if(session('success'))
+            <?php if(session('success')): ?>
                 <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4 w-full" role="alert">
-                    <span class="block sm:inline">{{ session('success') }}</span>
+                    <span class="block sm:inline"><?php echo e(session('success')); ?></span>
                 </div>
-            @endif
+            <?php endif; ?>
 
             <div class="w-full max-w-sm p-4 bg-black border border-gray-200 rounded-lg shadow sm:p-8">
 
 
-                <form class="flex flex-col" method="POST" action="{{ route('withdrawal.password.store') }}">
-                    @csrf
+                <form class="flex flex-col" method="POST" action="<?php echo e(route('withdrawal.password.store')); ?>">
+                    <?php echo csrf_field(); ?>
                     <div class="mb-2  flex flex-col">
                         <label for="email" class="text-white">Email</label>
-                        <input type="text" value="{{ Auth::user()->email }}" name="username" id="email"
-                            class="border border-gray-300 rounded px-2 py-1" placeholder="{{ Auth::user()->email }}" readonly>
+                        <input type="text" value="<?php echo e(Auth::user()->email); ?>" name="username" id="email"
+                            class="border border-gray-300 rounded px-2 py-1" placeholder="<?php echo e(Auth::user()->email); ?>" readonly>
                     </div>
                     <div class="mb-2  flex flex-col">
                         <label for="password" class="text-white">Password</label>
@@ -101,10 +109,10 @@
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'X-CSRF-TOKEN': '<?php echo e(csrf_token()); ?>',
                 },
                 body: JSON.stringify({
-                    email: '{{ Auth::user()->email }}',
+                    email: '<?php echo e(Auth::user()->email); ?>',
                 })
             })
             .then(response => response.json())
@@ -142,24 +150,30 @@
         }
 
         // Show session messages with SweetAlert2
-        @if(session('error'))
+        <?php if(session('error')): ?>
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
-                text: '{{ session('error') }}',
+                text: '<?php echo e(session('error')); ?>',
                 showConfirmButton: true
             });
-        @endif
+        <?php endif; ?>
 
-        @if(session('success'))
+        <?php if(session('success')): ?>
             Swal.fire({
                 icon: 'success',
                 title: 'Success',
-                text: '{{ session('success') }}',
+                text: '<?php echo e(session('success')); ?>',
                 timer: 3000,
                 showConfirmButton: false
             });
-        @endif
+        <?php endif; ?>
     </script>
 
-</x-app-layout>
+ <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal9ac128a9029c0e4701924bd2d73d7f54)): ?>
+<?php $component = $__componentOriginal9ac128a9029c0e4701924bd2d73d7f54; ?>
+<?php unset($__componentOriginal9ac128a9029c0e4701924bd2d73d7f54); ?>
+<?php endif; ?>
+<?php /**PATH C:\xampp\htdocs\Gotelafrica-Official-website\resources\views/withdrawpassword.blade.php ENDPATH**/ ?>

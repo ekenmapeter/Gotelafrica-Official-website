@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Farm App | Investment Platform</title>
+    <title>GotelAfrica</title>
 
 
             <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.css" rel="stylesheet" />
@@ -60,9 +60,6 @@
                                 <a href="/" class="block py-2 px-3 text-white" aria-current="page">Home</a>
                             </li>
                             <li>
-                                <a href="/" class="block py-2 px-3 text-white" aria-current="page">About Us</a>
-                            </li>
-                            <li>
                                 <a href="/" class="block py-2 px-3 text-white" aria-current="page">Contact Us</a>
                             </li>
                         </ul>
@@ -76,7 +73,7 @@
             <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
                 <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
                     <img src="" class="h-8" alt="Flowbite Logo" />
-                    <span class="self-center text-1xl font-semibold whitespace-nowrap">Farm App</span>
+                    <span class="self-center text-1xl font-semibold whitespace-nowrap">GotelAfrica</span>
                 </a>
                 <div class="flex gap-2 md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
                     @guest @if (Route::has('register'))

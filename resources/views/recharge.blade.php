@@ -18,9 +18,9 @@
     <form class="space-y-6" action="{{ route('rechargePayment') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div>
-            <p class="px-4 text-white font-extrabold">8129936100 -
-                GotelafricaEnterprises,
-                Moniepoint MFB</p>
+            <p class="px-4 text-white font-extrabold">1027475790 -
+                GOTELAFRICA COMPANY LIMITED,
+                UBA</p>
         </div>
         <div>
             <label for="amount" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Recharge Amount</label>
@@ -30,12 +30,13 @@
         <div class="mt-1 form-group">
             <label class="text-white">Choose amount</label>
             <div class="grid grid-cols-3 gap-2">
-                <button id="click" class="bg-green-400 px-2 py-2 text-white font-bold rounded-lg" data-item="4000">₦4,000</button>
-                <button id="click" type="button" class="bg-green-400 px-2 py-2 text-white font-bold rounded-lg" data-item="14000">₦14,000</button>
-                <button id="click" type="button" class="bg-green-400 px-2 py-2 text-white font-bold rounded-lg" data-item="35000">₦35,000</button>
-                <button id="click" type="button" class="bg-green-400 px-2 py-2 text-white font-bold rounded-lg" data-item="78000">₦78,000</button>
-                <button id="click" type="button" class="bg-green-400 px-2 py-2 text-white font-bold rounded-lg" data-item="125000">₦12,5000</button>
-                <button id="click" type="button" class="bg-green-400 px-2 py-2 text-white font-bold rounded-lg" data-item="188000">₦18,8000</button>
+                <button id="click" type="button" class="bg-green-400 px-2 py-2 text-white font-bold rounded-lg" data-item="25000">₦25,000</button>
+                <button id="click" type="button" class="bg-green-400 px-2 py-2 text-white font-bold rounded-lg" data-item="50000">₦50,000</button>
+                <button id="click" type="button" class="bg-green-400 px-2 py-2 text-white font-bold rounded-lg" data-item="100000">₦100,000</button>
+                <button id="click" type="button" class="bg-green-400 px-2 py-2 text-white font-bold rounded-lg" data-item="500000">₦500,000</button>
+                <button id="click" type="button" class="bg-green-400 px-2 py-2 text-white font-bold rounded-lg" data-item="1000000">₦1,000,000</button>
+                <button id="click" type="button" class="bg-green-400 px-2 py-2 text-white font-bold rounded-lg" data-item="5000000">₦5,000,000</button>
+                <button id="click" type="button" class="bg-green-400 px-2 py-2 text-white font-bold rounded-lg" data-item="10000000">₦10,000,000</button>
             </div>
         </div>
 

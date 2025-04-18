@@ -525,11 +525,11 @@
       array (
         'transport' => 'smtp',
         'url' => NULL,
-        'host' => 'mailpit',
-        'port' => '1025',
-        'encryption' => NULL,
-        'username' => NULL,
-        'password' => NULL,
+        'host' => 'sandbox.smtp.mailtrap.io',
+        'port' => '465',
+        'encryption' => 'tls',
+        'username' => 'b5764745cf29e1',
+        'password' => '1c7ac193d8fe6e',
         'timeout' => NULL,
         'local_domain' => NULL,
       ),
@@ -571,7 +571,7 @@
     ),
     'from' => 
     array (
-      'address' => 'hello@example.com',
+      'address' => 'noreply@gotelafrica.com',
       'name' => 'Gotelafrica',
     ),
     'markdown' => 
