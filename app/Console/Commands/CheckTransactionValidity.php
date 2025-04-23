@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Models\ProductTransaction;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class CheckTransactionValidity extends Command
 {
@@ -12,24 +13,16 @@ class CheckTransactionValidity extends Command
 
     protected $description = 'Check and update validity status of product transactions';
 
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function handle()
     {
-        $transactions = ProductTransaction::where('status', 1)->get();
+        // Get the current time once to avoid repeated calls
+        $currentTime = Carbon::now();
 
-        foreach ($transactions as $transaction) {
-            $currentTime = Carbon::now();
-            $validityPeriod = Carbon::parse($transaction->validity_period);
-            if ($currentTime->greaterThanOrEqualTo($validityPeriod)) {
-                $transaction->status = 0;
-                $transaction->save();
-            }
-        }
+        // Use a single query to update all expired transactions
+        $updatedCount = ProductTransaction::where('status', 1)
+            ->where('validity_period', '<=', $currentTime)
+            ->update(['status' => 0]);
 
-        $this->info('Product transaction validity status updated successfully.');
+        $this->info("Updated $updatedCount product transaction(s) to expired status.");
     }
 }

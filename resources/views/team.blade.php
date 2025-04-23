@@ -68,15 +68,7 @@ Back
             <li class="p-2 cursor-pointer rounded-t-md border-t border-l border-r -mb-2 bg-white active" tab-to="first">
                 A - Team
             </li>
-            <li class="p-2 cursor-pointer rounded-t-md   border-black border-t  border-r" tab-to="second">
-                B - Team
-            </li>
-            <li class="p-2 cursor-pointer rounded-t-md  border-black border-t border-r" tab-to="third">
-                C - Team
-            </li>
-            <li class="p-2 cursor-pointer rounded-t-md  border-black border-t border-r" tab-to="third">
-                D - Team
-            </li>
+
         </ul>
 
         <div id="tab-contents">
@@ -110,74 +102,6 @@ Back
                     <!-- Add Pagination Links -->
                     <div class="mt-4">
                         {{ $a_downlione->links() }}
-                    </div>
-                </div>
-
-            </div>
-            <div class="p-4 hidden" tab-id="second">
-                <div class="relative overflow-x-auto">
-                    <table class="w-full text-sm text-left rtl:text-right text-gray-500">
-                        <thead class="text-xs text-gray-700 uppercase bg-gray-50">
-                            <tr>
-                                <th scope="col" class="px-6 py-3">Phone</th>
-                                <th scope="col" class="px-6 py-3">Email</th>
-                                <th scope="col" class="px-6 py-3">Date</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($b_downlione as $data)
-                                <tr class="bg-white border-b hover:bg-gray-50">
-                                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">{{ $data->phone }}</td>
-                                    <td class="px-6 py-4">{{ $data->email }}</td>
-                                    <td class="px-6 py-4">{{ \Carbon\Carbon::parse($data->created_at)->format('g:i A') }}</td>
-                                </tr>
-                            @endforeach
-
-                            @if ($b_downlione->isEmpty())
-                                <!-- Display a row indicating no transactions found -->
-                                <tr class="bg-white border-b">
-                                    <td colspan="5" class="px-6 py-4 text-center text-gray-500">No Downline Found</td>
-                                </tr>
-                            @endif
-                        </tbody>
-                    </table>
-                    <!-- Add Pagination Links -->
-                    <div class="mt-4">
-                        {{ $b_downlione->links() }}
-                    </div>
-                </div>
-
-            </div>
-            <div class="p-4 hidden" tab-id="third">
-                <div class="relative overflow-x-auto">
-                    <table class="w-full text-sm text-left rtl:text-right text-gray-500">
-                        <thead class="text-xs text-gray-700 uppercase bg-gray-50">
-                            <tr>
-                                <th scope="col" class="px-6 py-3">Phone</th>
-                                <th scope="col" class="px-6 py-3">Email</th>
-                                <th scope="col" class="px-6 py-3">Date</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($c_downlione as $data)
-                                <tr class="bg-white border-b hover:bg-gray-50">
-                                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">{{ $data->phone }}</td>
-                                    <td class="px-6 py-4">{{ $data->email }}</td>
-                                    <td class="px-6 py-4">{{ \Carbon\Carbon::parse($data->created_at)->format('g:i A') }}</td>
-                                </tr>
-                            @endforeach
-
-                            @if ($c_downlione->isEmpty())
-                                <!-- Display a row indicating no transactions found -->
-                                <tr class="bg-white border-b">
-                                    <td colspan="5" class="px-6 py-4 text-center text-gray-500">No Downline Found</td>
-                                </tr>
-                            @endif
-                        </tbody>
-                    </table>
-                    <!-- Add Pagination Links -->
-                    <div class="mt-4">
-                        {{ $c_downlione->links() }}
                     </div>
                 </div>
 

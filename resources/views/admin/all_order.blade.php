@@ -1,67 +1,159 @@
 <x-app-layout>
-    <div class="flex flex-col items-center justify-center px-2 py-8 mb-44">
-        <div class="flex gap-8 py-4">
-            <!-- Inside your Blade view file -->
-            <a href="{{ route('administrator') }}" class=" bg-black text-white font-bold py-2 px-4 rounded">
-                Back
-            </a>
-            <p class="text-white text-2xl font-bold">All Ruuning Order</p>
-
-        </div>
-
-        <div class="flex flex-col w-1/2 gap-4 items-center justify-center">
-
-
-
-
-            <div class="relative overflow-x-auto">
-                <table class="w-full text-sm text-left rtl:text-right text-gray-500">
-                    <thead class="text-xs text-gray-700 uppercase bg-gray-50">
-                        <tr>
-                            <th scope="col" class="px-6 py-3">Name</th>
-                            <th scope="col" class="px-6 py-3">User</th>
-                            <th scope="col" class="px-6 py-3">Price</th>
-                            <th scope="col" class="px-6 py-3">Started</th>
-                            <th scope="col" class="px-6 py-3">Daily Income</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($running_product as $data)
-                            <tr class="bg-white border-b hover:bg-gray-50">
-                                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">{{ $data->name }}
-                                </td>
-                                <td class="px-6 py-4"><a
-                                        href="">{{ $data->user_id }}</a>
-                                </td>
-                                <td class="px-6 py-4">{{ $data->price }}</td>
-                                <td class="px-6 py-4">{{ \Carbon\Carbon::parse($data->created_at)->format('g:i A') }}
-                                </td>
-
-                                    <td class="px-6 py-4 flex gap-2">
-                                        {{ $data->daily_income }}
-                                    </td>
-
-                            </tr>
-                        @endforeach
-
-                        @if ($running_product->isEmpty())
-                            <!-- Display a row indicating no transactions found -->
-                            <tr class="bg-white border-b">
-                                <td colspan="5" class="px-6 py-4 text-center text-gray-500">No Order found</td>
-                            </tr>
-                        @endif
-
-                        <!-- Pagination Links -->
-                        <div class="mt-4">
-                            {{ $running_product->links() }}
-                        </div>
-                    </tbody>
-                </table>
-
+    <div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 px-4 py-8">
+        <div class="max-w-7xl mx-auto">
+            <!-- Header Section -->
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+                <div class="flex items-center gap-4">
+                    <a href="{{ route('administrator') }}" class="flex items-center gap-2 bg-white text-blue-600 font-medium py-2 px-4 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 border border-blue-100 hover:border-blue-200">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+                        </svg>
+                        Back to Dashboard
+                    </a>
+                    <h1 class="text-2xl font-bold text-gray-800">Running Orders</h1>
+                </div>
+                
+                <!-- Search Form -->
+                <form method="GET" action="{{ route('running-orders') }}" class="w-full md:w-auto">
+                    <div class="relative flex items-center">
+                        <input type="text" name="search" placeholder="Search orders..." 
+                               class="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm"
+                               value="{{ request('search') }}">
+                        <svg class="absolute left-3 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                </form>
             </div>
 
+            <!-- Stats Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-gray-500">Total Orders</p>
+                            <p class="text-xl font-bold text-gray-800">{{ $total_orders ?? 0 }}</p>
+                        </div>
+                        <div class="bg-blue-100 p-2 rounded-full">
+                            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-gray-500">Active Today</p>
+                            <p class="text-xl font-bold text-green-600">{{ $active_today ?? 0 }}</p>
+                        </div>
+                        <div class="bg-green-100 p-2 rounded-full">
+                            <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-gray-500">Daily Income</p>
+                            <p class="text-xl font-bold text-purple-600">₦{{ number_format($daily_income ?? 0, 2) }}</p>
+                        </div>
+                        <div class="bg-purple-100 p-2 rounded-full">
+                            <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-gray-500">Total Investment</p>
+                            <p class="text-xl font-bold text-amber-600">₦{{ number_format($total_investment ?? 0, 2) }}</p>
+                        </div>
+                        <div class="bg-amber-100 p-2 rounded-full">
+                            <svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
+            <!-- Orders Table -->
+            <div class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100">
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Investment</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Started</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Daily Income</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            @forelse ($running_product as $order)
+                            <tr class="hover:bg-gray-50 transition-colors duration-150">
+                                <td class="px-6 py-4">
+                                    <div class="text-sm font-medium text-gray-900">{{ $order->name }}</div>
+                                    <div class="text-sm text-gray-500">ID: {{ $order->id }}</div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center">
+                                        <div class="flex-shrink-0 h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
+                                            <span class="text-blue-600 font-medium">
+                                                {{ strtoupper(substr($order->user->name ?? 'U', 0, 1)) }}
+                                            </span>
+                                        </div>
+                                        <div class="ml-4">
+                                            <div class="text-sm font-medium text-gray-900">
+                                                {{ $order->user->name ?? 'Unknown' }}
+                                            </div>
+                                            <div class="text-sm text-gray-500">
+                                                ID: {{ $order->user_id }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900">
+                                    ₦{{ number_format($order->price, 2) }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">{{ $order->created_at->format('M d, Y') }}</div>
+                                    <div class="text-sm text-gray-500">{{ $order->created_at->diffForHumans() }}</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-green-600">
+                                    ₦{{ number_format($order->daily_income, 2) }}
+                                </td>
+                            </tr>
+                            @empty
+                            <tr>
+                                <td colspan="5" class="px-6 py-4 text-center text-sm text-gray-500">
+                                    No running orders found
+                                </td>
+                            </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Pagination -->
+                @if ($running_product->hasPages())
+                <div class="px-6 py-3 bg-gray-50 border-t border-gray-200">
+                    {{ $running_product->appends(request()->query())->links() }}
+                </div>
+                @endif
+            </div>
         </div>
-
+        <br>
+        <br>
+        <br>
     </div>
 </x-app-layout>

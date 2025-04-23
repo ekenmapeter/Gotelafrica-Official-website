@@ -11,6 +11,7 @@ use App\Models\Submission;
 use App\Models\User;
 use App\Models\Wallet;
 use App\Models\ContestEntry;
+use App\Models\Session;
 
 class User extends Authenticatable
 {
@@ -73,4 +74,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(ContestEntry::class);
     }
+
+    public function sessions()
+    {
+        return $this->hasMany(Session::class, 'user_id');
+    }
+
 }

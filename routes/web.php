@@ -71,6 +71,12 @@ Route::middleware(['auth', 'roles:1'])->group(function()
     Route::get('/admin/contest', [AdministratorController::class, 'contestant'])->name('admin.contest');
     Route::delete('/delete/submission/{id}', [AdministratorController::class, 'deleteSubmission'])->name('delete.submission');
 
+    Route::get('/reject/withdraw/{id}', [AdministratorController::class, 'rejectWithdraw'])->name('reject/withdraw');
+
+    Route::post('/admin/remove-funds', [AdministratorController::class, 'removeFunds'])->name('admin.remove-funds');
+
+    Route::get('/running-orders', [AdministratorController::class, 'allOrder'])->name('running-orders');
+
 });
 
 /*user Login Route */

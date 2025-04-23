@@ -156,29 +156,33 @@ class UserController extends Controller
     }
 
     public function rechargePaymentUpload(Request $request)
-{
-    if ($request->hasFile('payment_proof')) {
-        $file1 = $request->file('payment_proof');
+    {
+        // Check if a transaction already exists for this user
+        $existingTransaction = Transaction::where('user_id', Auth::id())->where('status', 0)->first();
+        if ($existingTransaction) {
+            toast('You can only upload once per transaction.', 'error');
+            return redirect()->back();
+        }
+
+        if ($request->hasFile('payment_proof')) {
+            $file1 = $request->file('payment_proof');
             $filename1 = Str::random(30) . "." . $request->file('payment_proof')->extension();
             $publicPath = public_path('payment_proof');
             $file1->move($publicPath, $filename1);
 
-        $transaction_create = Transaction::create([
-            'user_id' => Auth::id(),
-            'type' => 'Recharge',
-            'description' => 'Manual Recharge Payment',
-            'balance' => $request->amount,
-            'status' => 0,
-            'proof_payment' => $filename1, // Store public URL in the database
-        ]);
+            $transaction_create = Transaction::create([
+                'user_id' => Auth::id(),
+                'type' => 'Recharge',
+                'description' => 'Manual Recharge Payment',
+                'balance' => $request->amount,
+                'status' => 0,
+                'proof_payment' => $filename1,
+            ]);
 
-        // No need to call save() on create(), it already persists the record
-
-        toast('Your transaction was successful, you can review your transaction status in 15 minutes', 'success');
-
-        return redirect()->back();
+            toast('Your transaction was successful, you can review your transaction status in 15 minutes', 'success');
+            return redirect()->back();
+        }
     }
-}
 
 
     public function transDetails($id): View

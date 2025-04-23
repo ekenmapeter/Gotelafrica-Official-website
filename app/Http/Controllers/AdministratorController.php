@@ -19,6 +19,10 @@ use App\Models\ProductTransaction;
 use Illuminate\Support\Facades\DB;
 use App\Models\RechargeTransaction;
 use Illuminate\Support\Facades\Auth;
+use App\Mail\DepositApproved;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\DepositRejected;
+use Lab404\Impersonate\Services\ImpersonateManager;
 
 class AdministratorController extends Controller
 {
@@ -44,11 +48,10 @@ class AdministratorController extends Controller
 
     public function indexTransaction(): View
     {
+        $allTransaction = ProductTransaction::paginate(10); // Paginate the results
+        $allTransactionCount = ProductTransaction::count(); // Get the total count of transactions
 
-        $allTransactionCount = ProductTransaction::all()->count();
-        $allTransaction = ProductTransaction::all();
-
-        return view('admin.all_transaction', compact('allTransaction','allTransactionCount'));
+        return view('admin.all_transaction', compact('allTransaction', 'allTransactionCount'));
     }
 
     public function adminTransDetails($id): View
@@ -151,13 +154,35 @@ class AdministratorController extends Controller
         return redirect()->back();
     }
 
-    public function allOrder(): View
+    public function allOrder(Request $request): View
     {
+        $query = ProductTransaction::where('status', 1);
 
-        $running_product = ProductTransaction::where('status', 1)->paginate(10);
+        if ($request->has('search')) {
+            $search = $request->input('search');
+            $query->where(function($q) use ($search) {
+                $q->where('id', 'like', '%' . $search . '%')
+                  ->orWhereHas('user', function($q) use ($search) {
+                      $q->where('name', 'like', '%' . $search . '%')
+                        ->orWhere('email', 'like', '%' . $search . '%');
+                  });
+            });
+        }
 
+        $running_product = $query->paginate(10);
 
-        return view('admin.all_order', compact('running_product'));
+        // Calculate statistics
+        $total_orders = ProductTransaction::where('status', 1)->count();
+        $active_today = ProductTransaction::where('status', 1)
+            ->whereDate('created_at', today())
+            ->count();
+        $daily_income = ProductTransaction::where('status', 1)
+            ->whereDate('created_at', today())
+            ->sum('total_income');
+        $total_investment = ProductTransaction::where('status', 1)
+            ->sum('total_income');
+
+        return view('admin.all_order', compact('running_product', 'total_orders', 'active_today', 'daily_income', 'total_investment'));
     }
 
     public function fundWalletRequest(Request $request)
@@ -195,15 +220,26 @@ class AdministratorController extends Controller
     }
 }
 
-public function WithdrawRequest()
-  {
+public function WithdrawRequest(Request $request)
+{
+    $query = Withdraw::orderBy('created_at', 'desc');
 
+    if ($request->has('search')) {
+        $search = $request->input('search');
+        $query->where('account_name', 'like', '%' . $search . '%')
+              ->orWhere('id', 'like', '%' . $search . '%');
+    }
 
+    $withdrawal_list = $query->paginate(10);
 
-    $withdrawal_list = Withdraw::orderBy('created_at', 'desc')->paginate(10);
+    // Calculate total pending requests
+    $pending_count = Withdraw::where('status', 0)->count();
 
-    return view('admin.withdraw_request', compact('withdrawal_list'));
-  }
+    // Calculate total amount of all withdrawal requests
+    $total_amount = Withdraw::sum('amount');
+
+    return view('admin.withdraw_request', compact('withdrawal_list', 'pending_count', 'total_amount'));
+}
 
   public function adminWithdrawDetails($id): View
     {
@@ -231,10 +267,26 @@ public function WithdrawRequest()
 
   public function allUsers(): View
     {
+        // Total Users
+        $total_users = User::count();
 
-        $users = User::orderBy('created_at','desc')->paginate(10);
+        // Active Today (users who were active today)
+        $active_today = User::whereHas('sessions', function ($query) {
+            $query->where('last_activity', '>=', now()->startOfDay()->timestamp);
+        })->count();
 
-        return view('admin.all_users', compact('users'));
+        // New This Week (users who registered this week)
+        $new_this_week = User::whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()])->count();
+
+        // Inactive Users (users who haven't been active for 30 days)
+        $inactive_users = User::whereDoesntHave('sessions', function ($query) {
+            $query->where('last_activity', '>=', now()->subDays(30)->timestamp);
+        })->count();
+
+        // Paginated list of users
+        $users = User::orderBy('created_at', 'desc')->paginate(10);
+
+        return view('admin.all_users', compact('users', 'total_users', 'active_today', 'new_this_week', 'inactive_users'));
     }
 
     public function deleteUser($id)
@@ -260,53 +312,98 @@ public function WithdrawRequest()
         return redirect()->back();
     }
 
-    public function userDeposit(): View
+    public function userDeposit(Request $request): View
     {
+        $search = $request->input('search');
 
-        $deposit = Transaction::orderBy('created_at', 'desc')->paginate(10);
+        $deposits = Transaction::when($search, function($query) use ($search) {
+                // Search by description, type, or status
+                return $query->where('description', 'like', "%$search%")
+                           ->orWhere('type', 'like', "%$search%")
+                           ->orWhere('status', $this->getStatusValue($search));
+            })
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
 
-        return view('admin.deposit', compact('deposit'));
+        $stats = [
+            'total' => Transaction::count(),
+            'pending' => Transaction::where('status', 0)->count(),
+            'approved' => Transaction::where('status', 1)->count(),
+            'rejected' => Transaction::where('status', 2)->count(),
+        ];
+
+        return view('admin.deposit', compact('deposits', 'stats'));
+    }
+
+    private function getStatusValue($search)
+    {
+        // Map status keywords to their corresponding values
+        $statusMap = [
+            'pending' => 0,
+            'approved' => 1,
+            'rejected' => 2,
+        ];
+
+        // Convert search term to lowercase for case-insensitive matching
+        $search = strtolower($search);
+
+        // Return the status value if the search term matches a status keyword
+        return $statusMap[$search] ?? null;
     }
 
     public function rejectDeposit($id)
-  {
+    {
+        try {
+            DB::transaction(function () use ($id) {
+                $transaction = Transaction::findOrFail($id);
+                $transaction->update(['status' => 2]);
 
-   $getUserRequest = Transaction::find($id);
+                // Send rejection email
+                $user = $transaction->user;
+                Mail::to($user->email)->send(new DepositRejected($user, $transaction));
+            });
 
-   Transaction::where('id', $id)->update(['status' => 2]);
+            return redirect()->back()->with('success', 'Deposit rejected successfully');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Error rejecting deposit: ' . $e->getMessage());
+        }
+    }
 
+    public function approveDeposit($id)
+    {
+        try {
+            DB::transaction(function () use ($id) {
+                $transaction = Transaction::findOrFail($id);
+                $transaction->update(['status' => 1]);
 
-        toast('Deposit Has Being Rejected' , 'success');
-        return redirect()->back();
+                Recharge::updateOrCreate(
+                    ['user_id' => $transaction->user_id],
+                    ['amount' => DB::raw("amount + {$transaction->balance}")]
+                );
 
-  }
+                RechargeTransaction::create([
+                    'user_id' => $transaction->user_id,
+                    'amount' => $transaction->balance,
+                    'transaction_id' => $transaction->id
+                ]);
 
-  public function approveDeposit($id)
-  {
+                // Send approval email
+                $user = $transaction->user;
+                Mail::to($user->email)->send(new DepositApproved($user, $transaction));
+            });
 
-   $getUserRequest = Transaction::find($id);
-
-   Transaction::where('id', $id)->update(['status' => 1]);
-
-   // Update user's wallet balance
-   $updateUserRecharge = Recharge::where('user_id', $getUserRequest->user_id)->increment('amount', $getUserRequest->balance);
-
-   $create_recharge = RechargeTransaction::create([
-    'user_id' => $getUserRequest->user_id,
-    'amount' => $getUserRequest->balance,
-]);
-
-        toast('Deposit Approved Successfully' , 'success');
-        return redirect()->back();
-
-  }
+            return redirect()->back()->with('success', 'Deposit approved successfully');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Error approving deposit: ' . $e->getMessage());
+        }
+    }
 
   public function allProduct(): View
     {
-
         $product = Product::paginate(10);
+        $totalProducts = Product::count(); // Calculate total number of products
 
-        return view('admin.all_product', compact('product'));
+        return view('admin.all_product', compact('product', 'totalProducts'));
     }
 
 
@@ -431,6 +528,65 @@ public function approveSubmission($id)
         toast('Failed to approve submission', 'error');
         return redirect()->back();
     }
+}
+
+public function rejectWithdraw($id)
+{
+    $getUserRequest = Withdraw::find($id);
+
+    if (!$getUserRequest) {
+        abort(404); // Handle if the withdrawal request is not found
+    }
+
+    Withdraw::where('id', $id)->update(['status' => 2]);
+
+    toast('Withdrawal Rejected Successfully', 'success');
+    return redirect()->back();
+}
+
+public function removeFunds(Request $request)
+{
+    $request->validate([
+        'user_id' => 'required|exists:users,id',
+        'amount' => 'required|numeric|min:0',
+    ]);
+
+    $userWallet = Wallet::where('user_id', $request->user_id)->first();
+
+    if (!$userWallet) {
+        return redirect()->back()->with('error', 'User wallet not found.');
+    }
+
+    if ($userWallet->balance < $request->amount) {
+        return redirect()->back()->with('error', 'Insufficient balance in the user\'s wallet.');
+    }
+
+    $userWallet->decrement('balance', $request->amount);
+
+    return redirect()->back()->with('success', 'Funds removed successfully.');
+}
+
+public function impersonate($id)
+{
+    $user = User::findOrFail($id);
+
+    // Check if the admin is already impersonating someone
+    if (auth()->user()->isImpersonating()) {
+        return redirect()->back()->with('error', 'You are already impersonating a user.');
+    }
+
+    // Start impersonation
+    auth()->user()->impersonate($user);
+
+    return redirect()->route('dashboard')->with('success', 'You are now impersonating ' . $user->name);
+}
+
+public function stopImpersonate()
+{
+    // Stop impersonation
+    auth()->user()->leaveImpersonation();
+
+    return redirect()->route('dashboard')->with('success', 'You have stopped impersonating.');
 }
 
 }
