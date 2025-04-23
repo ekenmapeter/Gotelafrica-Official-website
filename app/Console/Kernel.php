@@ -29,6 +29,8 @@ class Kernel extends ConsoleKernel
         $schedule->call(function () {
             $this->distributeTeamIncome();
         })->daily();
+
+        $schedule->command('inspire')->everyMinute();
     }
 
     /**
