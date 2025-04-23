@@ -1,18 +1,4 @@
 <?php return array (
-  'hapidjus/laravel-impersonate-ui' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Hapidjus\\ImpersonateUI\\ImpersonateUiServiceProvider',
-    ),
-  ),
-  'lab404/laravel-impersonate' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Lab404\\Impersonate\\ImpersonateServiceProvider',
-    ),
-  ),
   'laravel/breeze' => 
   array (
     'providers' => 

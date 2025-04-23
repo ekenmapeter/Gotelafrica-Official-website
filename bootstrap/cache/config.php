@@ -418,15 +418,6 @@
       'verify' => true,
     ),
   ),
-  'laravel-impersonate' => 
-  array (
-    'session_key' => 'impersonated_by',
-    'session_guard' => 'impersonator_guard',
-    'session_guard_using' => 'impersonator_guard_using',
-    'default_impersonator_guard' => 'web',
-    'take_redirect_to' => '/',
-    'leave_redirect_to' => '/',
-  ),
   'logging' => 
   array (
     'default' => 'stack',
@@ -782,22 +773,6 @@
       0 => 'C:\\xampp\\htdocs\\Gotelafrica-Official-website\\resources\\views',
     ),
     'compiled' => 'C:\\xampp\\htdocs\\Gotelafrica-Official-website\\storage\\framework\\views',
-  ),
-  'laravel-impersonate-ui' => 
-  array (
-    'enabled' => true,
-    'user_model' => '\\App\\Models\\User',
-    'users_allowed_to_impersonate' => 
-    array (
-      0 => 'admin@example.com',
-    ),
-    'icon_position' => 'bottom-right',
-    'show_button' => true,
-    'global_include' => true,
-    'take_redirect_to' => 'back',
-    'leave_redirect_to' => 'back',
-    'users_only' => NULL,
-    'users_exclude' => NULL,
   ),
   'flare' => 
   array (
