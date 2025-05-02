@@ -69,7 +69,7 @@
         <div class="relative z-10 text-center py-20 px-4 text-white container mx-auto">
             <div class="max-w-4xl mx-auto">
                 <h1 class="text-4xl md:text-6xl font-bold mb-4 drop-shadow-lg animate-fade-in">
-                    Become Miss or Master<br>Gotelafrica 2025
+                    Become Master or Miss<br>Gotelafrica 2025<br>Episode 1
                 </h1>
 
 
@@ -101,7 +101,7 @@
                 <div class="bg-white/10 backdrop-blur-md p-8 rounded-2xl shadow-xl hover:transform hover:scale-105 transition-all duration-300 border border-yellow-500/30">
                     <div class="text-yellow-400 text-5xl mb-4">🏆</div>
                     <h4 class="text-2xl font-bold text-white mb-2">First Prize</h4>
-                    <p class="text-3xl font-bold text-yellow-400 mb-2">₦1,500,000</p>
+                    <p class="text-3xl font-bold text-yellow-400 mb-2">₦50,000</p>
                     <p class="text-white">Grand Winner</p>
                 </div>
 
@@ -109,7 +109,7 @@
                 <div class="bg-white/10 backdrop-blur-md p-8 rounded-2xl shadow-xl hover:transform hover:scale-105 transition-all duration-300 border border-silver-500/30">
                     <div class="text-gray-200 text-5xl mb-4">🥈</div>
                     <h4 class="text-2xl font-bold text-white mb-2">Second Prize</h4>
-                    <p class="text-3xl font-bold text-gray-200 mb-2">₦1,000,000</p>
+                    <p class="text-3xl font-bold text-gray-200 mb-2">₦25,000</p>
                     <p class="text-white">Runner Up</p>
                 </div>
 
@@ -117,7 +117,7 @@
                 <div class="bg-white/10 backdrop-blur-md p-8 rounded-2xl shadow-xl hover:transform hover:scale-105 transition-all duration-300 border border-bronze-500/30">
                     <div class="text-yellow-600 text-5xl mb-4">🥉</div>
                     <h4 class="text-2xl font-bold text-white mb-2">Third Prize</h4>
-                    <p class="text-3xl font-bold text-yellow-600 mb-2">₦500,000</p>
+                    <p class="text-3xl font-bold text-yellow-600 mb-2">₦15,000</p>
                     <p class="text-white">Second Runner Up</p>
                 </div>
             </div>
@@ -125,8 +125,8 @@
             <!-- Bonus Prize -->
             <div class="bg-yellow-500/20 backdrop-blur-md p-8 rounded-2xl shadow-xl max-w-2xl mx-auto">
                 <h4 class="text-2xl font-bold text-white mb-4">Special Bonus Prize! 🎉</h4>
-                <p class="text-xl text-white mb-2">First 30 Participants</p>
-                <p class="text-3xl font-bold text-yellow-400">₦50,000 Each</p>
+                <p class="text-xl text-white mb-2">First 10 Participants</p>
+                <p class="text-3xl font-bold text-yellow-400">₦2,000 Each</p>
                 <p class="text-white mt-2">Don't wait, participate early!</p>
             </div>
         </div>
