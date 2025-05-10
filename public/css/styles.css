@@ -421,7 +421,7 @@ h2 {
     flex-direction: column;
     align-items: center;
     position: relative;
-    height: 500px; /* Fixed height */
+
     overflow: hidden; /* Hide overflow text */
 }
 

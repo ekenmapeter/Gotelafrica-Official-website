@@ -113,8 +113,10 @@ Route::middleware(['auth', 'roles:2'])->group(function()
 Route::middleware(['auth', 'roles:3'])->group(function()
 {
     Route::post('/contest/upload', [ContestController::class, 'upload'])->name('contest.upload');
-
     Route::get('/contest/dashboard', [ContestController::class, 'dashboard'])->name('contest.dashboard');
+
+    // Update this route to use the apply view
+    Route::get('/submission/create', [ContestSubmissionController::class, 'create'])->name('submission.create');
 });
 //General Route
 Route::get('/', function () {

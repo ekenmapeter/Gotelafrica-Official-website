@@ -96,4 +96,9 @@ class ContestSubmissionController extends Controller
             ], 422);
         }
     }
+
+    public function create()
+    {
+        return view('contest.submission.create');
+    }
 }

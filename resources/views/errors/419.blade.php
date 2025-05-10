@@ -6,7 +6,7 @@
 
         <title>Gotelafrica</title>
         <!-- Scripts -->
-        
+
         <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>
         <script src="https://cdn.tailwindcss.com"></script>
@@ -60,8 +60,8 @@
         </nav>
 
       <div class="flex flex-col items-center justify-center mt-44">
-                    <p class="text-white font-bold text-5xl uppercase">419 Error</p>
-                    <p class="text-3xl font-bold">THIS PAGE HAS EXPIRED</p>
+                    <p class="text-white font-bold text-5xl uppercase">Sorry, the page has expired</p>
+                    <p class="text-3xl font-bold">Please try again</p>
                     <a href="/login" class="bg-black mt-4 py-4 px-8 text-white font-bold uppercase text-xs rounded hover:bg-gray-200 hover:text-gray-800">Home</a>
                 </div>
             </div>

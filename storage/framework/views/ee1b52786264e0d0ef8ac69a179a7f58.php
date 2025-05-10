@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="<?php echo e(str_replace('_', '-', app()->getLocale())); ?>">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -54,27 +54,27 @@
     <nav class="fixed w-full z-20 top-0 start-0 gradient-bg shadow-lg">
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
             <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
-                <img src="images/logo.jpeg" class="h-10 rounded-lg" alt="{{ config('app.name', 'Gotelafrica') }}" />
-                <span class="self-center text-2xl font-bold whitespace-nowrap text-white">{{ config('app.name', 'Gotelafrica') }}</span>
+                <img src="images/logo.jpeg" class="h-10 rounded-lg" alt="<?php echo e(config('app.name', 'Gotelafrica')); ?>" />
+                <span class="self-center text-2xl font-bold whitespace-nowrap text-white"><?php echo e(config('app.name', 'Gotelafrica')); ?></span>
             </a>
             <div class="flex gap-2 md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-                @guest
-                @if (Route::has('register'))
-                    <a href="{{ route('register') }}"
+                <?php if(auth()->guard()->guest()): ?>
+                <?php if(Route::has('register')): ?>
+                    <a href="<?php echo e(route('register')); ?>"
                         class="text-white bg-emerald-700 hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center transition-all hover:shadow-lg">
                         <i class="fas fa-user-plus mr-2"></i>Register
                     </a>
-                @endif
-                <a href="{{ route('login') }}"
+                <?php endif; ?>
+                <a href="<?php echo e(route('login')); ?>"
                     class="text-emerald-800 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center transition-all hover:shadow-lg">
                     <i class="fas fa-sign-in-alt mr-2"></i>Login
                 </a>
-                @else
-                <a href="{{ url('/dashboard') }}"
+                <?php else: ?>
+                <a href="<?php echo e(url('/dashboard')); ?>"
                     class="text-white bg-emerald-600 hover:bg-emerald-700 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center transition-all hover:shadow-lg">
                     <i class="fas fa-tachometer-alt mr-2"></i>Dashboard
                 </a>
-                @endguest
+                <?php endif; ?>
 
                 <button data-collapse-toggle="navbar-sticky" type="button"
                     class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-white rounded-lg md:hidden hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-white"
@@ -86,7 +86,7 @@
                 </button>
             </div>
             <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
-                @auth
+                <?php if(auth()->guard()->check()): ?>
                 <ul class="flex flex-col p-4 md:p-0 mt-4 font-medium md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0">
                     <li>
                         <a href="/" class="block py-2 px-3 text-white hover:text-emerald-200 transition-all rounded md:bg-transparent md:p-0" aria-current="page">
@@ -104,7 +104,7 @@
                         </a>
                     </li>
                 </ul>
-                @endauth
+                <?php endif; ?>
             </div>
         </div>
     </nav>
@@ -123,6 +123,9 @@
                 <div class="flex justify-center gap-4">
                     <a href="#mission" class="inline-flex text-white bg-emerald-600 border-0 py-3 px-6 focus:outline-none hover:bg-emerald-700 rounded-lg text-lg font-medium transition-all hover:shadow-lg">
                         Our Mission
+                    </a>
+                    <a href="#services" class="inline-flex text-emerald-700 bg-white border-2 border-emerald-600 py-3 px-6 focus:outline-none hover:bg-gray-50 rounded-lg text-lg font-medium transition-all hover:shadow-lg">
+                        Our Services
                     </a>
                 </div>
             </div>
@@ -220,6 +223,6 @@
         </div>
     </section>
 
-    @include('components.bottom-navbar')
+    <?php echo $__env->make('components.bottom-navbar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 </body>
-</html>
+</html><?php /**PATH C:\xampp\htdocs\Gotelafrica-Official-website\resources\views/about.blade.php ENDPATH**/ ?>

@@ -123,7 +123,6 @@
     <div class="testimonial-container">
         <div class="testimonial-card">
             <img src="/Image/Dr.jpg" alt="Dr Vivian Ijem" class="testimonial-image">
-            <blockquote>"Gotelafrica is the best place to invest your money and watch it grow, with Gotelafrica life has been better in this hard economy. Long live Gotelafrica"</blockquote>
             <h3>Dr Vivian Ijem</h3>
             <p>Doctor</p>
             <div class="rating">
@@ -132,8 +131,7 @@
         </div>
         <div class="testimonial-card">
             <img src="/Image/Eze.jpg" alt="Ezeugo Benjamin Chijioke" class="testimonial-image">
-            <blockquote>"Gotelafrica is a platform for those that desire financial autonomy. Unlike Ponzi schemes, gotelafrica is a foundation with its lifespan extended to infinity. It is a platform for financial leaders of tomorrow. Gotelafrica is a tested and trusted investment platform."</blockquote>
-            <h3>Ezeugo Benjamin Chijioke</h3>
+\            <h3>Ezeugo Benjamin Chijioke</h3>
             <p>Business Man</p>
             <div class="rating">
                 <span>★★★★★</span>
@@ -141,8 +139,7 @@
         </div>
         <div class="testimonial-card">
             <img src="/Image/ukoha.jpg" alt="Juliet Chinyere Ukoha" class="testimonial-image">
-            <blockquote>"The impressive returns on my investments have exceeded my expectations, and I appreciate the regular updates and support from their dedicated team. I highly recommend their platform to anyone seeking a trustworthy and profitable investment opportunity."</blockquote>
-            <h3>Juliet Chinyere Ukoha</h3>
+\            <h3>Juliet Chinyere Ukoha</h3>
             <p>Business Woman</p>
             <div class="rating">
                 <span>★★★★★</span>
@@ -150,8 +147,7 @@
         </div>
         <div class="testimonial-card">
             <img src="./Image/Timi.jpg" alt="Person 4" class="testimonial-image">
-            <blockquote>"In Gotel Africa 🌍 there is much life there. The best investment platform so far. Their  transparency re  notch. Invest with peace of mind.."</blockquote>
-            <h3>Timileyin Grace Adeyemi</h3>
+\            <h3>Timileyin Grace Adeyemi</h3>
             <p>Business Woman</p>
             <div class="rating">
                 <span>★★★★★</span>
@@ -159,11 +155,8 @@
         </div>
         <div class="testimonial-card">
             <img src="./Image/doris.jpg" alt="Person 5" class="testimonial-image">
-            <blockquote>"I joined gotelafrica on 4 march 2024 6 months old now....
 
-             Gotelafrica as I see it is not only Investment site .. but. Job opportunity to everyone
 
-                Gotelafrica has made me smile in difficults moment like never before...."</blockquote>
             <h3>Nkolika onyebuchi Doris</h3>
             <p>Business Woman</p>
             <div class="rating">

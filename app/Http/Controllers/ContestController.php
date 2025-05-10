@@ -86,11 +86,16 @@ class ContestController extends Controller
             // Generate share token after creation
             $entry->generateShareToken();
 
-            return response()->json([
-                'success' => true,
-                'message' => 'Your video has been uploaded successfully!',
-                'redirect' => route('contest.dashboard')
-            ]);
+            if ($request->wantsJson()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Your video has been uploaded successfully!',
+                    'redirect' => route('contest.dashboard')
+                ]);
+            }
+
+            return redirect()->route('contest.dashboard')
+                ->with('success', 'Your video has been uploaded successfully!');
 
         } catch (\Illuminate\Http\Exceptions\PostTooLargeException $e) {
             \Log::error('PostTooLargeException', [
@@ -107,10 +112,15 @@ class ContestController extends Controller
                 'error' => $e->getMessage(),
                 'trace' => $e->getTraceAsString()
             ]);
-            return response()->json([
-                'success' => false,
-                'message' => 'Something went wrong while uploading your video.'
-            ], 500);
+
+            if ($request->wantsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Error uploading video: ' . $e->getMessage()
+                ], 422);
+            }
+
+            return back()->with('error', 'Error uploading video: ' . $e->getMessage());
         }
     }
 

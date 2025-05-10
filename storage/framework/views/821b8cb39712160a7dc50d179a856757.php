@@ -1,4 +1,12 @@
-<x-app-layout>
+<?php if (isset($component)) { $__componentOriginal9ac128a9029c0e4701924bd2d73d7f54 = $component; } ?>
+<?php $component = App\View\Components\AppLayout::resolve([] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component->withName('app-layout'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(App\View\Components\AppLayout::class))->getConstructor()): ?>
+<?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
+<?php endif; ?>
+<?php $component->withAttributes([]); ?>
     <div class="flex flex-col items-center justify-center px-2 py-8 mb-44">
         <h1 class="text-white text-3xl font-bold mb-8">Video Contest Dashboard</h1>
 
@@ -9,41 +17,42 @@
                 <div class="bg-white rounded-lg shadow-lg p-6">
                     <div class="text-center mb-4">
                         <div class="w-24 h-24 rounded-full bg-gray-200 mx-auto mb-4 overflow-hidden">
-                            @if(auth()->user()->profile_photo_url)
-                                <img src="{{ auth()->user()->profile_photo_url }}" alt="{{ auth()->user()->name }}" class="w-full h-full object-cover">
-                            @else
+                            <?php if(auth()->user()->profile_photo_url): ?>
+                                <img src="<?php echo e(auth()->user()->profile_photo_url); ?>" alt="<?php echo e(auth()->user()->name); ?>" class="w-full h-full object-cover">
+                            <?php else: ?>
                                 <svg class="w-full h-full text-gray-400" fill="currentColor" viewBox="0 0 24 24">
                                     <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
                                 </svg>
-                            @endif
+                            <?php endif; ?>
                         </div>
-                        <h3 class="text-xl font-semibold">{{ auth()->user()->name }}</h3>
-                        <p class="text-gray-500 text-sm truncate">{{ auth()->user()->email }}</p>
+                        <h3 class="text-xl font-semibold"><?php echo e(auth()->user()->name); ?></h3>
+                        <p class="text-gray-500 text-sm truncate"><?php echo e(auth()->user()->email); ?></p>
                     </div>
 
                     <div class="border-t border-gray-200 pt-4">
                         <div class="space-y-3">
                             <div class="flex justify-between items-center">
                                 <span class="text-sm text-gray-500">Account Status</span>
-                                <span class="px-2 py-1 text-xs rounded-full {{ $userSubmission && $userSubmission->is_approved ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' }}">
-                                    {{ $userSubmission && $userSubmission->is_approved ? 'Approved' : 'Pending' }}
+                                <span class="px-2 py-1 text-xs rounded-full <?php echo e($userSubmission && $userSubmission->is_approved ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'); ?>">
+                                    <?php echo e($userSubmission && $userSubmission->is_approved ? 'Approved' : 'Pending'); ?>
+
                                 </span>
                             </div>
                             <div class="flex justify-between items-center">
                                 <span class="text-sm text-gray-500">Submissions</span>
-                                <span class="text-sm font-medium">{{ $contestEntries->where('user_id', auth()->id())->count() }}</span>
+                                <span class="text-sm font-medium"><?php echo e($contestEntries->where('user_id', auth()->id())->count()); ?></span>
                             </div>
                             <div class="flex justify-between items-center">
                                 <span class="text-sm text-gray-500">Total Votes</span>
-                                <span class="text-sm font-medium">{{ $contestEntries->where('user_id', auth()->id())->sum('votes_count') }}</span>
+                                <span class="text-sm font-medium"><?php echo e($contestEntries->where('user_id', auth()->id())->sum('votes_count')); ?></span>
                             </div>
                         </div>
                     </div>
 
                     <!-- Add Logout Button -->
                     <div class="border-t border-gray-200 pt-4 mt-4">
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
+                        <form method="POST" action="<?php echo e(route('logout')); ?>">
+                            <?php echo csrf_field(); ?>
                             <button type="submit"
                                     class="w-full px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors duration-200">
                                 <div class="flex items-center justify-center">
@@ -64,8 +73,8 @@
                 <div class="bg-white rounded-lg shadow-lg p-6">
                     <h2 class="text-2xl font-semibold mb-4">Share Your Video</h2>
 
-                    @if($userSubmission && $userSubmission->is_approved)
-                        @if($contestEntries->where('user_id', auth()->id())->count() > 0)
+                    <?php if($userSubmission && $userSubmission->is_approved): ?>
+                        <?php if($contestEntries->where('user_id', auth()->id())->count() > 0): ?>
                             <div class="rounded-md bg-blue-50 p-4">
                                 <div class="flex">
                                     <div class="flex-shrink-0">
@@ -81,9 +90,9 @@
                                     </div>
                                 </div>
                             </div>
-                        @else
-                            <form id="uploadForm" action="{{ route('contest.upload') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
-                                @csrf
+                        <?php else: ?>
+                            <form id="uploadForm" action="<?php echo e(route('contest.upload')); ?>" method="POST" enctype="multipart/form-data" class="space-y-4">
+                                <?php echo csrf_field(); ?>
                                 <div>
                                     <label for="title" class="block text-sm font-medium text-gray-700">Video Title</label>
                                     <input type="text" name="title" id="title" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
@@ -111,8 +120,8 @@
                                     Submit Entry
                                 </button>
                             </form>
-                        @endif
-                    @else
+                        <?php endif; ?>
+                    <?php else: ?>
                         <div class="rounded-md bg-yellow-50 p-4">
                             <div class="flex">
                                 <div class="flex-shrink-0">
@@ -124,20 +133,20 @@
                                     <h3 class="text-sm font-medium text-yellow-800">Payment Approval Required</h3>
                                     <div class="mt-2 text-sm text-yellow-700">
                                         <p>
-                                            @if(!$userSubmission)
+                                            <?php if(!$userSubmission): ?>
                                                 Please submit your payment proof to participate in the video contest.
-                                                <a href="{{ route('submission.create') }}" class="underline text-yellow-800 hover:text-yellow-900">
+                                                <a href="<?php echo e(route('submission.create')); ?>" class="underline text-yellow-800 hover:text-yellow-900">
                                                     Click here to submit payment proof
                                                 </a>
-                                            @else
+                                            <?php else: ?>
                                                 Your payment proof is pending approval. You will be able to upload videos once approved.
-                                            @endif
+                                            <?php endif; ?>
                                         </p>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    @endif
+                    <?php endif; ?>
                 </div>
 
 
@@ -145,35 +154,35 @@
                 <div class="bg-white rounded-lg shadow-lg p-6">
                     <h2 class="text-2xl font-semibold mb-6">Contest Entries</h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        @forelse ($contestEntries as $entry)
+                        <?php $__empty_1 = true; $__currentLoopData = $contestEntries; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $entry): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                             <div class="bg-gray-50 rounded-lg overflow-hidden shadow">
                                 <div class="aspect-w-16 aspect-h-9">
-                                    @if($entry->video_url)
+                                    <?php if($entry->video_url): ?>
                                         <video class="w-full h-full object-cover" controls>
-                                            <source src="{{ $entry->video_url }}" type="video/mp4">
+                                            <source src="<?php echo e($entry->video_url); ?>" type="video/mp4">
                                             Your browser does not support the video tag.
                                         </video>
-                                    @else
+                                    <?php else: ?>
                                         <div class="w-full h-full flex items-center justify-center bg-gray-200">
                                             <span class="text-gray-500">No video available</span>
                                         </div>
-                                    @endif
+                                    <?php endif; ?>
                                 </div>
                                 <div class="p-4">
-                                    <h3 class="text-lg font-semibold">{{ $entry->title }}</h3>
-                                    <p class="text-sm text-gray-600 mt-1">{{ $entry->description }}</p>
+                                    <h3 class="text-lg font-semibold"><?php echo e($entry->title); ?></h3>
+                                    <p class="text-sm text-gray-600 mt-1"><?php echo e($entry->description); ?></p>
                                     <div class="mt-4 flex items-center justify-between">
                                         <div class="flex items-center space-x-2">
                                             <span class="text-gray-600">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" />
                                                 </svg>
-                                                <span class="ml-1">{{ $entry->votes_count ?? 0 }}</span>
+                                                <span class="ml-1"><?php echo e($entry->votes_count ?? 0); ?></span>
                                             </span>
                                         </div>
                                         <button onclick="copyShareLink(this)"
                                                 class="inline-flex items-center px-3 py-1 bg-indigo-600 text-white text-sm rounded hover:bg-indigo-700 transition-colors duration-200"
-                                                data-share-url="{{ route('contest.vote', ['shareToken' => $entry->share_token]) }}"
+                                                data-share-url="<?php echo e(route('contest.vote', ['shareToken' => $entry->share_token])); ?>"
                                                 title="Copy share link to clipboard">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
@@ -183,17 +192,22 @@
                                     </div>
                                 </div>
                             </div>
-                        @empty
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                             <div class="col-span-full text-center py-8 text-gray-500">
                                 No contest entries yet. Be the first to submit!
                             </div>
-                        @endforelse
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</x-app-layout>
+ <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal9ac128a9029c0e4701924bd2d73d7f54)): ?>
+<?php $component = $__componentOriginal9ac128a9029c0e4701924bd2d73d7f54; ?>
+<?php unset($__componentOriginal9ac128a9029c0e4701924bd2d73d7f54); ?>
+<?php endif; ?>
 
 <script>
 function copyShareLink(button) {
@@ -258,3 +272,4 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
+<?php /**PATH C:\xampp\htdocs\Gotelafrica-Official-website\resources\views/contest/dashboard.blade.php ENDPATH**/ ?>
