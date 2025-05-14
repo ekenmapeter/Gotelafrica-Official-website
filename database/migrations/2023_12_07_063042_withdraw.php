@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->decimal('amount', 10, 2);
             $table->integer('status');
-            $table->integer('account_number');
+            $table->string('account_number', 20);
             $table->string('account_name');
             $table->string('bank_name');
             $table->timestamps();

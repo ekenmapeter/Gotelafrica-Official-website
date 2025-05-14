@@ -64,8 +64,33 @@ class ContestController extends Controller
             $request->validate([
                 'title' => 'required|max:255',
                 'description' => 'required',
-                'video' => 'required|mimes:mp4,mov,avi|max:102400'
+                'video' => [
+                    'required',
+                    'mimes:mp4,mov,avi',
+                    'max:30720', // 30MB in kilobytes
+                    function ($attribute, $value, $fail) {
+                        $fileSize = $value->getSize();
+                        $minSize = 1024 * 1024; // 1MB in bytes
+
+                        if ($fileSize < $minSize) {
+                            $fail('The video must be at least 1MB in size.');
+                        }
+                    }
+                ]
             ]);
+
+            // Get video duration using FFmpeg
+            $videoPath = $request->file('video')->getPathname();
+            $duration = shell_exec("ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 " . escapeshellarg($videoPath));
+            $duration = floatval($duration);
+
+            // Check if video duration is between 15 seconds and 5 minutes
+            if ($duration < 15 || $duration > 300) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Video duration must be between 15 seconds and 5 minutes.'
+                ], 422);
+            }
 
             $videoPath = $request->file('video')->store('contest-videos', 'public');
 
@@ -73,6 +98,7 @@ class ContestController extends Controller
                 'user_id' => auth()->id(),
                 'file_name' => $request->file('video')->getClientOriginalName(),
                 'file_size' => $request->file('video')->getSize(),
+                'duration' => $duration,
                 'stored_path' => $videoPath
             ]);
 
@@ -81,6 +107,7 @@ class ContestController extends Controller
                 'description' => $request->description,
                 'video_url' => Storage::url($videoPath),
                 'user_id' => auth()->id(),
+                'duration' => $duration
             ]);
 
             // Generate share token after creation
@@ -105,7 +132,7 @@ class ContestController extends Controller
             ]);
             return response()->json([
                 'success' => false,
-                'message' => 'The uploaded file is too large. Maximum allowed size is ' . ini_get('upload_max_filesize')
+                'message' => 'The uploaded file is too large. Maximum allowed size is 30MB.'
             ], 413);
         } catch (\Exception $e) {
             \Log::error('Video Upload Error', [

@@ -203,46 +203,54 @@ class UserController extends Controller
     }
 
     public function withdrawRequest(Request $request)
-{
-    try {
-        $validatedData = $request->validate([
-            'user_id' => ['required'],
-            'amount' => ['required'],
-            'bankno' => ['required'],
-            'name' => ['required'],
-            'bankname' => ['required'],
-        ]);
-
-        $getUserWallet = Wallet::where('user_id', Auth::user()->id)->first();
-
-        if ($request->amount > $getUserWallet->balance) {
-            toast('Your balance is less than <strong>₦'. number_format($request->amount, 2) .'</strong>', 'error');
-            return redirect()->back();
-        } else {
-            $create = Withdraw::create([
-                'user_id' => $validatedData['user_id'],
-                'amount' => $validatedData['amount'],
-                'status' => 0,
-                'account_number' => $validatedData['bankno'],
-                'account_name' => $validatedData['name'],
-                'bank_name' => $validatedData['bankname'],
+    {
+        try {
+            $validatedData = $request->validate([
+                'user_id' => ['required'],
+                'amount' => ['required'],
+                'bankno' => ['required'],
+                'name' => ['required'],
+                'bankname' => ['required'],
             ]);
 
-            // Update user's wallet balance
-            $deductUserWallet = $getUserWallet->balance - $validatedData['amount'];
-            $updateUserWallet = Wallet::where('user_id', Auth::user()->id)->decrement('balance', $validatedData['amount']);
+            $getUserWallet = Wallet::where('user_id', Auth::user()->id)->first();
 
-            toast('Your withdrawal request of <strong>₦'.number_format($validatedData['amount'], 2).'</strong> was successful, payment is between 24-72hrs' , 'success');
+            if ($request->amount > $getUserWallet->balance) {
+                toast('Your balance is less than <strong>₦'. number_format($request->amount, 2) .'</strong>', 'error');
+                return redirect()->back();
+            } else {
+                $create = Withdraw::create([
+                    'user_id' => $validatedData['user_id'],
+                    'amount' => $validatedData['amount'],
+                    'status' => 0,
+                    'account_number' => $validatedData['bankno'],
+                    'account_name' => $validatedData['name'],
+                    'bank_name' => $validatedData['bankname'],
+                ]);
+
+                // Update user's wallet balance
+                $deductUserWallet = $getUserWallet->balance - $validatedData['amount'];
+                $updateUserWallet = Wallet::where('user_id', Auth::user()->id)->decrement('balance', $validatedData['amount']);
+
+                // Send email notification
+                try {
+                    $user = Auth::user();
+                    \Mail::to($user->email)->send(new \App\Mail\WithdrawalNotification($user, $create));
+                } catch (\Exception $e) {
+                    \Log::error('Failed to send withdrawal notification email: ' . $e->getMessage());
+                }
+
+                toast('Your withdrawal request of <strong>₦'.number_format($validatedData['amount'], 2).'</strong> was successful, payment is between 24-72hrs' , 'success');
+                return redirect()->back();
+            }
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            // If validation fails, handle the exception
+            $errors = $e->validator->errors()->all();
+            toast('Validation failed! ' . implode(' ', $errors), 'error');
             return redirect()->back();
         }
-
-    } catch (\Illuminate\Validation\ValidationException $e) {
-        // If validation fails, handle the exception
-        $errors = $e->validator->errors()->all();
-        toast('Validation failed! ' . implode(' ', $errors), 'error');
-        return redirect()->back();
     }
-}
 
 
 
@@ -280,15 +288,31 @@ class UserController extends Controller
             // Get the authenticated user
             $user = auth()->user();
 
+            if (!$user) {
+                \Log::error('User not authenticated when sending OTP');
+                return response()->json([
+                    'message' => 'User not authenticated'
+                ], 401);
+            }
+
+            // Log the attempt to send email
+            \Log::info('Attempting to send OTP email to: ' . $user->email);
+
             // Send OTP via email
             \Mail::to($user->email)->send(new \App\Mail\OTPMail($user, $otp));
+
+            // Log successful email send
+            \Log::info('OTP email sent successfully to: ' . $user->email);
 
             return response()->json([
                 'message' => 'OTP sent successfully',
                 'otp' => $otp // Remove this in production
             ]);
         } catch (\Exception $e) {
+            // Log the full error
             \Log::error('OTP Send Error: ' . $e->getMessage());
+            \Log::error('Stack trace: ' . $e->getTraceAsString());
+
             return response()->json([
                 'message' => 'Failed to send OTP: ' . $e->getMessage()
             ], 500);

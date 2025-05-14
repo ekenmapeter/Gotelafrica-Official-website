@@ -6,32 +6,25 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    public function up()
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
     {
-        // Create votes table
-        Schema::create('votes', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('contest_entry_id')->constrained()->onDelete('cascade');
-            $table->string('voter_ip');
-            $table->string('voter_fingerprint')->nullable();
-            $table->timestamps();
-
-            // Prevent multiple votes from same IP for same entry
-            $table->unique(['contest_entry_id', 'voter_ip']);
-        });
-
-        // Add share_token to existing contest_entries table
         Schema::table('contest_entries', function (Blueprint $table) {
-            $table->string('share_token')->unique()->nullable()->after('votes_count');
+            $table->integer('votes_count')->default(0);
+            $table->decimal('duration', 8, 2)->nullable(); // Duration in seconds
+            $table->string('share_token', 32)->unique()->nullable();
         });
     }
 
-    public function down()
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
     {
-        Schema::dropIfExists('votes');
-
         Schema::table('contest_entries', function (Blueprint $table) {
-            $table->dropColumn('share_token');
+            $table->dropColumn(['votes_count', 'duration', 'share_token']);
         });
     }
 };
