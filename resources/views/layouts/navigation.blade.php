@@ -1,4 +1,3 @@
-
 @if(Auth::check())
     @if(Auth::user()->roles == 1)
         <!-- Display something for users with role 1 -->
@@ -20,13 +19,19 @@
                                 {{ __('Dashboard') }}
                             </x-nav-link>
                             <x-nav-link :href="route('profile.edit')" :active="request()->routeIs('profile.edit')">
-                            {{ __('Profile') }}
+                                {{ __('Profile') }}
                             </x-nav-link>
                         </div>
                     </div>
 
                     <!-- Settings Dropdown -->
                     <div class="hidden sm:flex sm:items-center sm:ms-6">
+                        @if(session()->has('impersonator_id'))
+                            <a href="{{ route('stop-impersonating') }}"
+                               class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 mr-4">
+                                Stop Impersonating
+                            </a>
+                        @endif
                         <x-dropdown align="right" width="48">
                             <x-slot name="trigger">
                                 <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
@@ -79,7 +84,7 @@
                     </x-responsive-nav-link>
                     <x-responsive-nav-link :href="route('profile.edit')" :active="request()->routeIs('profile.edit')">
                         {{ __('Profile') }}
-                        </x-nav-link>
+                    </x-responsive-nav-link>
                 </div>
 
                 <!-- Responsive Settings Options -->
@@ -93,6 +98,12 @@
                         <x-responsive-nav-link :href="route('profile.edit')">
                             {{ __('Profile') }}
                         </x-responsive-nav-link>
+
+                        @if(session()->has('impersonator_id'))
+                            <x-responsive-nav-link :href="route('stop-impersonating')" class="text-red-500 hover:text-red-600">
+                                {{ __('Stop Impersonating') }}
+                            </x-responsive-nav-link>
+                        @endif
 
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
@@ -128,24 +139,30 @@
                                 {{ __('Dashboard') }}
                             </x-nav-link>
                             <x-nav-link :href="route('profile.edit')" :active="request()->routeIs('profile.edit')">
-                            {{ __('Profile') }}
+                                {{ __('Profile') }}
                             </x-nav-link>
                         </div>
                     </div>
 
                     <!-- Settings Dropdown -->
                     <div class="hidden sm:flex sm:items-center sm:ms-6">
+                        @if(session()->has('impersonator_id'))
+                            <a href="{{ route('stop-impersonating') }}"
+                               class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 mr-4">
+                                Stop Impersonating
+                            </a>
+                        @endif
                         <x-dropdown align="right" width="48">
                             <x-slot name="trigger">
-                                <form method="POST" action="{{ route('logout') }}">
-                                        @csrf
+                                <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
+                                    <div>{{ Auth::user()->first_name }}</div>
 
-                                        <a href="route('logout')" class="text-red-700"
-                                                onclick="event.preventDefault();
-                                                            this.closest('form').submit();">
-                                            {{ __('Log Out') }}
-                                        </a>
-                                    </form>
+                                    <div class="ms-1">
+                                        <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                        </svg>
+                                    </div>
+                                </button>
                             </x-slot>
 
                             <x-slot name="content">
@@ -187,7 +204,7 @@
                     </x-responsive-nav-link>
                     <x-responsive-nav-link :href="route('profile.edit')" :active="request()->routeIs('profile.edit')">
                         {{ __('Profile') }}
-                        </x-nav-link>
+                    </x-responsive-nav-link>
                 </div>
 
                 <!-- Responsive Settings Options -->
@@ -201,6 +218,12 @@
                         <x-responsive-nav-link :href="route('profile.edit')">
                             {{ __('Profile') }}
                         </x-responsive-nav-link>
+
+                        @if(session()->has('impersonator_id'))
+                            <x-responsive-nav-link :href="route('stop-impersonating')" class="text-red-500 hover:text-red-600">
+                                {{ __('Stop Impersonating') }}
+                            </x-responsive-nav-link>
+                        @endif
 
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">

@@ -19,9 +19,11 @@
                         <input type="text" name="search" placeholder="Search users..."
                                class="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm"
                                value="{{ request('search') }}">
-                        <svg class="absolute left-3 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <button type="submit" class="absolute right-2 p-1 text-gray-400 hover:text-gray-600">
+                            <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
                         </svg>
+                        </button>
                     </div>
                 </form>
             </div>
@@ -137,15 +139,15 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
                                     <!-- View Button -->
-                                    <button @click="openUserModal({{ $user->id }})" class="inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200">
+                                    <a href="{{ route('admin.user.view', $user->id) }}" class="inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200">
                                         View
-                                    </button>
+                                    </a>
 
                                     <!-- Delete Button -->
-                                    <form method="POST" action="{{ route('delete/user', $user->id) }}" class="inline">
+                                    <form method="POST" action="{{ route('delete/user', $user->id) }}" class="inline" x-data="{ confirmDelete() { if(confirm('Are you sure you want to delete this user? This action cannot be undone.')) { this.submit(); } } }">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="button" onclick="confirmDelete(this.form)" class="inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200">
+                                        <button type="button" @click="confirmDelete" class="inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200">
                                             Delete
                                         </button>
                                     </form>
@@ -178,12 +180,11 @@
     </div>
 
     <!-- User Modal -->
-    <div x-data="{ userModalOpen: false, currentUser: null }"
-         x-init="window.livewire.on('userModal', user => { currentUser = user; userModalOpen = true; })"
-         @keydown.escape.window="userModalOpen = false"
+    <div x-data="userModal"
+         x-show="userModalOpen"
+         x-cloak
          class="fixed z-10 inset-0 overflow-y-auto"
-         style="display: none;"
-         x-show="userModalOpen">
+         style="display: none;">
         <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
             <!-- Background overlay -->
             <div class="fixed inset-0 transition-opacity" aria-hidden="true" @click="userModalOpen = false">
@@ -191,14 +192,7 @@
             </div>
 
             <!-- Modal panel -->
-            <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full"
-                 x-show="userModalOpen"
-                 x-transition:enter="ease-out duration-300"
-                 x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                 x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
-                 x-transition:leave="ease-in duration-200"
-                 x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
-                 x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
+            <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full">
                 <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                     <div class="sm:flex sm:items-start">
                         <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-100 sm:mx-0 sm:h-10 sm:w-10">
@@ -208,7 +202,9 @@
                         </div>
                         <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
                             <h3 class="text-lg leading-6 font-medium text-gray-900" x-text="currentUser ? currentUser.first_name + ' ' + currentUser.other_name : ''"></h3>
-                            <div class="mt-2 grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                            <!-- User Details -->
+                            <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div class="border-t border-gray-100 pt-2">
                                     <p class="text-sm font-medium text-gray-500">Email</p>
                                     <p class="mt-1 text-sm text-gray-900" x-text="currentUser?.email"></p>
@@ -218,24 +214,48 @@
                                     <p class="mt-1 text-sm text-gray-900" x-text="currentUser?.phone"></p>
                                 </div>
                                 <div class="border-t border-gray-100 pt-2">
-                                    <p class="text-sm font-medium text-gray-500">Gender</p>
-                                    <p class="mt-1 text-sm text-gray-900" x-text="currentUser?.gender"></p>
+                                    <p class="text-sm font-medium text-gray-500">Wallet Balance</p>
+                                    <p class="mt-1 text-sm text-gray-900" x-text="'₦' + (currentUser?.wallet?.balance || 0).toLocaleString()"></p>
                                 </div>
                                 <div class="border-t border-gray-100 pt-2">
                                     <p class="text-sm font-medium text-gray-500">Registration Date</p>
                                     <p class="mt-1 text-sm text-gray-900" x-text="currentUser ? new Date(currentUser.created_at).toLocaleDateString() : ''"></p>
                                 </div>
-                                <div class="border-t border-gray-100 pt-2">
-                                    <p class="text-sm font-medium text-gray-500">Address</p>
-                                    <p class="mt-1 text-sm text-gray-900" x-text="currentUser?.address"></p>
+                            </div>
+
+                            <!-- Fund Management -->
+                            <div class="mt-6 border-t border-gray-200 pt-4">
+                                <h4 class="text-md font-medium text-gray-900 mb-4">Fund Management</h4>
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700">Amount</label>
+                                        <input type="number" x-model="amount" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" placeholder="Enter amount">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700">Type</label>
+                                        <select x-model="type" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                                            <option value="add">Add Funds</option>
+                                            <option value="remove">Remove Funds</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700">Reason</label>
+                                        <textarea x-model="reason" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" rows="3" placeholder="Enter reason for fund adjustment"></textarea>
                                 </div>
-                                <div class="border-t border-gray-100 pt-2">
-                                    <p class="text-sm font-medium text-gray-500">Country/State</p>
-                                    <p class="mt-1 text-sm text-gray-900" x-text="currentUser ? currentUser.country + ', ' + currentUser.state : ''"></p>
+                                    <div class="flex justify-end space-x-3">
+                                        <button @click="adjustFunds()"
+                                                class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                                                :disabled="processing">
+                                            <span x-show="!processing">Adjust Funds</span>
+                                            <span x-show="processing" class="flex items-center">
+                                                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                                </svg>
+                                                Processing...
+                                            </span>
+                                        </button>
                                 </div>
-                                <div class="border-t border-gray-100 pt-2">
-                                    <p class="text-sm font-medium text-gray-500">Last Login</p>
-                                    <p class="mt-1 text-sm text-gray-900" x-text="currentUser ? new Date(currentUser.last_login_at).toLocaleString() : 'Never logged in'"></p>
                                 </div>
                             </div>
                         </div>
@@ -250,21 +270,86 @@
         </div>
     </div>
 
-    <script>
-        function confirmDelete(form) {
-            if (confirm('Are you sure you want to delete this user? This action cannot be undone.')) {
-                form.submit();
-            }
-        }
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
-        function openUserModal(userId) {
-            fetch(`/api/users/${userId}`)
+    <script>
+        // Initialize Alpine.js data
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('userModal', () => ({
+                userModalOpen: false,
+                currentUser: null,
+                amount: '',
+                type: 'add',
+                reason: '',
+                processing: false,
+
+                openUserModal(userId) {
+                    console.log('Opening modal for user:', userId); // Debug log
+                    fetch(`/api/users/${userId}`)
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                        })
+                        .then(user => {
+                            console.log('User data received:', user); // Debug log
+                            this.currentUser = user;
+                            this.userModalOpen = true;
+                            console.log('Modal state:', this.userModalOpen); // Debug log
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('Failed to load user details');
+                        });
+                },
+
+                adjustFunds() {
+                    if (!this.amount || !this.reason) {
+                        alert('Please fill in all fields');
+                        return;
+                    }
+
+                    this.processing = true;
+                    const userId = this.currentUser.id;
+                    const data = {
+                        amount: this.amount,
+                        type: this.type,
+                        reason: this.reason
+                    };
+
+                    fetch(`/api/users/${userId}/adjust-funds`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                        },
+                        body: JSON.stringify(data)
+                    })
                 .then(response => response.json())
-                .then(user => {
-                    const event = new CustomEvent('userModal', { detail: user });
-                    window.dispatchEvent(event);
-                })
-                .catch(error => console.error('Error:', error));
-        }
+                    .then(result => {
+                        if (result.success) {
+                            this.currentUser.wallet.balance = result.new_balance;
+                            alert(result.message);
+                            this.amount = '';
+                            this.reason = '';
+                        } else {
+                            alert(result.message);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('An error occurred while processing your request');
+                    })
+                    .finally(() => {
+                        this.processing = false;
+                    });
+                }
+            }));
+        });
     </script>
+
+    <style>
+        [x-cloak] { display: none !important; }
+    </style>
 </x-app-layout>

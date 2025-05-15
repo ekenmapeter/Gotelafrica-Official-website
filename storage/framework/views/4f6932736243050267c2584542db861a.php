@@ -1,8 +1,16 @@
-<x-app-layout>
+<?php if (isset($component)) { $__componentOriginal9ac128a9029c0e4701924bd2d73d7f54 = $component; } ?>
+<?php $component = App\View\Components\AppLayout::resolve([] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component->withName('app-layout'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(App\View\Components\AppLayout::class))->getConstructor()): ?>
+<?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
+<?php endif; ?>
+<?php $component->withAttributes([]); ?>
     <div class="flex flex-col items-center justify-center px-2 py-8 mb-44">
         <div class="flex gap-8 py-4">
             <!-- Inside your Blade view file -->
-<a href="{{ route('administrator') }}" class=" bg-black text-white font-bold py-2 px-4 rounded">
+<a href="<?php echo e(route('administrator')); ?>" class=" bg-black text-white font-bold py-2 px-4 rounded">
     Back
 </a>
 <p class="text-white text-2xl font-bold">Fund Wallet</p>
@@ -12,9 +20,9 @@
         <div class="flex lg:w-1/2 w-full gap-4 items-center justify-center">
             <div class="w-full max-w-sm p-4 bg-black border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 mb-44">
                 <!-- Search Form -->
-                <form action="{{ route('fund-wallet') }}" method="GET" class="mb-6">
+                <form action="<?php echo e(route('fund-wallet')); ?>" method="GET" class="mb-6">
                     <div class="relative">
-                        <input type="text" name="search" value="{{ request('search') }}"
+                        <input type="text" name="search" value="<?php echo e(request('search')); ?>"
                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 pr-10"
                                placeholder="Search users...">
                         <button type="submit" class="absolute right-2.5 bottom-2.5 text-gray-500 hover:text-gray-700">
@@ -25,18 +33,18 @@
                     </div>
                 </form>
 
-                <form class="space-y-6" action="{{ route('admin-fund-wallet') }}" method="POST">
-                    @csrf
+                <form class="space-y-6" action="<?php echo e(route('admin-fund-wallet')); ?>" method="POST">
+                    <?php echo csrf_field(); ?>
 
                     <div>
                         <label class="block mb-2 text-sm font-medium text-white">Select User</label>
                         <select id="user" name="user" class="bg-gray-50 border border-gray-300 text-black font-extrabold hover:text-black text-sm rounded-lg block w-full p-2.5" required autocomplete="user">
                             <option value="" disabled selected>Select User</option>
-                            @foreach($user as $data)
-                                <option class="hover:text-black" value="{{ $data->id }}">
-                                    {{ $data->first_name }} {{ $data->other_name }} ({{ $data->email }})
+                            <?php $__currentLoopData = $user; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <option class="hover:text-black" value="<?php echo e($data->id); ?>">
+                                    <?php echo e($data->first_name); ?> <?php echo e($data->other_name); ?> (<?php echo e($data->email); ?>)
                                 </option>
-                            @endforeach
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </select>
                     </div>
 
@@ -58,4 +66,10 @@
             </div>
         </div>
     </div>
-</x-app-layout>
+ <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal9ac128a9029c0e4701924bd2d73d7f54)): ?>
+<?php $component = $__componentOriginal9ac128a9029c0e4701924bd2d73d7f54; ?>
+<?php unset($__componentOriginal9ac128a9029c0e4701924bd2d73d7f54); ?>
+<?php endif; ?>
+<?php /**PATH C:\xampp\htdocs\Gotelafrica-Official-website\resources\views/admin/fund_wallet.blade.php ENDPATH**/ ?>

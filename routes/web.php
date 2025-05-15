@@ -44,8 +44,15 @@ Route::middleware(['auth', 'roles:1'])->group(function()
     Route::get('/withdraw-request', [AdministratorController::class, 'WithdrawRequest'])->name('withdraw-request');
     Route::get('/admin/withdraw/details/{id}', [AdministratorController::class, 'adminWithdrawDetails'])->name('admin/withdraw/details');
     Route::get('/approve/withdraw/{id}', [AdministratorController::class,'approveWithdraw'])->name('approve/withdraw');
+
+    // User management routes
     Route::get('/allusers', [AdministratorController::class, 'allUsers'])->name('allusers');
-    Route::get('/delete/user/{id}', [AdministratorController::class, 'deleteUser'])->name('delete/user');
+    Route::get('/users/{id}', [AdministratorController::class, 'viewUser'])->name('admin.user.view');
+    Route::post('/users/{id}/adjust-funds', [AdministratorController::class, 'adjustUserFunds'])->name('admin.user.adjust-funds');
+    Route::delete('/users/{id}', [AdministratorController::class, 'deleteUser'])->name('delete/user');
+    Route::get('/impersonate/{id}', [AdministratorController::class, 'impersonate'])->name('impersonate');
+    Route::get('/stop-impersonating', [AdministratorController::class, 'stopImpersonating'])->name('stop-impersonating');
+
     Route::get('/deposit/details/{id}', [AdministratorController::class, 'adminDepositDetails'])->name('deposit/details');
     Route::get('/deposit', [AdministratorController::class, 'userDeposit'])->name('deposit');
     Route::get('/deposit/approve/{id}', [AdministratorController::class, 'approveDeposit'])->name('deposit/approve');
@@ -55,7 +62,6 @@ Route::middleware(['auth', 'roles:1'])->group(function()
     Route::get('/product/delete/{id}', [AdministratorController::class, 'deleteProduct'])->name('product/delete');
     Route::get('/admin/submission/{id}', [AdministratorController::class, 'getSubmissionDetails'])
         ->name('admin.submission.details');
-
 
     Route::post('product-edit', [AdministratorController::class, 'editProduct'])->name('product-edit');
     Route::post('product-create', [AdministratorController::class, 'createProduct'])->name('product-create');
@@ -144,7 +150,5 @@ Route::post('/submit-entry', [ContestSubmissionController::class, 'register'])->
 // Add both routes for voting
 Route::get('/contest/vote/{shareToken}', [ContestController::class, 'showVotePage'])->name('contest.vote');
 Route::post('/contest/vote/{shareToken}/submit', [ContestController::class, 'vote'])->name('contest.vote.submit');
-
-
 
 require __DIR__.'/auth.php';

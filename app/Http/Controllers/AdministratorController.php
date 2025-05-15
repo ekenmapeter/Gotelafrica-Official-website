@@ -10,17 +10,16 @@ use App\Models\Product;
 use App\Models\Recharge;
 use App\Models\Withdraw;
 use App\Models\Submission;
-
-use Illuminate\View\View;
 use App\Models\Transaction;
+use App\Models\RechargeTransaction;
+use App\Models\ProductTransaction;
+use Illuminate\View\View;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use App\Models\ProductTransaction;
 use Illuminate\Support\Facades\DB;
-use App\Models\RechargeTransaction;
 use Illuminate\Support\Facades\Auth;
-use App\Mail\DepositApproved;
 use Illuminate\Support\Facades\Mail;
+use App\Mail\DepositApproved;
 use App\Mail\DepositRejected;
 use Lab404\Impersonate\Services\ImpersonateManager;
 
@@ -81,11 +80,21 @@ class AdministratorController extends Controller
         return view('admin.depositTransactionDetails', compact('details'));
     }
 
-    public function fundWallet(): View
+    public function fundWallet(Request $request): View
     {
+        $query = User::query();
 
-        $user = User::all();
+        if ($request->has('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('first_name', 'like', "%{$search}%")
+                  ->orWhere('other_name', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%")
+                  ->orWhere('phone', 'like', "%{$search}%");
+            });
+        }
 
+        $user = $query->orderBy('created_at', 'desc')->get();
 
         return view('admin.fund_wallet', compact('user'));
     }
@@ -265,8 +274,21 @@ public function WithdrawRequest(Request $request)
 
   }
 
-  public function allUsers(): View
+  public function allUsers(Request $request): View
     {
+        $query = User::query();
+
+        // Handle search
+        if ($request->has('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('first_name', 'like', "%{$search}%")
+                  ->orWhere('other_name', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%")
+                  ->orWhere('phone', 'like', "%{$search}%");
+            });
+        }
+
         // Total Users
         $total_users = User::count();
 
@@ -283,10 +305,69 @@ public function WithdrawRequest(Request $request)
             $query->where('last_activity', '>=', now()->subDays(30)->timestamp);
         })->count();
 
-        // Paginated list of users
-        $users = User::orderBy('created_at', 'desc')->paginate(10);
+        // Paginated list of users with search
+        $users = $query->orderBy('created_at', 'desc')->paginate(10);
 
         return view('admin.all_users', compact('users', 'total_users', 'active_today', 'new_this_week', 'inactive_users'));
+    }
+
+    public function getUserDetails($id)
+    {
+        $user = User::with(['wallet', 'transactions', 'withdrawals'])->findOrFail($id);
+        return response()->json($user);
+    }
+
+    public function adjustUserFunds(Request $request, $id)
+    {
+        $request->validate([
+            'amount' => 'required|numeric|min:0',
+            'type' => 'required|in:add,remove',
+            'reason' => 'required|string|max:255'
+        ]);
+
+        $user = User::findOrFail($id);
+        $amount = $request->amount;
+        $type = $request->type;
+        $reason = $request->reason;
+
+        DB::beginTransaction();
+        try {
+            // Get or create wallet
+            $wallet = $user->wallet;
+            if (!$wallet) {
+                $wallet = Wallet::create([
+                    'user_id' => $user->id,
+                    'balance' => 0
+                ]);
+            }
+
+            if ($type === 'add') {
+                $wallet->increment('balance', $amount);
+            } else {
+                if ($wallet->balance < $amount) {
+                    throw new \Exception('Insufficient funds');
+                }
+                $wallet->decrement('balance', $amount);
+            }
+
+            // Record the transaction
+            Transaction::create([
+                'user_id' => $user->id,
+                'balance' => $amount,
+                'type' => $type === 'add' ? 'Admin Credit' : 'Admin Debit',
+                'description' => $reason,
+                'status' => 1,
+                'proof_payment' => 'admin_adjustment'
+            ]);
+
+            DB::commit();
+            toast('Funds adjusted successfully', 'success');
+            return redirect()->back();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            toast($e->getMessage(), 'error');
+            return redirect()->back();
+        }
     }
 
     public function deleteUser($id)
@@ -570,23 +651,37 @@ public function impersonate($id)
 {
     $user = User::findOrFail($id);
 
-    // Check if the admin is already impersonating someone
-    if (auth()->user()->isImpersonating()) {
-        return redirect()->back()->with('error', 'You are already impersonating a user.');
-    }
+    // Store the admin's ID in the session
+    session()->put('impersonator_id', auth()->id());
 
-    // Start impersonation
-    auth()->user()->impersonate($user);
+    // Login as the user
+    auth()->login($user);
 
-    return redirect()->route('dashboard')->with('success', 'You are now impersonating ' . $user->name);
+    return redirect()->route('dashboard')->with('success', 'You are now impersonating ' . $user->first_name);
 }
 
-public function stopImpersonate()
+public function stopImpersonating()
 {
-    // Stop impersonation
-    auth()->user()->leaveImpersonation();
+    if (!session()->has('impersonator_id')) {
+        return redirect()->route('dashboard');
+    }
 
-    return redirect()->route('dashboard')->with('success', 'You have stopped impersonating.');
+    // Get the admin's ID from the session
+    $adminId = session()->get('impersonator_id');
+
+    // Clear the impersonator ID from the session
+    session()->forget('impersonator_id');
+
+    // Log back in as the admin
+    auth()->login(User::find($adminId));
+
+    return redirect()->route('administrator')->with('success', 'Stopped impersonating user');
+}
+
+public function viewUser($id)
+{
+    $user = User::with('wallet')->findOrFail($id);
+    return view('admin.user_view', compact('user'));
 }
 
 }
