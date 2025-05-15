@@ -17,20 +17,37 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        // Check and update transaction validity daily
-        $schedule->command('transactions:check-validity')->daily();
+        // Check and update transaction validity at 8:00 AM daily
+        $schedule->command('transactions:check-validity')
+            ->dailyAt('08:00')
+            ->appendOutputTo(storage_path('logs/transaction-validity.log'));
 
-        // Credit daily income to active users
+        // Credit daily income to active users at 9:00 AM daily
         $schedule->call(function () {
             $this->creditDailyIncome();
-        })->daily();
+        })->dailyAt('15:27')
+          ->appendOutputTo(storage_path('logs/daily-income.log'));
 
-        // Distribute team income to team members
+        // Distribute team income to team members at 10:00 AM daily
         $schedule->call(function () {
             $this->distributeTeamIncome();
-        })->daily();
+        })->dailyAt('15:29')
+          ->appendOutputTo(storage_path('logs/team-income.log'));
 
-        $schedule->command('inspire')->everyMinute();
+        // You can also set specific times for specific days
+        // For example, run team income distribution at 2:00 PM on Mondays and Fridays
+        $schedule->call(function () {
+            $this->distributeTeamIncome();
+        })->mondays()->fridays()->at('15:30')
+          ->appendOutputTo(storage_path('logs/team-income-weekly.log'));
+
+        // Or run at specific intervals
+        // For example, check transaction validity every 4 hours
+        $schedule->command('transactions:check-validity')
+            ->everyFourHours()
+            ->appendOutputTo(storage_path('logs/transaction-validity-interval.log'));
+
+
     }
 
     /**
@@ -38,9 +55,14 @@ class Kernel extends ConsoleKernel
      */
     protected function creditDailyIncome(): void
     {
+        Log::info('Starting daily income credit process at: ' . now());
+
         $activeTransactions = ProductTransaction::where('status', 1)->get();
+        Log::info('Found ' . $activeTransactions->count() . ' active transactions');
 
         $todayIncomes = $activeTransactions->map(function ($transaction) {
+            Log::info("Processing transaction ID: {$transaction->id} for user {$transaction->user_id} with daily income: {$transaction->daily_income}");
+
             return [
                 'user_id' => $transaction->user_id,
                 'amount' => $transaction->daily_income,
@@ -49,7 +71,19 @@ class Kernel extends ConsoleKernel
             ];
         });
 
-        TodayIncome::insert($todayIncomes->toArray());
+        try {
+            TodayIncome::insert($todayIncomes->toArray());
+            Log::info('Successfully credited daily income to ' . count($todayIncomes) . ' users');
+
+            // Log total amount credited
+            $totalAmount = $todayIncomes->sum('amount');
+            Log::info("Total amount credited: ₦" . number_format($totalAmount, 2));
+        } catch (\Exception $e) {
+            Log::error('Error crediting daily income: ' . $e->getMessage());
+            Log::error('Stack trace: ' . $e->getTraceAsString());
+        }
+
+        Log::info('Daily income credit process completed at: ' . now());
     }
 
     /**
@@ -57,7 +91,7 @@ class Kernel extends ConsoleKernel
      */
     protected function distributeTeamIncome(): void
     {
-        Log::info('Scheduled task started.');
+        Log::info('Starting team income distribution at: ' . now());
 
         // Retrieve the total team income from product transactions
         $teamIncome = DB::table('referral')
@@ -66,16 +100,14 @@ class Kernel extends ConsoleKernel
             ->where('product_transaction.status', 1)
             ->first();
 
-        Log::info('Team income retrieved: ' . json_encode($teamIncome));
+        Log::info('Total team income retrieved: ₦' . number_format($teamIncome->daily_income ?? 0, 2));
 
         if ($teamIncome && $teamIncome->daily_income > 0) {
             $dailyIncome = $teamIncome->daily_income;
 
-            Log::info('Processing team members.');
-
             // Retrieve team members who have valid product transactions
             $teamMembers = DB::table('referral')
-                ->select('users.id')
+                ->select('users.id', 'users.first_name', 'users.email')
                 ->join('users', 'referral.user_id', '=', 'users.id')
                 ->whereExists(function ($query) {
                     $query->select(DB::raw(1))
@@ -85,18 +117,28 @@ class Kernel extends ConsoleKernel
                 })
                 ->get();
 
-            Log::info('Team members retrieved: ' . json_encode($teamMembers));
+            Log::info('Found ' . $teamMembers->count() . ' eligible team members');
 
             // Calculate team income percentage
             $teamIncomePercentage = $dailyIncome * 0.05;
+            Log::info('Team income percentage per member: ₦' . number_format($teamIncomePercentage, 2));
 
             // Update wallets for team members
             $teamMembers->each(function ($member) use ($teamIncomePercentage) {
-                Wallet::where('user_id', $member->id)->increment('balance', $teamIncomePercentage);
+                try {
+                    Wallet::where('user_id', $member->id)->increment('balance', $teamIncomePercentage);
+                    Log::info("Successfully credited team income to user {$member->first_name} ({$member->email}) - Amount: ₦" . number_format($teamIncomePercentage, 2));
+                } catch (\Exception $e) {
+                    Log::error("Error crediting team income to user {$member->first_name} ({$member->email}): " . $e->getMessage());
+                }
             });
+
+            Log::info('Total team income distributed: ₦' . number_format($teamIncomePercentage * $teamMembers->count(), 2));
+        } else {
+            Log::info('No team income to distribute');
         }
 
-        Log::info('Scheduled task completed.');
+        Log::info('Team income distribution completed at: ' . now());
     }
 
     /**
